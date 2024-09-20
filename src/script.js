@@ -11,18 +11,21 @@ if (!context) {
     throw Error("Error getting context")
 }
 
-let t = 0
+let mouseX = 0
+let mouseY = 0
+
+addEventListener("mousemove", (e) => {
+    const r = canvas.getBoundingClientRect()
+    mouseX = e.clientX - r.x - 25
+    mouseY = e.clientY - r.y - 25
+})
 
 const mainLoop = () => {
-    context.fillStyle = "blue"
+    context.fillStyle = "#181840"
     context.fillRect(0, 0, 800, 600)
 
-    const x = Math.sin(t * 0.01 * 2 * Math.PI) * 100 + 300
-
-    context.fillStyle = "red"
-    context.fillRect(x, 200, 50, 50)
-
-    t++
+    context.fillStyle = "#E03030"
+    context.fillRect(mouseX, mouseY, 50, 50)
 
     window.requestAnimationFrame(mainLoop)
 }
