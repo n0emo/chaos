@@ -59,6 +59,13 @@ export class Renderer {
 
     }
 
+    /**
+     * @param {string} text
+     * @param {number} posX
+     * @param {number} posY
+     * @param {number} fontSize
+     * @param {string} color
+     */
     drawText(text, posX, posY, fontSize, color) {
         this.context.fillStyle = color
         this.context.font = `${fontSize}px sans`

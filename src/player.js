@@ -27,6 +27,9 @@ export class Player {
         this.hp = 100
     }
 
+    /** @type {number} */
+    get maxHp() { return 100 }
+
     /**
      * @param {number} dt
      */

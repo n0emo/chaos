@@ -164,6 +164,12 @@ export class Game {
         for (const particle of this.particles) {
             particle.draw()
         }
+
+        renderer.drawText(
+            `HP: ${this.player.hp}/${this.player.maxHp}`,
+            10, renderer.canvas.height - 10,
+            20, "white"
+        )
     }
 }
 
