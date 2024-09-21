@@ -30,6 +30,9 @@ export class Player {
     /** @type {number} */
     get maxHp() { return 100 }
 
+    /** @type {boolean} */
+    get isAlive() { return this.hp > 0 }
+
     /**
      * @param {number} dt
      */
@@ -49,4 +52,15 @@ export class Player {
     draw() {
         renderer.fillRectangleRec(this.rect, "#E03030")
     }
+
+    /**
+     * @param {number} damage
+     */
+    takeDamage(damage) {
+        this.hp -= damage
+        if (this.hp < 0) {
+            this.hp = 0
+        }
+    }
+
 }

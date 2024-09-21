@@ -111,29 +111,42 @@ export class Game {
             }
         }
 
-        i = this.enemies.length
+        i = this.bullets.length
         while (i--) {
-            const enemy = this.enemies[i]
-            let remove = false
-            for (let j = 0; j < this.bullets.length; j++) {
-                const bullet = this.bullets[j]
+            const bullet = this.bullets[i]
+            let j = this.enemies.length
+            let enemyHit = false
+            while (j--) {
+                const enemy = this.enemies[j]
                 const collide = areRectangleCircleCollide(enemy.rect, bullet.circle)
                 const foreign = bullet.tag != "enemy"
                 if (collide && foreign) {
-                    remove = enemy.recieveDamage(bullet.damage)
-                    this.bullets.splice(j, 1)
+                    this.bullets.splice(i, 1)
                     bullet.explode(this.explosions, this.particles)
-                    if (remove) {
-                        break
+                    enemy.recieveDamage(bullet.damage)
+                    enemyHit = true
+
+                    if (!enemy.isAlive) {
+                        enemy.explode(this.explosions, this.particles)
+                        this.enemies.splice(j, 1)
                     }
+                    break
                 }
             }
 
-            if (remove) {
-                enemy.explode(this.explosions, this.particles)
-                this.enemies.splice(i, 1)
+            if (enemyHit) {
+                continue
             }
+
+            const collide = areRectangleCircleCollide(this.player.rect, bullet.circle)
+            const enemys = bullet.tag === "enemy"
+            if (collide && enemys) {
+                this.bullets.splice(j, 1)
+                this.player.takeDamage(bullet.damage)
+            }
+
         }
+
 
         i = this.bullets.length
         while (i--) {
