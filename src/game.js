@@ -91,6 +91,10 @@ export class Game {
             enemy.update(dt)
         }
 
+        while (this.particles.length > 10000) {
+            this.particles.splice(0, 1)
+        }
+
         let i = this.particles.length
         while (i--) {
             const particle = this.particles[i]
@@ -115,16 +119,14 @@ export class Game {
         while (i--) {
             const bullet = this.bullets[i]
             let j = this.enemies.length
-            let enemyHit = false
+            let hit = false
             while (j--) {
                 const enemy = this.enemies[j]
                 const collide = areRectangleCircleCollide(enemy.rect, bullet.circle)
                 const foreign = bullet.tag != "enemy"
                 if (collide && foreign) {
-                    this.bullets.splice(i, 1)
-                    bullet.explode(this.explosions, this.particles)
                     enemy.recieveDamage(bullet.damage)
-                    enemyHit = true
+                    hit = true
 
                     if (!enemy.isAlive) {
                         enemy.explode(this.explosions, this.particles)
@@ -134,17 +136,18 @@ export class Game {
                 }
             }
 
-            if (enemyHit) {
-                continue
-            }
-
             const collide = areRectangleCircleCollide(this.player.rect, bullet.circle)
             const enemys = bullet.tag === "enemy"
             if (collide && enemys) {
                 this.bullets.splice(j, 1)
-                this.player.takeDamage(bullet.damage)
+                this.player.recieveDamage(bullet.damage)
+                hit = true
             }
 
+            if (hit) {
+                this.bullets.splice(i, 1)
+                bullet.explode(this.explosions, this.particles)
+            }
         }
 
 

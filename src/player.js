@@ -56,7 +56,7 @@ export class Player {
     /**
      * @param {number} damage
      */
-    takeDamage(damage) {
+    recieveDamage(damage) {
         this.hp -= damage
         if (this.hp < 0) {
             this.hp = 0

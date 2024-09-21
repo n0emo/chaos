@@ -1,4 +1,3 @@
-// TODO: hard limit particles
 // TODO: predefine enemy types
 // TODO: predefine bullet types
 // TODO: lasers
