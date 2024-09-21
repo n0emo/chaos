@@ -1,5 +1,4 @@
 // TODO: predefine bullet types
-// TODO: predefine enemy types
 // TODO: lasers
 // TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
 // TODO: enemies

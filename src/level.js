@@ -1,7 +1,5 @@
 import { Game } from "./game.js"
-import { Enemy, EnemyWeapon, OneDirectionalMovement } from "./enemy.js"
-import { Rectangle } from "./shape.js"
-import { SimpleWeapon } from "./weapon.js"
+import { Enemy, } from "./enemy.js"
 import { renderer } from "./global.js"
 
 export class EnemySpawn {
