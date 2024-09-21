@@ -1,6 +1,7 @@
 import { Player } from "./player.js"
 import { Bullet } from "./bullet.js"
 import { Enemy } from "./enemy.js"
+import { Explosion } from "./explosion.js"
 import { Circle, Rectangle, areRectangleCircleCollide, areRectanglesCollide } from "./shape.js"
 import { Level } from "./level.js"
 import { pool, renderer, state } from "./global.js"
@@ -14,12 +15,15 @@ export class Game {
     enemies
     /** @type {Level} */
     level
+    /** @type {Explosion[]} */
+    explosions
 
     constructor() {
         this.bullets = []
         this.player = new Player(this)
         this.enemies = []
         this.level = new Level(this)
+        this.explosions = []
     }
 
     /**
@@ -71,7 +75,17 @@ export class Game {
             enemy.update(dt)
         }
 
-        let i = this.enemies.length
+        let i = this.explosions.length
+        while (i--) {
+            const explosion = this.explosions[i]
+            explosion.update(dt)
+            if (explosion.isEnd) {
+                pool.releaseExplosion(explosion)
+                this.explosions.splice(i, 1)
+            }
+        }
+
+        i = this.enemies.length
         while (i--) {
             const enemy = this.enemies[i]
             let remove = false
@@ -82,6 +96,7 @@ export class Game {
                 if (collide && foreign) {
                     remove = enemy.recieveDamage(bullet.damage)
                     this.bullets.splice(j, 1)
+                    bullet.explode(this.explosions)
                     if (remove) {
                         break
                     }
@@ -89,6 +104,7 @@ export class Game {
             }
 
             if (remove) {
+                enemy.explode(this.explosions)
                 this.enemies.splice(i, 1)
             }
         }
@@ -113,6 +129,10 @@ export class Game {
 
         for (const bullet of this.bullets) {
             bullet.draw()
+        }
+
+        for (const explosion of this.explosions) {
+            explosion.draw()
         }
 
         renderer.drawText("Hello, Text", 10, 50, 48, "white")

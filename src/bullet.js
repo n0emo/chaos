@@ -1,5 +1,6 @@
 import { Circle } from "./shape.js"
-import { renderer } from "./global.js"
+import { pool, renderer } from "./global.js"
+import { Explosion } from "./explosion.js"
 
 const BULLET_LIFETIME = 5
 
@@ -59,5 +60,13 @@ export class Bullet {
 
     get isAlive() {
         return this.timer > 0
+    }
+
+    /**
+     * @param {Explosion[]} explosions
+     */
+    explode(explosions) {
+        const explosion = pool.createExplosion(0.1, this.circle.posX, this.circle.posY, 200)
+        explosions.push(explosion)
     }
 }

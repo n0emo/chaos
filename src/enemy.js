@@ -1,5 +1,6 @@
-import { renderer } from "./global.js"
 import { Rectangle } from "./shape.js"
+import { Explosion } from "./explosion.js"
+import { renderer, pool } from "./global.js"
 
 export class Enemy {
     /** @type {Rectangle} */
@@ -49,5 +50,13 @@ export class Enemy {
     recieveDamage(damage) {
         this.hp -= damage
         return this.hp <= 0
+    }
+
+    /**
+     * @param {Explosion[]} explosions
+     */
+    explode(explosions) {
+        const explosion = pool.createExplosion(0.2, this.rect.centerX, this.rect.centerY, 300)
+        explosions.push(explosion)
     }
 }

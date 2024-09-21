@@ -1,4 +1,4 @@
-// TODO: explosion
+// TODO: particles
 // TODO: basic HUD (player HP)
 // TODO: shooting enemy
 // TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
