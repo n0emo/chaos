@@ -1,8 +1,10 @@
-// TODO: shooting enemy
 // TODO: hard limit particles
+// TODO: predefine enemy types
+// TODO: predefine bullet types
+// TODO: lasers
 // TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
 // TODO: enemies
-// TODO: events (fishing, ads, unknown, unknown)
+// TODO: events (fishing, ads, phone call, ramen)
 // TODO: menu
 // TODO: tutoial
 // TODO: main level
