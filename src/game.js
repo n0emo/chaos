@@ -2,6 +2,7 @@ import { Player } from "./player.js"
 import { Bullet } from "./bullet.js"
 import { Enemy } from "./enemy.js"
 import { Circle, Rectangle, areRectangleCircleCollide, areRectanglesCollide } from "./shape.js"
+import { Level } from "./level.js"
 import { pool, renderer, state } from "./global.js"
 
 export class Game {
@@ -11,18 +12,27 @@ export class Game {
     bullets
     /** @type {Enemy[]} */
     enemies
+    /** @type {Level} */
+    level
 
     constructor() {
         this.bullets = []
         this.player = new Player(this)
-        this.enemies = [
-            new Enemy(new Rectangle(100, 0, 50, 50)),
-            new Enemy(new Rectangle(200, 0, 50, 50)),
-            new Enemy(new Rectangle(300, 0, 50, 50)),
-            new Enemy(new Rectangle(400, 0, 50, 50)),
-            new Enemy(new Rectangle(500, 0, 50, 50)),
-            new Enemy(new Rectangle(600, 0, 50, 50)),
-        ]
+        this.enemies = []
+        this.level = new Level(this)
+    }
+
+    /**
+     * @returns Game
+     */
+    static load() {
+        const game = new Game()
+        // TODO
+        return game
+    }
+
+    save() {
+        // TODO
     }
 
     run() {
@@ -37,6 +47,8 @@ export class Game {
             this.draw()
 
             state.update()
+
+            this.save()
             window.requestAnimationFrame(mainLoop)
         }
 
@@ -47,6 +59,8 @@ export class Game {
      * @param {number} dt
      */
     update(dt) {
+        this.level.update(dt)
+
         this.player.update(dt)
 
         for (const bullet of this.bullets) {
@@ -109,3 +123,4 @@ export class Game {
         this.bullets.push(bullet)
     }
 }
+
