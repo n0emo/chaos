@@ -1,4 +1,3 @@
-// TODO: weapons
 // TODO: HP
 // TODO: explosion
 // TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
@@ -8,6 +7,7 @@
 // TODO: tutoial
 // TODO: main level
 // TODO: final boss
+// TODO: more weapons
 import { Game } from "./game.js"
 
 const game = Game.load()

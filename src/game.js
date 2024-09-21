@@ -115,12 +115,5 @@ export class Game {
 
         renderer.drawText("Hello, Text", 10, 50, 48, "white")
     }
-
-    /**
-     * @param {Bullet} bullet 
-     */
-    spawnBullet(bullet) {
-        this.bullets.push(bullet)
-    }
 }
 

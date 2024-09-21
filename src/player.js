@@ -1,11 +1,13 @@
-import { Bullet } from "./bullet.js"
 import { Rectangle } from "./shape.js"
 import { Game } from "./game.js"
-import { pool, renderer, state } from "./global.js"
+import { Weapon, DoubleSimpleWeapon } from "./weapon.js"
+import { renderer, state } from "./global.js"
 
 export class Player {
     /** @type {Rectangle} */
     rect
+    /** @type {Weapon} */
+    weapon
     /** @type {Game} */
     game
 
@@ -15,6 +17,11 @@ export class Player {
     constructor(game) {
         this.rect = new Rectangle(0, 0, 50, 50)
         this.game = game
+        this.weapon = new DoubleSimpleWeapon(
+            this.rect.centerX,
+            this.rect.centerY,
+            0, -1, "player", 15
+        )
     }
 
     /**
@@ -24,15 +31,12 @@ export class Player {
         this.rect.centerX = state.mouseX
         this.rect.centerY = state.mouseY
 
-        if (state.isMousePressed) {
-            const bullet = pool.createBullet(
-                this.rect.centerX,
-                this.rect.top,
-                0,
-                -500,
-                "player"
-            )
-            this.game.spawnBullet(bullet)
+        this.weapon.posX = this.rect.centerX
+        this.weapon.posY = this.rect.centerY
+        this.weapon.update(dt)
+
+        if (state.isMouseDown) {
+            this.weapon.shoot(this.game.bullets)
         }
     }
 
