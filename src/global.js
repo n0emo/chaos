@@ -1,3 +1,4 @@
+import { Assets } from "./assets.js"
 import { Pool } from "./pool.js"
 import { Renderer } from "./render.js"
 import { EventState } from "./state.js"
@@ -10,8 +11,14 @@ if (!canvas) {
 canvas.width = 800
 canvas.height = 600
 
-const renderer = new Renderer(canvas)
-const state = new EventState(canvas)
-const pool = new Pool()
+/** @type {Renderer} */
+export const renderer = new Renderer(canvas)
 
-export { canvas, renderer, state, pool }
+/** @type {EventState} */
+export const state = new EventState(canvas)
+
+/** @type {Pool} */
+export const pool = new Pool()
+
+/** @type {Assets} */
+export const assets = await Assets.load()

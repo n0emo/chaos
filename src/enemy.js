@@ -1,9 +1,10 @@
 import { Rectangle } from "./shape.js"
+import { Animation } from "./animation.js"
 import { Explosion } from "./explosion.js"
 import { Game } from "./game.js"
 import { Weapon } from "./weapon.js"
 import { generateParticles, Particle } from "./particle.js"
-import { renderer, pool } from "./global.js"
+import { assets } from "./global.js"
 
 export class Enemy {
     /** @type {Rectangle} */
@@ -16,6 +17,8 @@ export class Enemy {
     movement
     /** @type {?EnemyWeapon} */
     weapon
+    /** @type {Animation} */
+    animation
 
     /**
      * @param {Rectangle} rect
@@ -36,6 +39,9 @@ export class Enemy {
         if (this.weapon) {
             this.weapon.enemy = this
         }
+
+        const images = [assets.enemy1Image, assets.enemy2Image]
+        this.animation = new Animation(images, 1)
     }
 
     /** @type {boolean} */
@@ -47,10 +53,11 @@ export class Enemy {
     update(dt) {
         this.movement.update(dt)
         this.weapon?.update(dt)
+        this.animation.update(dt)
     }
 
     draw() {
-        renderer.fillRectangleRec(this.rect, "#A0A050")
+        this.animation.draw(this.rect.posX, this.rect.posY)
         this.weapon?.draw()
     }
 
@@ -69,7 +76,7 @@ export class Enemy {
      * @param {Particle[]} particles
      */
     explode(explosions, particles) {
-        const explosion = pool.createExplosion(0.2, this.rect.centerX, this.rect.centerY, 300)
+        const explosion = Explosion.medium(this.rect.centerX, this.rect.centerY)
         generateParticles(particles, this.rect.centerX, this.rect.centerY, "yellow", 200)
         explosions.push(explosion)
     }

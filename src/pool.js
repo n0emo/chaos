@@ -84,6 +84,7 @@ export class Pool {
      * @param {number} velX
      * @param {number} velY
      * @param {string} color
+     * @param {number} lifetime
      */
     createParticle(posX, posY, velX, velY, color, lifetime) {
         const particle = this.deadParticles.pop()
