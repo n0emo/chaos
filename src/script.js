@@ -8,7 +8,6 @@
 // TODO: main level
 // TODO: final boss
 // TODO: more weapons
-import { Game } from "./game.js"
+import { game } from "./global.js";
 
-const game = Game.load()
 game.run()

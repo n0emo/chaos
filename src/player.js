@@ -13,12 +13,8 @@ export class Player {
     /** @type {number} */
     hp
 
-    /**
-     * @param {Game} game
-     */
-    constructor(game) {
+    constructor() {
         this.rect = new Rectangle(0, 0, 50, 50)
-        this.game = game
         this.weapon = new DoubleSimpleWeapon(
             this.rect.centerX,
             this.rect.centerY,
@@ -45,7 +41,7 @@ export class Player {
         this.weapon.update(dt)
 
         if (state.isMouseDown) {
-            this.weapon.shoot(this.game.bullets)
+            this.weapon.shoot()
         }
     }
 

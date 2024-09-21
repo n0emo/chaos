@@ -1,18 +1,15 @@
 import { Rectangle } from "./shape.js"
 import { Animation } from "./animation.js"
 import { Explosion } from "./explosion.js"
-import { Game } from "./game.js"
 import { DoubleSimpleWeapon, SimpleWeapon, Weapon } from "./weapon.js"
 import { generateParticles, Particle } from "./particle.js"
-import { assets } from "./global.js"
+import { assets, game } from "./global.js"
 
 export class Enemy {
     /** @type {Rectangle} */
     rect
     /** @type {number} */
     hp
-    /** @type {Game} */
-    game
     /** @type {EnemyMovement} */
     movement
     /** @type {?EnemyWeapon} */
@@ -22,18 +19,16 @@ export class Enemy {
 
     /**
      * @param {Rectangle} rect
-     * @param {Game} game
      * @param {Animation} animation
      * @param {EnemyMovement} movement
      * @param {?EnemyWeapon} weapon
      */
-    constructor(rect, game, animation, movement, weapon = null) {
+    constructor(rect, animation, movement, weapon = null) {
         this.rect = rect
         this.velX = 0
         this.velY = 100
         this.moveTimer = 1
         this.hp = 2
-        this.game = game
         this.movement = movement
         this.movement.enemy = this
         this.weapon = weapon
@@ -45,47 +40,42 @@ export class Enemy {
     }
 
     /**
-     * @param {Game} game
      * @param {number} posX
      * @param {number} speed
      * @param {number} time
      * @returns {Enemy}
      */
-    static basic(game, posX, speed, time) {
+    static basic(posX, speed, time) {
         const images = [assets.imageEnemyBasic01, assets.imageEnemyBasic02]
         const animation = new Animation(images, 0.5)
 
         return new Enemy(
             new Rectangle(posX, -50, 50, 50),
-            game,
             animation,
             new OneDirectionalMovement(0, speed, time)
         )
     }
 
     /**
-     * @param {Game} game
      * @param {number} posX
      * @param {number} posY
      * @param {number} velX
      * @param {number} velY
      * @returns {Enemy}
      */
-    static shooterSimple(game, posX, posY, velX, velY) {
+    static shooterSimple(posX, posY, velX, velY) {
         const images = [assets.imageEnemyShooter01, assets.imageEnemyShooter02]
         const animation = new Animation(images, 0.25)
 
         return new Enemy(
             new Rectangle(posX, posY, 50, 50),
-            game,
             animation,
             new EndlessMovement(velX, velY),
-            new EnemyWeapon(new SimpleWeapon(posX, posY, 0, 1, "enemy"), game)
+            new EnemyWeapon(new SimpleWeapon(posX, posY, 0, 1, "enemy"))
         )
     }
 
     /**
-     * @param {Game} game
      * @param {number} posX
      * @param {number} posY
      * @param {number} velX
@@ -93,15 +83,14 @@ export class Enemy {
      * @param {number} time
      * @returns {Enemy}
      */
-    static shooterHoming(game, posX, posY, velX, velY, time) {
+    static shooterHoming(posX, posY, velX, velY, time) {
         const images = [assets.imageEnemyHoming01, assets.imageEnemyHoming02]
         const animation = new Animation(images, 0.25)
 
         return new Enemy(
-            new Rectangle(posX, posY, 50, 50),
-            game, animation,
+            new Rectangle(posX, posY, 50, 50), animation,
             new OneDirectionalMovement(velX, velY, time),
-            new HomingEnemyWeapon(new DoubleSimpleWeapon(posX, posY, 0, 1, "enemy", 10), game)
+            new HomingEnemyWeapon(new DoubleSimpleWeapon(posX, posY, 0, 1, "enemy", 10))
         )
     }
 
@@ -232,16 +221,12 @@ export class EnemyWeapon {
     enemy
     /** @type {Weapon} */
     weapon
-    /** @type {Game} */
-    game
 
     /**
      * @param {Weapon} weapon
-     * @param {Game} game
      */
-    constructor(weapon, game) {
+    constructor(weapon) {
         this.weapon = weapon
-        this.game = game
     }
 
     /**
@@ -253,7 +238,7 @@ export class EnemyWeapon {
             this.weapon.posX = this.enemy.rect.centerX
             this.weapon.posY = this.enemy.rect.centerY
         }
-        this.weapon.shoot(this.game.bullets)
+        this.weapon.shoot()
     }
 
     draw() {
@@ -264,10 +249,9 @@ export class EnemyWeapon {
 export class HomingEnemyWeapon extends EnemyWeapon {
     /**
      * @param {Weapon} weapon
-     * @param {Game} game
      */
-    constructor(weapon, game) {
-        super(weapon, game)
+    constructor(weapon) {
+        super(weapon)
     }
 
     /**
@@ -280,8 +264,8 @@ export class HomingEnemyWeapon extends EnemyWeapon {
             return
         }
 
-        const directionX = this.game.player.rect.centerX - this.enemy.rect.centerX
-        const directionY = this.game.player.rect.centerY - this.enemy.rect.centerY
+        const directionX = game.player.rect.centerX - this.enemy.rect.centerX
+        const directionY = game.player.rect.centerY - this.enemy.rect.centerY
         const distance = Math.sqrt(directionX * directionX + directionY * directionY)
 
         this.weapon.directionX = directionX / distance

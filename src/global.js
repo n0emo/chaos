@@ -1,3 +1,4 @@
+import { Game } from "./game.js"
 import { Assets } from "./assets.js"
 import { Pool } from "./pool.js"
 import { Renderer } from "./render.js"
@@ -22,3 +23,6 @@ export const pool = new Pool()
 
 /** @type {Assets} */
 export const assets = await Assets.load()
+
+/** @type {Game} */
+export const game = Game.load()

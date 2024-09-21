@@ -1,5 +1,4 @@
-import { Bullet } from "./bullet.js"
-import { pool } from "./global.js"
+import { game, pool } from "./global.js"
 
 /**
  * @typedef {import("./bullet.js").Tag} Tag
@@ -43,8 +42,7 @@ export class Weapon {
         throw "not implemented"
     }
 
-    /** @param {Bullet[]} _bullets */
-    shoot(_bullets) {
+    shoot() {
         throw "not implemented"
     }
 }
@@ -78,8 +76,7 @@ export class SimpleWeapon extends Weapon {
         }
     }
 
-    /** @param {Bullet[]} bullets */
-    shoot(bullets) {
+    shoot() {
         if (this.reloadTimer > 0) {
             return
         }
@@ -97,7 +94,7 @@ export class SimpleWeapon extends Weapon {
             this.tag,
             1
         )
-        bullets.push(bullet)
+        game.bullets.push(bullet)
     }
 }
 
@@ -132,8 +129,7 @@ export class DoubleSimpleWeapon extends Weapon {
         }
     }
 
-    /** @param {Bullet[]} bullets */
-    shoot(bullets) {
+    shoot() {
         if (this.reloadTimer > 0) {
             return
         }
@@ -146,7 +142,7 @@ export class DoubleSimpleWeapon extends Weapon {
         const perY =  this.directionX * this.spread
         const speed = 500
 
-        bullets.push( pool.createBullet(
+        game.bullets.push(pool.createBullet(
             x + perX,
             y + perY,
             this.directionX * speed,
@@ -155,7 +151,7 @@ export class DoubleSimpleWeapon extends Weapon {
             1
         ))
 
-        bullets.push( pool.createBullet(
+        game.bullets.push(pool.createBullet(
             x - perX,
             y - perY,
             this.directionX * speed,

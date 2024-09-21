@@ -23,9 +23,9 @@ export class Game {
 
     constructor() {
         this.bullets = []
-        this.player = new Player(this)
+        this.player = new Player()
         this.enemies = []
-        this.level = new Level(this)
+        this.level = new Level()
         this.explosions = []
         this.particles = []
     }
