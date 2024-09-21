@@ -10,6 +10,8 @@ export class Player {
     weapon
     /** @type {Game} */
     game
+    /** @type {number} */
+    hp
 
     /**
      * @param {Game} game
@@ -22,6 +24,7 @@ export class Player {
             this.rect.centerY,
             0, -1, "player", 15
         )
+        this.hp = 100
     }
 
     /**

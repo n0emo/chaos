@@ -17,11 +17,12 @@ export class Pool {
      * @param {number} velX
      * @param {number} velY
      * @param {Tag} tag
+     * @param {number} damage
      **/
-    createBullet(posX, posY, velX, velY, tag) {
+    createBullet(posX, posY, velX, velY, tag, damage) {
         let bullet = this.deadBullets.pop()
         if (!bullet) {
-            return new Bullet(posX, posY, velX, velY, tag)
+            return new Bullet(posX, posY, velX, velY, tag, damage)
         }
 
         bullet.reset()
@@ -30,6 +31,7 @@ export class Pool {
         bullet.velX = velX
         bullet.velY = velY
         bullet.tag = tag
+        bullet.damage = damage
 
         return bullet
     }

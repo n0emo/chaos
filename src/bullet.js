@@ -15,6 +15,8 @@ export class Bullet {
     /** @type {Tag} */
     tag
     /** @type {number} */
+    damage
+    /** @type {number} */
     timer
 
     /**
@@ -23,13 +25,15 @@ export class Bullet {
      * @param {number} velX
      * @param {number} velY
      * @param {Tag} tag
+     * @param {number} damage
      **/
-    constructor(posX, posY, velX, velY, tag) {
+    constructor(posX, posY, velX, velY, tag, damage) {
         this.circle = new Circle(posX, posY, 10)
         this.velX = velX
         this.velY = velY
         this.tag = tag
         this.timer = BULLET_LIFETIME
+        this.damage = damage
     }
 
     reset() {

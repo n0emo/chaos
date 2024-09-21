@@ -80,9 +80,11 @@ export class Game {
                 const collide = areRectangleCircleCollide(enemy.rect, bullet.circle)
                 const foreign = bullet.tag != "enemy"
                 if (collide && foreign) {
-                    remove = true
+                    remove = enemy.recieveDamage(bullet.damage)
                     this.bullets.splice(j, 1)
-                    break
+                    if (remove) {
+                        break
+                    }
                 }
             }
 

@@ -36,11 +36,6 @@ export class Weapon {
         }
     }
 
-    /** @type {number} */
-    get damage() {
-        throw "not implemented"
-    }
-
     /**
      * @param {number} _dt
      */
@@ -73,10 +68,6 @@ export class SimpleWeapon extends Weapon {
         this.reloadTimer = 0
     }
 
-    get damage() {
-        return 1
-    }
-
     /**
      * @param {number} dt
      */
@@ -103,7 +94,8 @@ export class SimpleWeapon extends Weapon {
             y,
             this.directionX * speed,
             this.directionY * speed,
-            this.tag
+            this.tag,
+            1
         )
         bullets.push(bullet)
     }
@@ -128,10 +120,6 @@ export class DoubleSimpleWeapon extends Weapon {
         super(posX, posY, directionX, directionY, tag)
         this.reloadTimer = 0
         this.spread = spread
-    }
-
-    get damage() {
-        return 1
     }
 
     /**
@@ -163,7 +151,8 @@ export class DoubleSimpleWeapon extends Weapon {
             y + perY,
             this.directionX * speed,
             this.directionY * speed,
-            this.tag
+            this.tag,
+            1
         ))
 
         bullets.push( pool.createBullet(
@@ -171,7 +160,8 @@ export class DoubleSimpleWeapon extends Weapon {
             y - perY,
             this.directionX * speed,
             this.directionY * speed,
-            this.tag
+            this.tag,
+            1
         ))
     }
 }

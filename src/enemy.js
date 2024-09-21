@@ -10,6 +10,8 @@ export class Enemy {
     velY
     /** @type {number} */
     moveTimer
+    /** @type {number} */
+    hp
 
     /**
      * @param {Rectangle} rect
@@ -19,6 +21,7 @@ export class Enemy {
         this.velX = 0
         this.velY = 100
         this.moveTimer = 1
+        this.hp = 2
     }
 
     /**
@@ -37,5 +40,14 @@ export class Enemy {
 
     draw() {
         renderer.fillRectangleRec(this.rect, "#A0A050")
+    }
+
+    /**
+     * @param {number} damage
+     * @returns {boolean}
+     */
+    recieveDamage(damage) {
+        this.hp -= damage
+        return this.hp <= 0
     }
 }

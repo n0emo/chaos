@@ -1,4 +1,3 @@
-// TODO: HP
 // TODO: explosion
 // TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
 // TODO: enemies
