@@ -136,10 +136,10 @@ export class Game {
                 }
             }
 
+
             const collide = areRectangleCircleCollide(this.player.rect, bullet.circle)
             const enemys = bullet.tag === "enemy"
-            if (collide && enemys) {
-                this.bullets.splice(j, 1)
+            if (collide && enemys && !hit) {
                 this.player.recieveDamage(bullet.damage)
                 hit = true
             }

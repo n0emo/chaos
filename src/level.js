@@ -2,6 +2,7 @@ import { Game } from "./game.js"
 import { Enemy, EnemyWeapon, OneDirectionalMovement } from "./enemy.js"
 import { Rectangle } from "./shape.js"
 import { SimpleWeapon } from "./weapon.js"
+import { renderer } from "./global.js"
 
 export class EnemySpawn {
     /** @type {number} */
@@ -38,57 +39,25 @@ export class Level {
      */
     constructor(game) {
         this.game = game
+        const width  = renderer.context.canvas.width
+        const height = renderer.context.canvas.height
 
         this.enemiesToSpawn = [
-            new EnemySpawn(
-                0,
-                new Enemy(
-                    new Rectangle(100, -50, 50, 50),
-                    game,
-                    new OneDirectionalMovement(0, 100, 2)
-                )
-            ),
-            new EnemySpawn(
-                1,
-                new Enemy(
-                    new Rectangle(200, -50, 50, 50),
-                    game,
-                    new OneDirectionalMovement(0, 100, 2)
-                )
-            ),
-            new EnemySpawn(
-                3,
-                new Enemy(
-                    new Rectangle(300, -50, 50, 50),
-                    game,
-                    new OneDirectionalMovement(0, 100, 2)
-                )
-            ),
-            new EnemySpawn(
-                0,
-                new Enemy(
-                    new Rectangle(400, -50, 50, 50),
-                    game,
-                    new OneDirectionalMovement(0, 100, 2)
-                )
-            ),
-            new EnemySpawn(
-                1,
-                new Enemy(
-                    new Rectangle(500, -50, 50, 50),
-                    game,
-                    new OneDirectionalMovement(0, 100, 2)
-                )
-            ),
-            new EnemySpawn(
-                1,
-                new Enemy(
-                    new Rectangle(-50, 300, 50, 50),
-                    game,
-                    new OneDirectionalMovement(100, 0, 2),
-                    new EnemyWeapon(new SimpleWeapon(-50, 300, 0, 1, "enemy"), game)
-                )
-            ),
+            new EnemySpawn(0.5, Enemy.basic(game,              100, 200, 0.5 )),
+            new EnemySpawn(0.5, Enemy.basic(game,              200, 200, 0.75)),
+            new EnemySpawn(0.5, Enemy.basic(game, width * 0.5 - 25, 200, 1   )),
+            new EnemySpawn(0.5, Enemy.basic(game,      width - 250, 200, 0.75)),
+            new EnemySpawn(2,   Enemy.basic(game,      width - 150, 200, 0.5 )),
+
+            new EnemySpawn(1,   Enemy.shooterSimple(game,        -50,  200,  300, 0)),
+            new EnemySpawn(1,   Enemy.shooterSimple(game, width + 50,  200, -300, 0)),
+            new EnemySpawn(1,   Enemy.shooterSimple(game,        -50,  300,  300, 0)),
+            new EnemySpawn(2,   Enemy.shooterSimple(game, width + 50,  300, -300, 0)),
+
+            new EnemySpawn(0.5, Enemy.shooterHoming(game,        -50, -50,  150, 150, 1  )),
+            new EnemySpawn(0.5, Enemy.shooterHoming(game,      width, -50, -150, 150, 1  )),
+            new EnemySpawn(0.5, Enemy.shooterHoming(game,         20, -50,  150, 150, 1.5)),
+            new EnemySpawn(0.5, Enemy.shooterHoming(game, width - 70, -50, -150, 150, 1.5)),
         ].reverse()
 
         this.eventsToSpawn = []

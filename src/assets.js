@@ -13,25 +13,45 @@ async function loadImage(url) {
 
 export class Assets {
     /** @type {HTMLImageElement} */
-    enemy1Image
+    imageEnemyBasic01
     /** @type {HTMLImageElement} */
-    enemy2Image
+    imageEnemyBasic02
+    /** @type {HTMLImageElement} */
+    imageEnemyShooter01
+    /** @type {HTMLImageElement} */
+    imageEnemyShooter02
+    /** @type {HTMLImageElement} */
+    imageEnemyHoming01
+    /** @type {HTMLImageElement} */
+    imageEnemyHoming02
 
     /**
      * @returns Assets
      */
     static async load() {
         const [
-            enemy1Image,
-            enemy2Image,
+            imageEnemyBasic01,
+            imageEnemyBasic02,
+            imageEnemyShooter01,
+            imageEnemyShooter02,
+            imageEnemyHoming01,
+            imageEnemyHoming02,
         ] = await Promise.all([
-            loadImage("assets/enemy1.png"),
-            loadImage("assets/enemy2.png"),
+            loadImage("assets/sprites/enemy-basic-01.png"),
+            loadImage("assets/sprites/enemy-basic-02.png"),
+            loadImage("assets/sprites/enemy-shooter-01.png"),
+            loadImage("assets/sprites/enemy-shooter-02.png"),
+            loadImage("assets/sprites/enemy-homing-01.png"),
+            loadImage("assets/sprites/enemy-homing-02.png"),
         ])
 
         return {
-            enemy1Image,
-            enemy2Image,
+            imageEnemyBasic01,
+            imageEnemyBasic02,
+            imageEnemyShooter01,
+            imageEnemyShooter02,
+            imageEnemyHoming01,
+            imageEnemyHoming02,
         }
     }
 }

@@ -1,4 +1,3 @@
-// TODO: Asset system
 // TODO: predefine bullet types
 // TODO: predefine enemy types
 // TODO: lasers
