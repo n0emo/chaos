@@ -1,14 +1,19 @@
+import { Circle } from "./shape.js"
 import { renderer } from "./global.js"
 
+const BULLET_LIFETIME = 5
+
+/** @typedef {"player" | "enemy"} Tag */
+
 export class Bullet {
-    /** @type {number} */
-    posX
-    /** @type {number} */
-    posY
+    /** @type {Circle} */
+    circle
     /** @type {number} */
     velX
     /** @type {number} */
     velY
+    /** @type {Tag} */
+    tag
     /** @type {number} */
     timer
 
@@ -17,25 +22,26 @@ export class Bullet {
      * @param {number} posY
      * @param {number} velX
      * @param {number} velY
+     * @param {Tag} tag
      **/
-    constructor(posX, posY, velX, velY) {
-        this.posX = posX
-        this.posY = posY
+    constructor(posX, posY, velX, velY, tag) {
+        this.circle = new Circle(posX, posY, 10)
         this.velX = velX
         this.velY = velY
-        this.timer = 1
+        this.tag = tag
+        this.timer = BULLET_LIFETIME
     }
 
     reset() {
-        this.timer = 1
+        this.timer = BULLET_LIFETIME
     }
 
     /**
      * @param {number} dt
      */
     update(dt) {
-        this.posX += this.velX * dt
-        this.posY += this.velY * dt
+        this.circle.posX += this.velX * dt
+        this.circle.posY += this.velY * dt
 
         this.timer -= dt
         if (this.timer < 0) {
@@ -44,7 +50,7 @@ export class Bullet {
     }
 
     draw() {
-        renderer.fillRectangle(this.posX, this.posY, 10, 10, "red")
+        renderer.fillCircleCirc(this.circle, "red")
     }
 
     get isAlive() {

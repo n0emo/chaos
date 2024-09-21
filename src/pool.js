@@ -1,5 +1,7 @@
 import { Bullet } from "./bullet.js"
 
+/** @typedef {import("./bullet.js").Tag} Tag */
+
 export class Pool {
     /** @private @type {Bullet[]} */
     deadBullets
@@ -14,18 +16,20 @@ export class Pool {
      * @param {number} posY
      * @param {number} velX
      * @param {number} velY
+     * @param {Tag} tag
      **/
-    createBullet(posX, posY, velX, velY) {
+    createBullet(posX, posY, velX, velY, tag) {
         let bullet = this.deadBullets.pop()
         if (!bullet) {
-            return new Bullet(posX, posY, velX, velY)
+            return new Bullet(posX, posY, velX, velY, tag)
         }
 
         bullet.reset()
-        bullet.posX = posX
-        bullet.posY = posY
+        bullet.circle.posX = posX
+        bullet.circle.posY = posY
         bullet.velX = velX
         bullet.velY = velY
+        bullet.tag = tag
 
         return bullet
     }

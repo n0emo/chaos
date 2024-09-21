@@ -1,12 +1,11 @@
 import { Bullet } from "./bullet.js"
+import { Rectangle } from "./shape.js"
 import { Game } from "./game.js"
 import { pool, renderer, state } from "./global.js"
 
 export class Player {
-    /** @type {number} */
-    x
-    /** @type {number} */
-    y
+    /** @type {Rectangle} */
+    rect
     /** @type {Game} */
     game
 
@@ -14,8 +13,7 @@ export class Player {
      * @param {Game} game
      */
     constructor(game) {
-        this.x = 0
-        this.y = 0
+        this.rect = new Rectangle(0, 0, 50, 50)
         this.game = game
     }
 
@@ -23,16 +21,22 @@ export class Player {
      * @param {number} dt
      */
     update(dt) {
-        this.x = state.mouseX
-        this.y = state.mouseY
+        this.rect.centerX = state.mouseX
+        this.rect.centerY = state.mouseY
 
         if (state.isMousePressed) {
-            const bullet = pool.createBullet(this.x, this.y, 0, -500)
+            const bullet = pool.createBullet(
+                this.rect.centerX,
+                this.rect.top,
+                0,
+                -500,
+                "player"
+            )
             this.game.spawnBullet(bullet)
         }
     }
 
     draw() {
-        renderer.fillRectangle(state.mouseX - 25, state.mouseY - 25, 50, 50, "#E03030")
+        renderer.fillRectangleRec(this.rect, "#E03030")
     }
 }
