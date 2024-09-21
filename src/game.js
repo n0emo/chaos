@@ -4,6 +4,7 @@ import { Enemy } from "./enemy.js"
 import { Explosion } from "./explosion.js"
 import { Circle, Rectangle, areRectangleCircleCollide, areRectanglesCollide } from "./shape.js"
 import { Level } from "./level.js"
+import { Particle } from "./particle.js"
 import { pool, renderer, state } from "./global.js"
 
 export class Game {
@@ -17,6 +18,8 @@ export class Game {
     level
     /** @type {Explosion[]} */
     explosions
+    /** @type {Particle[]} */
+    particles
 
     constructor() {
         this.bullets = []
@@ -24,6 +27,7 @@ export class Game {
         this.enemies = []
         this.level = new Level(this)
         this.explosions = []
+        this.particles = []
     }
 
     /**
@@ -41,6 +45,8 @@ export class Game {
 
     run() {
         let lastLoopTime = Date.now()
+        const fpses = new Array(100).fill(0)
+        let fpsIndex = 0
 
         const mainLoop = () => {
             const nextLoopTime = Date.now()
@@ -51,6 +57,16 @@ export class Game {
             this.draw()
 
             state.update()
+
+            fpses[fpsIndex] = 1 / dt
+            fpsIndex++
+            if (fpsIndex >= fpses.length) {
+                fpsIndex = 0
+            }
+
+            const fps = fpses.reduce((a, b) => a + b) / fpses.length
+
+            renderer.drawText(`FPS: ${Math.floor(fps)}`, 10, 50, 48, "white")
 
             this.save()
             window.requestAnimationFrame(mainLoop)
@@ -75,7 +91,17 @@ export class Game {
             enemy.update(dt)
         }
 
-        let i = this.explosions.length
+        let i = this.particles.length
+        while (i--) {
+            const particle = this.particles[i]
+            particle.update(dt)
+            if (!particle.isAlive) {
+                pool.releaseParticle(particle)
+                this.particles.splice(i, 1)
+            }
+        }
+
+        i = this.explosions.length
         while (i--) {
             const explosion = this.explosions[i]
             explosion.update(dt)
@@ -96,7 +122,7 @@ export class Game {
                 if (collide && foreign) {
                     remove = enemy.recieveDamage(bullet.damage)
                     this.bullets.splice(j, 1)
-                    bullet.explode(this.explosions)
+                    bullet.explode(this.explosions, this.particles)
                     if (remove) {
                         break
                     }
@@ -104,7 +130,7 @@ export class Game {
             }
 
             if (remove) {
-                enemy.explode(this.explosions)
+                enemy.explode(this.explosions, this.particles)
                 this.enemies.splice(i, 1)
             }
         }
@@ -135,7 +161,9 @@ export class Game {
             explosion.draw()
         }
 
-        renderer.drawText("Hello, Text", 10, 50, 48, "white")
+        for (const particle of this.particles) {
+            particle.draw()
+        }
     }
 }
 

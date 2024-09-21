@@ -1,17 +1,21 @@
 import { Bullet } from "./bullet.js"
 import { Explosion } from "./explosion.js"
+import { Particle } from "./particle.js"
 
 /** @typedef {import("./bullet.js").Tag} Tag */
 
 export class Pool {
-    /** @private @type {Bullet[]} */
+    /** @type {Bullet[]} */
     deadBullets
-    /** @private @type {Explosion[]} */
+    /** @type {Explosion[]} */
     deadExplosions
+    /** @type {Particle[]} */
+    deadParticles
 
     constructor() {
         this.deadBullets = []
         this.deadExplosions = []
+        this.deadParticles = []
     }
 
     /**
@@ -72,5 +76,35 @@ export class Pool {
      */
     releaseExplosion(explosion) {
         this.deadExplosions.push(explosion)
+    }
+
+    /**
+     * @param {number} posX
+     * @param {number} posY
+     * @param {number} velX
+     * @param {number} velY
+     * @param {string} color
+     */
+    createParticle(posX, posY, velX, velY, color, lifetime) {
+        const particle = this.deadParticles.pop()
+        if (!particle) {
+            return new Particle(posX, posY, velX, velY, color, lifetime)
+        }
+
+        particle.posX = posX
+        particle.posY = posY
+        particle.velX = velX
+        particle.velY = velY
+        particle.color = color
+        particle.timer = lifetime
+
+        return particle
+    }
+
+    /**
+     * @param {Particle} particle
+     */
+    releaseParticle(particle) {
+        this.deadParticles.push(particle)
     }
 }

@@ -1,9 +1,9 @@
 import { Circle, Rectangle } from "./shape.js"
 
 export class Renderer {
-    /** @private @type {HTMLCanvasElement} */
+    /** @type {HTMLCanvasElement} */
     canvas
-    /** @private @type {CanvasRenderingContext2D} */
+    /** @type {CanvasRenderingContext2D} */
     context
 
     /**

@@ -1,5 +1,6 @@
 import { Rectangle } from "./shape.js"
 import { Explosion } from "./explosion.js"
+import { generateParticles, Particle } from "./particle.js"
 import { renderer, pool } from "./global.js"
 
 export class Enemy {
@@ -54,9 +55,11 @@ export class Enemy {
 
     /**
      * @param {Explosion[]} explosions
+     * @param {Particle[]} particles
      */
-    explode(explosions) {
+    explode(explosions, particles) {
         const explosion = pool.createExplosion(0.2, this.rect.centerX, this.rect.centerY, 300)
+        generateParticles(particles, this.rect.centerX, this.rect.centerY, "yellow", 100)
         explosions.push(explosion)
     }
 }
