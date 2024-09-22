@@ -5,7 +5,12 @@ import { WIDTH } from "./constants.js"
 import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus } from "./bonus.js"
 import { assets } from "./assets.js"
 
-/** @typedef {Enemy | Event | Bonus | HTMLImageElement} Thing */
+/** @typedef {Enemy
+ *          | Event
+ *          | Bonus
+ *          | HTMLImageElement
+ *          | WaitForAllEnemiesKilled
+ *          } Thing */
 
 export class Spawn {
     /** @type {number} */
@@ -23,18 +28,21 @@ export class Spawn {
     }
 }
 
+export class WaitForAllEnemiesKilled {}
+
 export class Level {
     /** @type {Spawn[]} */
     spawns
-
     /** @type {number} */
     timer
+    waitingForEnemiesKilled
 
     constructor() {
+        this.waitingForEnemiesKilled = false
+        this.timer = 0
         this.spawns = [
             new Spawn(0, Enemy.small(             30, 1)),
             new Spawn(2, Enemy.small(WIDTH - 30 - 16, 1)),
-            new Spawn(2, new ChinaEvent()),
 
             //new Spawn(0, Enemy.middle(             60, 1)),
             //new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),
@@ -51,6 +59,9 @@ export class Level {
             //new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
 
             //new Spawn(0, new FishingEvent()),
+            new Spawn(1, new WaitForAllEnemiesKilled()),
+
+            new Spawn(2, new ChinaEvent()),
 
             new Spawn(0, assets.imageLevel1_2),
             new Spawn(5, assets.imageLevel2),
@@ -58,8 +69,6 @@ export class Level {
             new Spawn(0, assets.imageLevel3),
             new Spawn(0, assets.imageLevel3),
         ].reverse()
-
-        this.timer = 0
     }
 
     /**
@@ -68,6 +77,14 @@ export class Level {
     update(dt) {
         this.timer -= dt
 
+        if (this.waitingForEnemiesKilled) {
+            if (game.enemies.length === 0) {
+                this.waitingForEnemiesKilled = false
+            } else {
+                return
+            }
+        }
+
         if (this.timer <= 0) {
             this.timer = 0
             while (this.spawns.length > 0 && this.timer === 0) {
@@ -75,10 +92,10 @@ export class Level {
 
                 if (spawn) {
                     const thing = spawn.thing
+                    this.timer = spawn.time
 
                     if (thing instanceof Enemy) {
                         game.enemies.push(thing)
-                        this.timer = spawn.time
 
                     } else if (thing instanceof Event) {
                         game.event = thing
@@ -88,6 +105,10 @@ export class Level {
 
                     } else if (thing instanceof HTMLImageElement) {
                         game.background.queue.push(thing)
+
+                    } else if (thing instanceof WaitForAllEnemiesKilled) {
+                        this.waitingForEnemiesKilled = true
+                        console.log("xd")
 
                     } else {
                         throw "Unknown thing"
