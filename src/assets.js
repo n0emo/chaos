@@ -103,6 +103,55 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imageLevel3
 
+    /** @type {HTMLImageElement} */
+    imageBulletBigBallBlue
+    /** @type {HTMLImageElement} */
+    imageBulletBigBallGreen
+    /** @type {HTMLImageElement} */
+    imageBulletBigBallPurple
+    /** @type {HTMLImageElement} */
+    imageBulletBigBallRed
+    /** @type {HTMLImageElement} */
+    imageBulletCowBlue
+    /** @type {HTMLImageElement} */
+    imageBulletCowGreen
+    /** @type {HTMLImageElement} */
+    imageBulletCowPurple
+    /** @type {HTMLImageElement} */
+    imageBulletCowRed
+    /** @type {HTMLImageElement} */
+    imageBulletMiddleBallBlue
+    /** @type {HTMLImageElement} */
+    imageBulletMiddleBallGreen
+    /** @type {HTMLImageElement} */
+    imageBulletMiddleBallPurple
+    /** @type {HTMLImageElement} */
+    imageBulletMiddleBallRed
+    /** @type {HTMLImageElement} */
+    imageBulletMusicalNoteBlue
+    /** @type {HTMLImageElement} */
+    imageBulletMusicalNoteGreen
+    /** @type {HTMLImageElement} */
+    imageBulletMusicalNotePurple
+    /** @type {HTMLImageElement} */
+    imageBulletMusicalNoteRed
+    /** @type {HTMLImageElement} */
+    imageBulletSeriousBallBlue
+    /** @type {HTMLImageElement} */
+    imageBulletSeriousBallGreen
+    /** @type {HTMLImageElement} */
+    imageBulletSeriousBallPurple
+    /** @type {HTMLImageElement} */
+    imageBulletSeriousBallRed
+    /** @type {HTMLImageElement} */
+    imageBulletSmallBallBlue
+    /** @type {HTMLImageElement} */
+    imageBulletSmallBallGreen
+    /** @type {HTMLImageElement} */
+    imageBulletSmallBallPurple
+    /** @type {HTMLImageElement} */
+    imageBulletSmallBallRed
+
     /**
      * @returns Assets
      */
@@ -150,6 +199,30 @@ export class Assets {
             imageLevel2,
             imageLevel2_3,
             imageLevel3,
+            imageBulletBigBallBlue,
+            imageBulletBigBallGreen,
+            imageBulletBigBallPurple,
+            imageBulletBigBallRed,
+            imageBulletCowBlue,
+            imageBulletCowGreen,
+            imageBulletCowPurple,
+            imageBulletCowRed,
+            imageBulletMiddleBallBlue,
+            imageBulletMiddleBallGreen,
+            imageBulletMiddleBallPurple,
+            imageBulletMiddleBallRed,
+            imageBulletMusicalNoteBlue,
+            imageBulletMusicalNoteGreen,
+            imageBulletMusicalNotePurple,
+            imageBulletMusicalNoteRed,
+            imageBulletSeriousBallBlue,
+            imageBulletSeriousBallGreen,
+            imageBulletSeriousBallPurple,
+            imageBulletSeriousBallRed,
+            imageBulletSmallBallBlue,
+            imageBulletSmallBallGreen,
+            imageBulletSmallBallPurple,
+            imageBulletSmallBallRed,
         ] = await Promise.all([
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
@@ -193,6 +266,30 @@ export class Assets {
             loadImage("assets/sprites/level-2.png"),
             loadImage("assets/sprites/level-2-3.png"),
             loadImage("assets/sprites/level-3.png"),
+            loadImage("assets/sprites/bullet-big-ball-blue.png"),
+            loadImage("assets/sprites/bullet-big-ball-green.png"),
+            loadImage("assets/sprites/bullet-big-ball-purple.png"),
+            loadImage("assets/sprites/bullet-big-ball-red.png"),
+            loadImage("assets/sprites/bullet-cow-blue.png"),
+            loadImage("assets/sprites/bullet-cow-green.png"),
+            loadImage("assets/sprites/bullet-cow-purple.png"),
+            loadImage("assets/sprites/bullet-cow-red.png"),
+            loadImage("assets/sprites/bullet-middle-ball-blue.png"),
+            loadImage("assets/sprites/bullet-middle-ball-green.png"),
+            loadImage("assets/sprites/bullet-middle-ball-purple.png"),
+            loadImage("assets/sprites/bullet-middle-ball-red.png"),
+            loadImage("assets/sprites/bullet-musical-note-blue.png"),
+            loadImage("assets/sprites/bullet-musical-note-green.png"),
+            loadImage("assets/sprites/bullet-musical-note-purple.png"),
+            loadImage("assets/sprites/bullet-musical-note-red.png"),
+            loadImage("assets/sprites/bullet-serious-ball-blue.png"),
+            loadImage("assets/sprites/bullet-serious-ball-green.png"),
+            loadImage("assets/sprites/bullet-serious-ball-purple.png"),
+            loadImage("assets/sprites/bullet-serious-ball-red.png"),
+            loadImage("assets/sprites/bullet-small-ball-blue.png"),
+            loadImage("assets/sprites/bullet-small-ball-green.png"),
+            loadImage("assets/sprites/bullet-small-ball-purple.png"),
+            loadImage("assets/sprites/bullet-small-ball-red.png"),
         ])
 
         return {
@@ -238,6 +335,30 @@ export class Assets {
             imageLevel2,
             imageLevel2_3,
             imageLevel3,
+            imageBulletBigBallBlue,
+            imageBulletBigBallGreen,
+            imageBulletBigBallPurple,
+            imageBulletBigBallRed,
+            imageBulletCowBlue,
+            imageBulletCowGreen,
+            imageBulletCowPurple,
+            imageBulletCowRed,
+            imageBulletMiddleBallBlue,
+            imageBulletMiddleBallGreen,
+            imageBulletMiddleBallPurple,
+            imageBulletMiddleBallRed,
+            imageBulletMusicalNoteBlue,
+            imageBulletMusicalNoteGreen,
+            imageBulletMusicalNotePurple,
+            imageBulletMusicalNoteRed,
+            imageBulletSeriousBallBlue,
+            imageBulletSeriousBallGreen,
+            imageBulletSeriousBallPurple,
+            imageBulletSeriousBallRed,
+            imageBulletSmallBallBlue,
+            imageBulletSmallBallGreen,
+            imageBulletSmallBallPurple,
+            imageBulletSmallBallRed,
         }
     }
 }
