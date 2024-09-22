@@ -30,10 +30,10 @@ export class Rectangle {
     set centerX(x) { this.posX = x - this.width * 0.5 }
 
     /** @type {number} */
-    get centerY() { return this.posY + this.width * 0.5 }
+    get centerY() { return this.posY + this.height * 0.5 }
 
     /** @type {number} */
-    set centerY(y) { this.posY = y - this.width * 0.5 }
+    set centerY(y) { this.posY = y - this.height * 0.5 }
 
     /** @type {number} */
     get left() { return this.posX }
@@ -118,4 +118,17 @@ export function areRectangleCircleCollide(rect, circle) {
     const distanceY = circle.posY - closestY;
 
     const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-    return distanceSquared < (circle.radius * circle.radius);}
+    return distanceSquared < (circle.radius * circle.radius);
+}
+
+/**
+ * @param {Circle} circleA
+ * @param {Circle} circleB
+ * @returns {boolean}
+ */
+export function areCirclesCollide(circleA, circleB) {
+    const dx = circleA.posX - circleB.posX
+    const dy = circleA.posY - circleB.posY
+    const distance = Math.sqrt(dx * dx + dy * dy)
+    return distance < (circleA.radius + circleB.radius)
+}

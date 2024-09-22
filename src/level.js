@@ -1,6 +1,6 @@
 import { Enemy, } from "./enemy.js"
 import { game } from "./global.js"
-import { AdsEvent, Event } from "./event.js"
+import { AdsEvent, ChinaEvent, Event, FishingEvent } from "./event.js"
 import { WIDTH } from "./constants.js"
 
 /** @typedef {Enemy | Event} Thing */
@@ -30,11 +30,9 @@ export class Level {
 
     constructor() {
         this.spawns = [
+            new Spawn(0, new FishingEvent()),
             new Spawn(0.5, Enemy.basic(             60, 100, 0.5 )),
             new Spawn(0.5, Enemy.basic(             80, 100, 0.75)),
-
-            new Spawn(0, new AdsEvent()),
-
             new Spawn(0.5, Enemy.basic(WIDTH * 0.5 - 8, 100, 1   )),
             new Spawn(0.5, Enemy.basic(     WIDTH - 80, 100, 0.75)),
             new Spawn(2,   Enemy.basic(     WIDTH - 60, 100, 0.5 )),
@@ -62,7 +60,7 @@ export class Level {
                         this.timer = spawn.time
 
                     } else if (thing instanceof Event) {
-                        console.log(thing)
+                        game.event = thing
                     }
                 }
             }

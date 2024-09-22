@@ -11,10 +11,10 @@ import { HEIGHT } from "./constants.js"
 
 const GAME_MENU = 0
 const GAME_GAME = 1
-const GAME_EVENT = 2
+const GAME_PAUSE = 2
 const GAME_SCORE_SCREEN = 3
 
-/** @typedef {GAME_MENU | GAME_GAME | GAME_EVENT | GAME_SCORE_SCREEN} GameState */
+/** @typedef {GAME_MENU | GAME_GAME | GAME_PAUSE | GAME_SCORE_SCREEN} GameState */
 
 export class Game {
     /** @type {Player} */
@@ -29,8 +29,8 @@ export class Game {
     explosions
     /** @type {Particle[]} */
     particles
-    /** @type {Event[]} */
-    events
+    /** @type {?Event} */
+    event
     /** @type {GameState} */
     state
 
@@ -41,7 +41,7 @@ export class Game {
         this.level = new Level()
         this.explosions = []
         this.particles = []
-        this.events = []
+        this.event = null
         this.state = GAME_GAME
     }
 
@@ -94,45 +94,45 @@ export class Game {
      * @param {number} dt
      */
     update(dt) {
-        this.level.update(dt)
-
-        this.player.update(dt)
-
-        for (const bullet of this.bullets) {
-            bullet.update(dt)
+        this.event?.update(dt)
+        if (this.event?.isEnd ?? false) {
+            this.event = null
         }
 
+        if (this.event == null || !this.event.isPauses) {
+            this.updateGameLogic(dt)
+        }
+    }
+
+    /**
+     * @param {number} dt
+     */
+    updateGameLogic(dt) {
+        this.level.update(dt)
+        this.player.update(dt)
+        this.updateEnemies(dt)
+        this.updateBullets(dt)
+        this.updateExplosions(dt)
+        this.updateParticles(dt)
+    }
+
+    /**
+     * @param {number} dt
+     */
+    updateEnemies(dt) {
         for (const enemy of this.enemies) {
             enemy.update(dt)
         }
+    }
 
-        while (this.particles.length > 10000) {
-            this.particles.splice(0, 1)
-        }
-
-        let i = this.particles.length
-        while (i--) {
-            const particle = this.particles[i]
-            particle.update(dt)
-            if (!particle.isAlive) {
-                pool.releaseParticle(particle)
-                this.particles.splice(i, 1)
-            }
-        }
-
-        i = this.explosions.length
-        while (i--) {
-            const explosion = this.explosions[i]
-            explosion.update(dt)
-            if (explosion.isEnd) {
-                pool.releaseExplosion(explosion)
-                this.explosions.splice(i, 1)
-            }
-        }
-
-        i = this.bullets.length
+    /**
+     * @param {number} dt
+     */
+    updateBullets(dt) {
+        let i = this.bullets.length
         while (i--) {
             const bullet = this.bullets[i]
+            bullet.update(dt)
             let j = this.enemies.length
             let hit = false
             while (j--) {
@@ -173,6 +173,43 @@ export class Game {
                 this.bullets.splice(i, 1)
             }
         }
+
+    }
+
+    /**
+     * @param {number} dt
+     */
+    updateExplosions(dt) {
+        let i = this.explosions.length
+        while (i--) {
+            const explosion = this.explosions[i]
+            explosion.update(dt)
+            if (explosion.isEnd) {
+                pool.releaseExplosion(explosion)
+                this.explosions.splice(i, 1)
+            }
+        }
+
+    }
+
+    /**
+     * @param {number} dt
+     */
+    updateParticles(dt) {
+        while (this.particles.length > 10000) {
+            this.particles.splice(0, 1)
+        }
+
+        let i = this.particles.length
+        while (i--) {
+            const particle = this.particles[i]
+            particle.update(dt)
+            if (!particle.isAlive) {
+                pool.releaseParticle(particle)
+                this.particles.splice(i, 1)
+            }
+        }
+
     }
 
     draw() {
@@ -195,6 +232,8 @@ export class Game {
         for (const particle of this.particles) {
             particle.draw()
         }
+
+        this.event?.draw()
 
         renderer.drawText(
             `HP: ${this.player.hp}/${this.player.maxHp}`,

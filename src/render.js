@@ -64,15 +64,24 @@ export class Renderer {
     }
 
     /**
+     * @param {number} posX
+     * @param {number} posY
+     * @param {number} radius
+     * @param {string} color
+     */
+    fillCircle(posX, posY, radius, color) {
+        this.context.fillStyle = color
+        this.context.beginPath()
+        this.context.arc(posX, posY, radius, 0, 2 * Math.PI)
+        this.context.fill()
+    }
+
+    /**
      * @param {Circle} circ
      * @param {string} color
      */
     fillCircleCirc(circ, color) {
-        this.context.fillStyle = color
-        this.context.beginPath()
-        this.context.arc(circ.posX, circ.posY, circ.radius, 0, 2 * Math.PI)
-        this.context.fill()
-
+        this.fillCircle(circ.posX, circ.posY, circ.radius, color)
     }
 
     /**
