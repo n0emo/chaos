@@ -2,7 +2,7 @@ import { Player } from "./player.js"
 import { Bullet } from "./bullet.js"
 import { Enemy } from "./enemy.js"
 import { Explosion } from "./explosion.js"
-import { areRectangleCircleCollide, areRectanglesCollide } from "./shape.js"
+import { areCirclesCollide, areRectangleCircleCollide, areRectanglesCollide, Circle } from "./shape.js"
 import { Level } from "./level.js"
 import { Particle } from "./particle.js"
 import { pool, renderer, state } from "./global.js"
@@ -36,6 +36,10 @@ export class Game {
     event
     /** @type {GameState} */
     state
+    /** @type {?Circle} */
+    cleaner
+    /** @type {number} */
+    cleanerTimer
 
     constructor() {
         this.bullets = []
@@ -47,6 +51,8 @@ export class Game {
         this.particles = []
         this.event = null
         this.state = GAME_GAME
+        this.cleaner = null
+        this.cleanerTimer = 0
     }
 
     /**
@@ -145,6 +151,7 @@ export class Game {
         this.player.update(dt)
         this.updateEnemies(dt)
         this.updateBonuses(dt)
+        this.updateCleaner(dt)
         this.updateBullets(dt)
         this.updateExplosions(dt)
         this.updateParticles(dt)
@@ -157,6 +164,23 @@ export class Game {
         for (const enemy of this.enemies) {
             enemy.update(dt)
         }
+    }
+
+    /**
+     * @param {number} dt
+     */
+    updateCleaner(dt) {
+        this.cleanerTimer -= dt
+        if (this.cleanerTimer <= 0) {
+            this.cleanerTimer = 0
+            this.cleaner = null
+        }
+
+        if (!this.cleaner) {
+            return
+        }
+
+        this.cleaner.radius += 250 * dt
     }
 
     /**
@@ -185,10 +209,14 @@ export class Game {
                 }
             }
 
-
-            const collide = areRectangleCircleCollide(this.player.rect, bullet.circle)
             const enemys = bullet.tag === "enemy"
-            if (collide && enemys && !hit && !this.player.isInvulnerable) {
+            const cleanerCollide = this.cleaner && areCirclesCollide(this.cleaner, bullet.circle)
+            if ( cleanerCollide && enemys) {
+                hit = true
+            }
+
+            const playerCollide = areRectangleCircleCollide(this.player.rect, bullet.circle)
+            if (playerCollide && enemys && !hit && !this.player.isInvulnerable) {
                 this.player.recieveDamage(bullet.damage)
                 hit = true
             }
@@ -285,6 +313,10 @@ export class Game {
 
         this.player.draw()
 
+        if (this.cleaner) {
+            renderer.fillCircleCirc(this.cleaner, "#202020")
+        }
+
         for (const enemy of this.enemies) {
             enemy.draw()
         }
@@ -316,6 +348,15 @@ export class Game {
 
     drawPause() {
         renderer.drawText("PAUSE", 50, 50, 50, "#FFFFFF")
+    }
+
+    /**
+     * @param {number} posX
+     * @param {number} posY
+     */
+    startCleaner(posX, posY) {
+        this.cleanerTimer = 0.5
+        this.cleaner = new Circle(posX, posY, 1)
     }
 }
 

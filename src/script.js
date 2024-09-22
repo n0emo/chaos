@@ -1,4 +1,4 @@
-// TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
+// TODO: bonuses (weapon upgrade)
 // TODO: punish for failed events
 // TODO: predefine bullet types
 // TODO: lasers

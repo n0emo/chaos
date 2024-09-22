@@ -59,6 +59,11 @@ export class InvulnerabilityBonus extends Bonus {
 }
 
 export class BulletCleanBonus extends Bonus {
+    pickup() {
+        const posX = game.player.rect.posX
+        const posY = game.player.rect.posY
+        game.startCleaner(posX, posY)
+    }
 }
 
 export class WeaponUpgradeBonus extends Bonus {
