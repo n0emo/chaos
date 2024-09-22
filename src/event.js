@@ -107,12 +107,18 @@ export class ChinaEvent extends Event {
     #isEnd
     /** @type {number} */
     timer
+    /** @type {Animation} */
+    spaceAnimation
 
     constructor() {
         super()
 
         this.#isEnd = false
-        this.timer = 0.5
+        this.timer = 1
+        this.spaceAnimation = new Animation([
+            assets.imagePressSpaceToSkip1,
+            assets.imagePressSpaceToSkip2],
+            1)
     }
 
     /** @type {boolean} */
@@ -130,6 +136,8 @@ export class ChinaEvent extends Event {
             this.timer = 0
         }
 
+        this.spaceAnimation.update(dt)
+
         if (state.isKeyPressed("Space")) {
             this.#isEnd = true
             const dSocialRatingCredit = this.timer <= 0 ? 100 : -100
@@ -138,7 +146,10 @@ export class ChinaEvent extends Event {
     }
 
     draw() {
-        renderer.fillRectangleRec(EVENT_RECT, "#FF9090") // TODO
+        renderer.context.drawImage(assets.imageEventChina, PADDING, PADDING)
+        if (this.timer <= 0) {
+            this.spaceAnimation.draw(PADDING + 20, PADDING + 35)
+        }
     }
 }
 
@@ -163,6 +174,8 @@ export class FishingEvent extends Event {
     interpolator
     /** @type {number} */
     fishTimeToTravel
+    /** @type {Animation} */
+    waterAnimation
 
     constructor() {
         super()
@@ -174,7 +187,7 @@ export class FishingEvent extends Event {
 
         const angle = Math.random() * Math.PI / 3 - Math.PI / 6
         const direction = Math.random() < 0.5 ? 1 : -1
-        const spread = 100
+        const spread = 50
         this.startX  = EVENT_RECT.centerX - spread * Math.cos(angle) * direction
         this.startY  = EVENT_RECT.centerY - spread * Math.sin(angle) * direction
         this.targetX = EVENT_RECT.centerX + spread * Math.cos(angle) * direction
@@ -182,6 +195,11 @@ export class FishingEvent extends Event {
         this.interpolator = 0
 
         this.fishCirc = new Circle(this.startX, this.startY, 8)
+
+        this.waterAnimation = new Animation([
+            assets.imageEventFishing1,
+            assets.imageEventFishing2,],
+            0.5)
     }
 
     /** @type {boolean} */
@@ -194,6 +212,7 @@ export class FishingEvent extends Event {
      * @param {number} dt
      */
     update(dt) {
+        this.waterAnimation.update(dt)
         this.timer -= dt
         if (this.timer < 0) {
             this.#isEnd = true
@@ -220,15 +239,13 @@ export class FishingEvent extends Event {
     }
 
     draw() {
-        renderer.fillRectangleRec(EVENT_RECT, "#3070E0") // TODO
-        renderer.fillCircleCirc(this.fishCirc, "#1010FF")
-        const color = areCirclesCollide(this.fishCirc, this.fishingRodCirc) 
-            ? "#10FF10" 
-            : "#606060"
-        renderer.fillCircleCirc(this.fishingRodCirc, color)
-        renderer.fillCircle(this.startX, this.startY, 5, "#FFFF00")
-        renderer.fillCircle(this.targetX, this.targetY, 5, "#FF00FF")
-        renderer.drawText("Press space to catch fish", 40, 140, 20, "#FFFFFF")
+        this.waterAnimation.draw(PADDING, PADDING)
+        const fishImage = this.startX > this.targetX
+            ? assets.imageEventFish1
+            : assets.imageEventFish2
+        renderer.context.drawImage(fishImage, this.fishCirc.posX, this.fishCirc.posY)
+        renderer.context.drawImage(assets.imageFishingTime1, PADDING + 20, PADDING)
+        renderer.context.drawImage(assets.imageFishingTime2, PADDING + 14, HEIGHT - PADDING - 15)
     }
 
     /**

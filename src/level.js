@@ -34,7 +34,7 @@ export class Level {
         this.spawns = [
             new Spawn(0, Enemy.small(             30, 1)),
             new Spawn(2, Enemy.small(WIDTH - 30 - 16, 1)),
-            new Spawn(2, new AdsEvent()),
+            new Spawn(2, new ChinaEvent()),
 
             //new Spawn(0, Enemy.middle(             60, 1)),
             //new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),
