@@ -11,6 +11,7 @@ import { Event } from "./event.js"
 import { HEIGHT, WIDTH } from "./constants.js"
 import { Bonus } from "./bonus.js"
 import { Ray, RayAnimation } from "./laser.js" 
+import { Background } from "./background.js"
 
 const GAME_MENU = 0
 const GAME_GAME = 1
@@ -48,6 +49,8 @@ export class Game {
     cleanerTimer
     /** @type {number} */
     pressEnterTime
+    /** @type {Background} */
+    background
 
     constructor() {
         this.bullets = []
@@ -64,6 +67,7 @@ export class Game {
         this.cleaner = null
         this.cleanerTimer = 0
         this.pressEnterTime = 0
+        this.background = new Background(assets.imageLevel1)
     }
 
     /**
@@ -159,6 +163,7 @@ export class Game {
      * @param {number} dt
      */
     updateGameLogic(dt) {
+        this.background.update(dt)
         this.level.update(dt)
         this.player.update(dt)
         this.updateEnemies(dt)
@@ -359,7 +364,7 @@ export class Game {
     }
 
     drawGameLogic() {
-        renderer.clearBackground("#181840")
+        this.background.draw()
 
         this.player.draw()
 

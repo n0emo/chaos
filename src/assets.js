@@ -92,6 +92,17 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imagePressEnterToStart
 
+    /** @type {HTMLImageElement} */
+    imageLevel1
+    /** @type {HTMLImageElement} */
+    imageLevel1_2
+    /** @type {HTMLImageElement} */
+    imageLevel2
+    /** @type {HTMLImageElement} */
+    imageLevel2_3
+    /** @type {HTMLImageElement} */
+    imageLevel3
+
     /**
      * @returns Assets
      */
@@ -134,6 +145,11 @@ export class Assets {
             imageEnemySolder2,
             imageMenu,
             imagePressEnterToStart,
+            imageLevel1,
+            imageLevel1_2,
+            imageLevel2,
+            imageLevel2_3,
+            imageLevel3,
         ] = await Promise.all([
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
@@ -172,6 +188,11 @@ export class Assets {
             loadImage("assets/sprites/enemy-solder-2.png"),
             loadImage("assets/sprites/menu.png"),
             loadImage("assets/sprites/press-enter-to-start.png"),
+            loadImage("assets/sprites/level-1.png"),
+            loadImage("assets/sprites/level-1-2.png"),
+            loadImage("assets/sprites/level-2.png"),
+            loadImage("assets/sprites/level-2-3.png"),
+            loadImage("assets/sprites/level-3.png"),
         ])
 
         return {
@@ -212,6 +233,11 @@ export class Assets {
             imageEnemySolder2,
             imageMenu,
             imagePressEnterToStart,
+            imageLevel1,
+            imageLevel1_2,
+            imageLevel2,
+            imageLevel2_3,
+            imageLevel3,
         }
     }
 }

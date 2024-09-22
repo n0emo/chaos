@@ -1,10 +1,10 @@
 import { Enemy, } from "./enemy.js"
-import { game } from "./global.js"
+import { assets, game } from "./global.js"
 import { AdsEvent, ChinaEvent, Event, FishingEvent } from "./event.js"
 import { WIDTH } from "./constants.js"
 import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus } from "./bonus.js"
 
-/** @typedef {Enemy | Event | Bonus} Thing */
+/** @typedef {Enemy | Event | Bonus | HTMLImageElement} Thing */
 
 export class Spawn {
     /** @type {number} */
@@ -34,21 +34,27 @@ export class Level {
             new Spawn(0, Enemy.small(             30, 1)),
             new Spawn(1, Enemy.small(WIDTH - 30 - 16, 1)),
 
-            new Spawn(0, Enemy.middle(             60, 1)),
-            new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),
+            //new Spawn(0, Enemy.middle(             60, 1)),
+            //new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),
 
-            new Spawn(0, new AdsEvent()),
+            //new Spawn(0, new AdsEvent()),
 
-            new Spawn(0, Enemy.big(             90, 1)),
-            new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
+            //new Spawn(0, Enemy.big(             90, 1)),
+            //new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
 
-            new Spawn(0, Enemy.bomj(             120,  0.7, 0.7, 2)),
-            new Spawn(1, Enemy.bomj(WIDTH - 120 - 16, -0.7, 0.7, 2)),
+            //new Spawn(0, Enemy.bomj(             120,  0.7, 0.7, 2)),
+            //new Spawn(1, Enemy.bomj(WIDTH - 120 - 16, -0.7, 0.7, 2)),
 
-            new Spawn(0.3, Enemy.caesar(       -16, 35,  1, 0)),
-            new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
+            //new Spawn(0.3, Enemy.caesar(       -16, 35,  1, 0)),
+            //new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
 
-            new Spawn(0, new FishingEvent()),
+            //new Spawn(0, new FishingEvent()),
+
+            new Spawn(0, assets.imageLevel1_2),
+            new Spawn(5, assets.imageLevel2),
+            new Spawn(0, assets.imageLevel2_3),
+            new Spawn(0, assets.imageLevel3),
+            new Spawn(0, assets.imageLevel3),
         ].reverse()
 
         this.timer = 0
@@ -77,6 +83,9 @@ export class Level {
 
                     } else if (thing instanceof Bonus) {
                         game.bonuses.push(thing)
+
+                    } else if (thing instanceof HTMLImageElement) {
+                        game.background.queue.push(thing)
 
                     } else {
                         throw "Unknown thing"
