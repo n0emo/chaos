@@ -4,7 +4,7 @@ import { Weapon, LaserWeapon } from "./weapon.js"
 import { assets, state } from "./global.js"
 import { Animation } from "./animation.js"
 
-/** @typedef {"drink" | "go" | "happy" | "idle"} PlayerState */
+/** @typedef {"drink" | "move" | "happy" | "idle"} PlayerState */
 
 export class Player {
     /** @type {Rectangle} */
@@ -21,7 +21,7 @@ export class Player {
     /** @type {Animation} */
     drinkAnimation
     /** @type {Animation} */
-    goAnimation
+    moveAnimation
     /** @type {Animation} */
     happyAnimation
     /** @type {Animation} */
@@ -34,7 +34,7 @@ export class Player {
     state
 
     /** @type {number} */
-    goTimer
+    moveTimer
 
     constructor() {
         this.rect = new Rectangle(0, 0, 16, 16)
@@ -50,9 +50,9 @@ export class Player {
             assets.imagePlayerDrink5,
         ], 3)
 
-        this.goAnimation = new Animation([
-            assets.imagePlayerGo1,
-            assets.imagePlayerGo2,
+        this.moveAnimation = new Animation([
+            assets.imagePlayerMove1,
+            assets.imagePlayerMove2,
         ], 0.25)
 
         this.drinkAnimation = new Animation([
@@ -96,15 +96,15 @@ export class Player {
         const d = Math.max(dx, dy)
         const threshold = 1
 
-        this.goTimer -= dt
-        if (this.goTimer < 0) {
-            this.goTimer = 0
+        this.moveTimer -= dt
+        if (this.moveTimer < 0) {
+            this.moveTimer = 0
         }
 
         if (this.state == "idle" && d > threshold) {
-            this.state = "go"
-            this.goTimer = 0.5
-        } else if (this.state == "go" && d <= threshold && this.goTimer <= 0) {
+            this.state = "move"
+            this.moveTimer = 0.5
+        } else if (this.state == "move" && d <= threshold && this.moveTimer <= 0) {
             this.state = "idle"
         }
 
@@ -128,8 +128,8 @@ export class Player {
             case "drink":
                 this.currentAnimation = this.drinkAnimation
                 break
-            case "go":
-                this.currentAnimation = this.goAnimation
+            case "move":
+                this.currentAnimation = this.moveAnimation
                 break
             case "happy":
                 this.currentAnimation = this.happyAnimation

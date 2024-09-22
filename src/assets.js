@@ -37,9 +37,9 @@ export class Assets {
     imagePlayerDrink5
 
     /** @type {HTMLImageElement} */
-    imagePlayerGo1
+    imagePlayerMove1
     /** @type {HTMLImageElement} */
-    imagePlayerGo2
+    imagePlayerMove2
 
     /** @type {HTMLImageElement} */
     imagePlayerHappy1
@@ -77,8 +77,8 @@ export class Assets {
             imagePlayerDrink3,
             imagePlayerDrink4,
             imagePlayerDrink5,
-            imagePlayerGo1,
-            imagePlayerGo2,
+            imagePlayerMove1,
+            imagePlayerMove2,
             imagePlayerHappy1,
             imagePlayerHappy2,
             imagePlayerHappy3,
@@ -100,8 +100,8 @@ export class Assets {
             loadImage("assets/sprites/player-drink-3.png"),
             loadImage("assets/sprites/player-drink-4.png"),
             loadImage("assets/sprites/player-drink-5.png"),
-            loadImage("assets/sprites/player-go-1.png"),
-            loadImage("assets/sprites/player-go-2.png"),
+            loadImage("assets/sprites/player-move-1.png"),
+            loadImage("assets/sprites/player-move-2.png"),
             loadImage("assets/sprites/player-happy-1.png"),
             loadImage("assets/sprites/player-happy-2.png"),
             loadImage("assets/sprites/player-happy-3.png"),
@@ -125,8 +125,8 @@ export class Assets {
             imagePlayerDrink3,
             imagePlayerDrink4,
             imagePlayerDrink5,
-            imagePlayerGo1,
-            imagePlayerGo2,
+            imagePlayerMove1,
+            imagePlayerMove2,
             imagePlayerHappy1,
             imagePlayerHappy2,
             imagePlayerHappy3,
