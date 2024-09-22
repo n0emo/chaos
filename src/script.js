@@ -1,4 +1,3 @@
-// Level background
 // TODO: predefine bullet types
 // TODO: more weapons
 // TODO: bonuses (weapon upgrade)
