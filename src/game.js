@@ -6,12 +6,13 @@ import { Circle } from "./shape.js"
 import { areCirclesCollide, areRectangleCircleCollide, areRectanglesCollide } from "./math.js"
 import { Level } from "./level.js"
 import { Particle } from "./particle.js"
-import { assets, pool, renderer, state } from "./global.js"
+import { pool, renderer, state } from "./global.js"
 import { Event } from "./event.js"
 import { HEIGHT, WIDTH } from "./constants.js"
 import { Bonus } from "./bonus.js"
 import { Ray, RayAnimation } from "./laser.js" 
 import { Background } from "./background.js"
+import { assets } from "./assets.js"
 
 const GAME_MENU = 0
 const GAME_GAME = 1

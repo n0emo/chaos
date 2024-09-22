@@ -1,8 +1,9 @@
 import { Enemy, } from "./enemy.js"
-import { assets, game } from "./global.js"
+import { game } from "./global.js"
 import { AdsEvent, ChinaEvent, Event, FishingEvent } from "./event.js"
 import { WIDTH } from "./constants.js"
 import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus } from "./bonus.js"
+import { assets } from "./assets.js"
 
 /** @typedef {Enemy | Event | Bonus | HTMLImageElement} Thing */
 
@@ -32,7 +33,8 @@ export class Level {
     constructor() {
         this.spawns = [
             new Spawn(0, Enemy.small(             30, 1)),
-            new Spawn(1, Enemy.small(WIDTH - 30 - 16, 1)),
+            new Spawn(2, Enemy.small(WIDTH - 30 - 16, 1)),
+            new Spawn(2, new AdsEvent()),
 
             //new Spawn(0, Enemy.middle(             60, 1)),
             //new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),

@@ -1,8 +1,9 @@
 import { Rectangle } from "./shape.js"
 import { Game } from "./game.js"
 import { Weapon, LaserWeapon } from "./weapon.js"
-import { assets, state } from "./global.js"
+import { state } from "./global.js"
 import { Animation } from "./animation.js"
+import { assets } from "./assets.js"
 
 /** @typedef {"drink" | "move" | "happy" | "idle"} PlayerState */
 

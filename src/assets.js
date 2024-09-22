@@ -152,6 +152,28 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imageBulletSmallBallRed
 
+    /** @type {HTMLImageElement} */
+    imageEventCargo
+    /** @type {HTMLImageElement} */
+    imageEventChina
+    /** @type {HTMLImageElement} */
+    imageEventCreditCard
+    /** @type {HTMLImageElement} */
+    imageEventFish1
+    /** @type {HTMLImageElement} */
+    imageEventFish2
+    /** @type {HTMLImageElement} */
+    imageEventFishing1
+    /** @type {HTMLImageElement} */
+    imageEventFishing2
+    /** @type {HTMLImageElement} */
+    imageEventXdProduct
+
+    /** @type {HTMLImageElement} */
+    imagePressSpaceToSkip1
+    /** @type {HTMLImageElement} */
+    imagePressSpaceToSkip2
+
     /**
      * @returns Assets
      */
@@ -223,6 +245,16 @@ export class Assets {
             imageBulletSmallBallGreen,
             imageBulletSmallBallPurple,
             imageBulletSmallBallRed,
+            imageEventCargo,
+            imageEventChina,
+            imageEventCreditCard,
+            imageEventFish1,
+            imageEventFish2,
+            imageEventFishing1,
+            imageEventFishing2,
+            imageEventXdProduct,
+            imagePressSpaceToSkip1,
+            imagePressSpaceToSkip2,
         ] = await Promise.all([
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
@@ -290,6 +322,16 @@ export class Assets {
             loadImage("assets/sprites/bullet-small-ball-green.png"),
             loadImage("assets/sprites/bullet-small-ball-purple.png"),
             loadImage("assets/sprites/bullet-small-ball-red.png"),
+            loadImage("assets/sprites/event-cargo.png"),
+            loadImage("assets/sprites/event-china.png"),
+            loadImage("assets/sprites/event-credit-card.png"),
+            loadImage("assets/sprites/event-fish-1.png"),
+            loadImage("assets/sprites/event-fish-2.png"),
+            loadImage("assets/sprites/event-fishing-1.png"),
+            loadImage("assets/sprites/event-fishing-2.png"),
+            loadImage("assets/sprites/event-xd-product.png"),
+            loadImage("assets/sprites/press-space-to-skip-1.png"),
+            loadImage("assets/sprites/press-space-to-skip-2.png"),
         ])
 
         return {
@@ -359,6 +401,20 @@ export class Assets {
             imageBulletSmallBallGreen,
             imageBulletSmallBallPurple,
             imageBulletSmallBallRed,
+            imageEventCargo,
+            imageEventChina,
+            imageEventCreditCard,
+            imageEventFish1,
+            imageEventFish2,
+            imageEventFishing1,
+            imageEventFishing2,
+            imageEventXdProduct,
+            imagePressSpaceToSkip1,
+            imagePressSpaceToSkip2,
         }
     }
 }
+
+
+/** @type {Assets} */
+export const assets = await Assets.load()

@@ -2,6 +2,8 @@ import { renderer, state } from "./global.js"
 import { WIDTH, HEIGHT } from "./constants.js"
 import { Circle, Rectangle } from "./shape.js"
 import { areCirclesCollide } from "./math.js"
+import { Animation } from "./animation.js"
+import { assets } from "./assets.js"
 
 const PADDING = 30
 const EVENT_RECT = new Rectangle(
@@ -53,14 +55,29 @@ export class Event {
     }
 }
 
+const ADS_IMAGES = [
+    assets.imageEventCargo,
+    assets.imageEventXdProduct,
+    assets.imageEventCreditCard,
+]
+
 export class AdsEvent extends Event {
     /** @type {boolean} */
     #isEnd
+    /** @type {HTMLImageElement} */
+    image
+    /** @type {Animation} */
+    spaceAnimation
 
     constructor() {
         super()
 
         this.#isEnd = false
+        this.image = ADS_IMAGES[Math.floor(Math.random() * ADS_IMAGES.length)]
+        this.spaceAnimation = new Animation([
+            assets.imagePressSpaceToSkip1,
+            assets.imagePressSpaceToSkip2],
+            1)
     }
 
     /** @type {boolean} */
@@ -76,11 +93,12 @@ export class AdsEvent extends Event {
         if (state.isKeyPressed("Space")) {
             this.#isEnd = true
         }
+        this.spaceAnimation.update(dt)
     }
 
     draw() {
-        renderer.fillRectangleRec(EVENT_RECT, "#909090") // TODO
-        renderer.drawText("Press space to skip ads", 40, 130, 20, "#FFFFFF")
+        renderer.context.drawImage(this.image, PADDING, PADDING)
+        this.spaceAnimation.draw(50, 110)
     }
 }
 

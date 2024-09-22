@@ -18,8 +18,5 @@ export const state = new EventState(canvas)
 /** @type {Pool} */
 export const pool = new Pool()
 
-/** @type {Assets} */
-export const assets = await Assets.load()
-
 /** @type {Game} */
 export const game = Game.load()
