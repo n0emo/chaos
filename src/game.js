@@ -6,6 +6,15 @@ import { areRectangleCircleCollide } from "./shape.js"
 import { Level } from "./level.js"
 import { Particle } from "./particle.js"
 import { pool, renderer, state } from "./global.js"
+import { Event } from "./event.js"
+import { HEIGHT } from "./constants.js"
+
+const GAME_MENU = 0
+const GAME_GAME = 1
+const GAME_EVENT = 2
+const GAME_SCORE_SCREEN = 3
+
+/** @typedef {GAME_MENU | GAME_GAME | GAME_EVENT | GAME_SCORE_SCREEN} GameState */
 
 export class Game {
     /** @type {Player} */
@@ -20,6 +29,10 @@ export class Game {
     explosions
     /** @type {Particle[]} */
     particles
+    /** @type {Event[]} */
+    events
+    /** @type {GameState} */
+    state
 
     constructor() {
         this.bullets = []
@@ -28,6 +41,8 @@ export class Game {
         this.level = new Level()
         this.explosions = []
         this.particles = []
+        this.events = []
+        this.state = GAME_GAME
     }
 
     /**
@@ -66,7 +81,7 @@ export class Game {
 
             const fps = fpses.reduce((a, b) => a + b) / fpses.length
 
-            renderer.drawText(`FPS: ${Math.floor(fps)}`, 10, 50, 48, "white")
+            renderer.drawText(`FPS: ${Math.floor(fps)}`, 10, 10, 10, "white")
 
             this.save()
             window.requestAnimationFrame(mainLoop)
@@ -183,8 +198,8 @@ export class Game {
 
         renderer.drawText(
             `HP: ${this.player.hp}/${this.player.maxHp}`,
-            10, renderer.canvas.height - 10,
-            20, "white"
+            10, HEIGHT - 10,
+            10, "white"
         )
     }
 }

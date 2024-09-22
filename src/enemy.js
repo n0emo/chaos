@@ -50,7 +50,7 @@ export class Enemy {
         const animation = new Animation(images, 0.5)
 
         return new Enemy(
-            new Rectangle(posX, -50, 50, 50),
+            new Rectangle(posX, -16, 16, 16),
             animation,
             new OneDirectionalMovement(0, speed, time)
         )
@@ -68,7 +68,7 @@ export class Enemy {
         const animation = new Animation(images, 0.25)
 
         return new Enemy(
-            new Rectangle(posX, posY, 50, 50),
+            new Rectangle(posX, posY, 16, 16),
             animation,
             new EndlessMovement(velX, velY),
             new EnemyWeapon(new SimpleWeapon(posX, posY, 0, 1, "enemy"))
@@ -88,7 +88,7 @@ export class Enemy {
         const animation = new Animation(images, 0.25)
 
         return new Enemy(
-            new Rectangle(posX, posY, 50, 50), animation,
+            new Rectangle(posX, posY, 16, 16), animation,
             new OneDirectionalMovement(velX, velY, time),
             new HomingEnemyWeapon(new DoubleSimpleWeapon(posX, posY, 0, 1, "enemy", 10))
         )

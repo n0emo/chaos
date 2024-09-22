@@ -1,22 +1,38 @@
+import { HEIGHT, WIDTH } from "./constants.js"
 import { Circle, Rectangle } from "./shape.js"
 
 export class Renderer {
-    /** @type {HTMLCanvasElement} */
-    canvas
     /** @type {CanvasRenderingContext2D} */
     context
+    /** @type {number} */
+    factor
 
     /**
      * @param {HTMLCanvasElement} canvas
      * */
     constructor(canvas) {
-        this.canvas = canvas
-
         const context = canvas.getContext("2d")
         if (!context) {
             throw new Error("Error getting context")
         }
         this.context = context
+
+        this.updateCanvas()
+    }
+
+    /** @type {number} */
+    get width() { return this.context.canvas.width }
+
+    /** @type {number} */
+    get height() { return this.context.canvas.height }
+
+    updateCanvas() {
+        this.context.canvas.style.width = "100%"
+        const factor = Math.max(this.context.canvas.clientWidth / WIDTH, 1)
+        this.context.canvas.width = WIDTH * factor
+        this.context.canvas.height = HEIGHT * factor
+        this.context.scale(factor, factor)
+        this.factor = factor
     }
 
     /**
@@ -24,7 +40,7 @@ export class Renderer {
      * */
     clearBackground(color) {
         this.context.fillStyle = color
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+        this.context.fillRect(0, 0, this.context.canvas.width, this.context.canvas.height)
     }
 
     /**

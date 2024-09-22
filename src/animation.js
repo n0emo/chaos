@@ -34,6 +34,6 @@ export class Animation {
      */
     draw(posX, posY) {
         const image = this.images[Math.floor(this.time)]
-        renderer.context.drawImage(image, posX, posY, 50, 50)
+        renderer.context.drawImage(image, posX, posY, 16, 16)
     }
 }

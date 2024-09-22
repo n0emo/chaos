@@ -39,13 +39,13 @@ export class Particle {
      */
     update(dt) {
         const newX = this.posX + this.velX * dt
-        if (newX < 0 || newX > renderer.canvas.width) {
+        if (newX < 0 || newX > renderer.width) {
             this.velX *= -1
         }
         this.posX += this.velX * dt
 
         const newY = this.posY + this.velY * dt
-        if (newY < 0 || newY > renderer.canvas.height) {
+        if (newY < 0 || newY > renderer.height) {
             this.velY *= -1
         }
         this.posY += this.velY * dt
@@ -54,7 +54,7 @@ export class Particle {
     }
 
     draw() {
-        renderer.fillRectangle(this.posX - 2, this.posY - 2, 4, 4, this.color)
+        renderer.fillRectangle(this.posX - 2, this.posY - 2, 2, 2, this.color)
     }
 }
 
@@ -69,7 +69,7 @@ export function generateParticles(particles, posX, posY, color, amount) {
     for(let i = 0; i < amount; i++) {
         const angle = Math.PI * 2 * Math.random()
         const speed = 100 + 400 * Math.random()
-        const lifetime = 0.3 + 4.7 * Math.random()
+        const lifetime = 0.3 + 2.7 * Math.random()
         const particle = pool.createParticle(
             posX, posY,
             Math.cos(angle) * speed, Math.sin(angle) * speed,

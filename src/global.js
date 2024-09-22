@@ -9,9 +9,6 @@ if (!canvas) {
     throw Error("Error getting context")
 }
 
-canvas.width = 800
-canvas.height = 600
-
 /** @type {Renderer} */
 export const renderer = new Renderer(canvas)
 
