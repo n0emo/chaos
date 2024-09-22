@@ -33,6 +33,7 @@ export class Renderer {
         this.context.canvas.height = HEIGHT * factor
         this.context.scale(factor, factor)
         this.factor = factor
+        this.context.imageSmoothingEnabled = false
     }
 
     /**
