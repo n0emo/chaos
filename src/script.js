@@ -1,5 +1,3 @@
-// Player animations
-// Menu background
 // Level background
 // TODO: predefine bullet types
 // TODO: more weapons

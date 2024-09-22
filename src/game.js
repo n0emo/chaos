@@ -6,9 +6,9 @@ import { Circle } from "./shape.js"
 import { areCirclesCollide, areRectangleCircleCollide, areRectanglesCollide } from "./math.js"
 import { Level } from "./level.js"
 import { Particle } from "./particle.js"
-import { pool, renderer, state } from "./global.js"
+import { assets, pool, renderer, state } from "./global.js"
 import { Event } from "./event.js"
-import { HEIGHT } from "./constants.js"
+import { HEIGHT, WIDTH } from "./constants.js"
 import { Bonus } from "./bonus.js"
 import { Ray, RayAnimation } from "./laser.js" 
 
@@ -46,6 +46,8 @@ export class Game {
     cleaner
     /** @type {number} */
     cleanerTimer
+    /** @type {number} */
+    pressEnterTime
 
     constructor() {
         this.bullets = []
@@ -61,6 +63,7 @@ export class Game {
         this.state = GAME_MENU
         this.cleaner = null
         this.cleanerTimer = 0
+        this.pressEnterTime = 0
     }
 
     /**
@@ -146,6 +149,7 @@ export class Game {
      * @param {number} dt
      */
     updateMenu(dt) {
+        this.pressEnterTime += dt
         if (state.isKeyPressed("Enter")) {
             this.state = GAME_GAME
         }
@@ -349,9 +353,9 @@ export class Game {
     }
 
     drawMenu() {
-        renderer.clearBackground("#181818")
-        renderer.drawText("Excuse me, what?", 10, 30, 20, "#FFFFFF")
-        renderer.drawText("Press enter to start", 10, 60, 20, "#FFFFFF")
+        renderer.context.drawImage(assets.imageMenu, 0, 0, WIDTH, HEIGHT)
+        const textPosY = Math.sin(this.pressEnterTime * Math.PI * 0.5) * 20 - 10
+        renderer.context.drawImage(assets.imagePressEnterToStart, 0, textPosY, WIDTH, HEIGHT)
     }
 
     drawGameLogic() {

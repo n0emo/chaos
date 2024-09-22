@@ -87,6 +87,11 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imageEnemySolder2
 
+    /** @type {HTMLImageElement} */
+    imageMenu
+    /** @type {HTMLImageElement} */
+    imagePressEnterToStart
+
     /**
      * @returns Assets
      */
@@ -127,6 +132,8 @@ export class Assets {
             imageEnemySmall2,
             imageEnemySolder1,
             imageEnemySolder2,
+            imageMenu,
+            imagePressEnterToStart,
         ] = await Promise.all([
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
@@ -163,6 +170,8 @@ export class Assets {
             loadImage("assets/sprites/enemy-small-2.png"),
             loadImage("assets/sprites/enemy-solder-1.png"),
             loadImage("assets/sprites/enemy-solder-2.png"),
+            loadImage("assets/sprites/menu.png"),
+            loadImage("assets/sprites/press-enter-to-start.png"),
         ])
 
         return {
@@ -201,6 +210,8 @@ export class Assets {
             imageEnemySmall2,
             imageEnemySolder1,
             imageEnemySolder2,
+            imageMenu,
+            imagePressEnterToStart,
         }
     }
 }
