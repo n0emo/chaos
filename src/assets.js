@@ -182,6 +182,23 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imagePause
 
+    /** @type {HTMLImageElement} */
+    imageIconCleaner
+    /** @type {HTMLImageElement} */
+    imageIconHealing
+    /** @type {HTMLImageElement} */
+    imageIconHealth1
+    /** @type {HTMLImageElement} */
+    imageIconHealth2
+    /** @type {HTMLImageElement} */
+    imageIconInvulnerability
+    /** @type {HTMLImageElement} */
+    imageIconLife
+    /** @type {HTMLImageElement} */
+    imageIconSave
+    /** @type {HTMLImageElement} */
+    imageIconUpgrade
+
     /**
      * @returns Assets
      */
@@ -266,6 +283,14 @@ export class Assets {
             imageFishingTime1,
             imageFishingTime2,
             imagePause,
+            imageIconCleaner,
+            imageIconHealing,
+            imageIconHealth1,
+            imageIconHealth2,
+            imageIconInvulnerability,
+            imageIconLife,
+            imageIconSave,
+            imageIconUpgrade,
         ] = await Promise.all([
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
@@ -346,6 +371,14 @@ export class Assets {
             loadImage("assets/sprites/fishing-time-1.png"),
             loadImage("assets/sprites/fishing-time-2.png"),
             loadImage("assets/sprites/pause.png"),
+            loadImage("assets/sprites/icon-cleaner.png"),
+            loadImage("assets/sprites/icon-healing.png"),
+            loadImage("assets/sprites/icon-health-1.png"),
+            loadImage("assets/sprites/icon-health-2.png"),
+            loadImage("assets/sprites/icon-invulnerability.png"),
+            loadImage("assets/sprites/icon-life.png"),
+            loadImage("assets/sprites/icon-save.png"),
+            loadImage("assets/sprites/icon-upgrade.png"),
         ])
 
         return {
@@ -428,6 +461,14 @@ export class Assets {
             imageFishingTime1,
             imageFishingTime2,
             imagePause,
+            imageIconCleaner,
+            imageIconHealing,
+            imageIconHealth1,
+            imageIconHealth2,
+            imageIconInvulnerability,
+            imageIconLife,
+            imageIconSave,
+            imageIconUpgrade,
         }
     }
 }

@@ -2,7 +2,7 @@ import { Enemy, } from "./enemy.js"
 import { game } from "./global.js"
 import { AdsEvent, ChinaEvent, Event, FishingEvent } from "./event.js"
 import { WIDTH } from "./constants.js"
-import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus } from "./bonus.js"
+import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus, WeaponUpgradeBonus } from "./bonus.js"
 import { assets } from "./assets.js"
 
 /** @typedef {Enemy
@@ -62,6 +62,11 @@ export class Level {
             new Spawn(1, new WaitForAllEnemiesKilled()),
 
             new Spawn(2, new ChinaEvent()),
+
+            new Spawn(0, new HealingBonus(50, -16, 0, 20)),
+            new Spawn(0, new InvulnerabilityBonus(80, -16, 0, 20)),
+            new Spawn(0, new BulletCleanBonus(110, -16, 0, 20)),
+            new Spawn(0, new WeaponUpgradeBonus(140, -16, 0, 20)),
 
             new Spawn(0, assets.imageLevel1_2),
             new Spawn(5, assets.imageLevel2),
