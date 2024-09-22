@@ -1,6 +1,6 @@
 import { Rectangle } from "./shape.js"
 import { Game } from "./game.js"
-import { Weapon, DoubleSimpleWeapon } from "./weapon.js"
+import { Weapon, DoubleSimpleWeapon, LaserWeapon } from "./weapon.js"
 import { renderer, state } from "./global.js"
 
 export class Player {
@@ -17,11 +17,7 @@ export class Player {
 
     constructor() {
         this.rect = new Rectangle(0, 0, 50, 50)
-        this.weapon = new DoubleSimpleWeapon(
-            this.rect.centerX,
-            this.rect.centerY,
-            0, -1, "player", 15
-        )
+        this.weapon = new LaserWeapon(0, 0, 0, -1, "player", 10)
         this.hp = 100
         this.invulnerabilityTimer = 0
     }

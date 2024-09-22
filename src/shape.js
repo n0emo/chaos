@@ -39,25 +39,49 @@ export class Rectangle {
     get left() { return this.posX }
 
     /** @type {number} */
-    set left(x) { this.posX = x }
+    set left(x) {
+        // TODO
+        const dx = x - this.posX
+        this.posX += dx
+        this.width += dx
+    }
 
     /** @type {number} */
     get right() { return this.posX + this.width }
 
     /** @type {number} */
-    set right(x) { this.posX = x - this.width }
+    set right(x) {
+        // TODO
+        this.width += x - (this.posX - this.width)
+    }
 
     /** @type {number} */
     get top() { return this.posY }
 
     /** @type {number} */
-    set top(y) { this.posY = y }
+    set top(y) {
+        if(y > this.posY + this.height) {
+            this.height = y - (this.posY + this.height)
+            this.posY = y
+        } else {
+            this.height += this.posY - y
+            this.posY = y
+        }
+    }
 
     /** @type {number} */
     get bottom() { return this.posY + this.height }
 
     /** @type {number} */
-    set bottom(y) { this.posY = y - this.height }
+    set bottom(y) {
+        const dy = y - this.posY
+        if (dy > 0) {
+            this.height += y - (this.posY + this.height)
+        } else {
+            this.posY += dy
+            this.height -= dy
+        }
+    }
 }
 
 export class Circle {
@@ -78,57 +102,4 @@ export class Circle {
         this.posY = posY
         this.radius = radius
     }
-}
-
-/**
- * @param {number} num
- * @param {number} min
- * @param {number} max
- */
-function clamp(num, min, max) {
-  return num <= min 
-    ? min 
-    : num >= max 
-      ? max 
-      : num
-}
-
-/**
- * @param {Rectangle} rectA
- * @param {Rectangle} rectB
- * @returns {boolean}
- */
-export function areRectanglesCollide(rectA, rectB) {
-    return rectA.posX < rectB.posX + rectB.width &&
-           rectA.posX + rectA.width > rectB.posX &&
-           rectA.posY < rectB.posY + rectB.height &&
-           rectA.posY + rectA.height > rectB.posY
-}
-
-/**
- * @param {Rectangle} rect
- * @param {Circle} circle
- * @returns {boolean}
- */
-export function areRectangleCircleCollide(rect, circle) {
-    const closestX = clamp(circle.posX, rect.left, rect.right);
-    const closestY = clamp(circle.posY, rect.top,  rect.bottom);
-
-    const distanceX = circle.posX - closestX;
-    const distanceY = circle.posY - closestY;
-
-    const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-    return distanceSquared < (circle.radius * circle.radius);
-}
-
-/**
- * @param {Circle} circleA
- * @param {Circle} circleB
- * @returns {boolean}
- */
-export function areCirclesCollide(circleA, circleB) {
-    const dx = circleA.posX - circleB.posX
-    const dy = circleA.posY - circleB.posY
-    const distance = Math.sqrt(dx * dx + dy * dy)
-    return distance < (circleA.radius + circleB.radius)
 }

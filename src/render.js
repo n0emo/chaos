@@ -96,4 +96,22 @@ export class Renderer {
         this.context.font = `${fontSize}px sans`
         this.context.fillText(text, posX, posY)
     }
+
+    /**
+     * @param {number} startX
+     * @param {number} startY
+     * @param {number} endX
+     * @param {number} endY
+     * @param {number} width
+     * @param {string} color
+     */
+    drawLine(startX, startY, endX, endY, width, color) {
+        this.context.lineWidth = width
+        this.context.strokeStyle = color
+        this.context.beginPath()
+        this.context.moveTo(startX, startY)
+        this.context.lineTo(endX, endY)
+        this.context.stroke()
+
+    }
 }

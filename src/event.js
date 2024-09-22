@@ -1,6 +1,7 @@
 import { renderer, state } from "./global.js"
 import { WIDTH, HEIGHT } from "./constants.js"
-import { areCirclesCollide, Circle, Rectangle } from "./shape.js"
+import { Circle, Rectangle } from "./shape.js"
+import { areCirclesCollide } from "./math.js"
 
 const PADDING = 30
 const EVENT_RECT = new Rectangle(

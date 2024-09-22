@@ -2,13 +2,15 @@ import { Player } from "./player.js"
 import { Bullet } from "./bullet.js"
 import { Enemy } from "./enemy.js"
 import { Explosion } from "./explosion.js"
-import { areCirclesCollide, areRectangleCircleCollide, areRectanglesCollide, Circle } from "./shape.js"
+import { Circle } from "./shape.js"
+import { areCirclesCollide, areRectangleCircleCollide, areRectanglesCollide } from "./math.js"
 import { Level } from "./level.js"
 import { Particle } from "./particle.js"
 import { pool, renderer, state } from "./global.js"
 import { Event } from "./event.js"
 import { HEIGHT } from "./constants.js"
 import { Bonus } from "./bonus.js"
+import { Ray, RayAnimation } from "./laser.js" 
 
 const GAME_MENU = 0
 const GAME_GAME = 1
@@ -28,6 +30,10 @@ export class Game {
     level
     /** @type {Explosion[]} */
     explosions
+    /** @type {Ray[]} */
+    rays
+    /** @type {RayAnimation[]} */
+    rayAnimations
     /** @type {Bonus[]} */
     bonuses
     /** @type {Particle[]} */
@@ -47,6 +53,8 @@ export class Game {
         this.enemies = []
         this.level = new Level()
         this.explosions = []
+        this.rays = []
+        this.rayAnimations = []
         this.bonuses = []
         this.particles = []
         this.event = null
@@ -153,6 +161,7 @@ export class Game {
         this.updateBonuses(dt)
         this.updateCleaner(dt)
         this.updateBullets(dt)
+        this.updateLasers(dt)
         this.updateExplosions(dt)
         this.updateParticles(dt)
     }
@@ -161,8 +170,14 @@ export class Game {
      * @param {number} dt
      */
     updateEnemies(dt) {
-        for (const enemy of this.enemies) {
+        let i = this.enemies.length
+        while (i--) {
+            const enemy = this.enemies[i]
             enemy.update(dt)
+            if (!enemy.isAlive) {
+                enemy.explode(this.explosions, this.particles)
+                this.enemies.splice(i, 1)
+            }
         }
     }
 
@@ -187,38 +202,46 @@ export class Game {
      * @param {number} dt
      */
     updateBullets(dt) {
+        // TODO: refactor
         let i = this.bullets.length
         while (i--) {
             const bullet = this.bullets[i]
-            bullet.update(dt)
-            let j = this.enemies.length
-            let hit = false
-            while (j--) {
-                const enemy = this.enemies[j]
-                const collide = areRectangleCircleCollide(enemy.rect, bullet.circle)
-                const foreign = bullet.tag != "enemy"
-                if (collide && foreign) {
-                    enemy.recieveDamage(bullet.damage)
-                    hit = true
 
-                    if (!enemy.isAlive) {
-                        enemy.explode(this.explosions, this.particles)
-                        this.enemies.splice(j, 1)
+            if (!bullet.isAlive) {
+                pool.releaseBullet(this.bullets[i])
+                this.bullets.splice(i, 1)
+                continue
+            }
+
+            bullet.update(dt)
+
+            let hit = false
+
+            switch (bullet.tag) {
+                case "player":
+                    for (const enemy of this.enemies) {
+                        if (areRectangleCircleCollide(enemy.rect, bullet.circle)) {
+                            enemy.recieveDamage(bullet.damage)
+                            hit = true
+                            break
+                        }
+                    }
+                break
+
+                case "enemy":
+                    const cleanerCollide = this.cleaner && areCirclesCollide(this.cleaner, bullet.circle)
+                    if (cleanerCollide) {
+                        hit = true
+                        break
+                    }
+
+                    const playerCollide = areRectangleCircleCollide(this.player.rect, bullet.circle)
+                    if (playerCollide && !this.player.isInvulnerable) {
+                        this.player.recieveDamage(bullet.damage)
+                        hit = true
+                        break
                     }
                     break
-                }
-            }
-
-            const enemys = bullet.tag === "enemy"
-            const cleanerCollide = this.cleaner && areCirclesCollide(this.cleaner, bullet.circle)
-            if ( cleanerCollide && enemys) {
-                hit = true
-            }
-
-            const playerCollide = areRectangleCircleCollide(this.player.rect, bullet.circle)
-            if (playerCollide && enemys && !hit && !this.player.isInvulnerable) {
-                this.player.recieveDamage(bullet.damage)
-                hit = true
             }
 
             if (hit) {
@@ -226,16 +249,39 @@ export class Game {
                 bullet.explode(this.explosions, this.particles)
             }
         }
+    }
 
+    /**
+     * @param {number} dt
+     */
+    updateLasers(dt) {
+        let ray
+        while (ray = this.rays.pop()) {
+            switch (ray.tag) {
+                case "enemy":
+                    if (areRectanglesCollide(ray.rect, this.player.rect)) {
+                        this.player.recieveDamage(ray.damage)
+                    }
+                    break
 
-        i = this.bullets.length
-        while (i--) {
-            if (!this.bullets[i].isAlive) {
-                pool.releaseBullet(this.bullets[i])
-                this.bullets.splice(i, 1)
+                case "player":
+                    for (const enemy of this.enemies) {
+                        if (areRectanglesCollide(ray.rect, enemy.rect)) {
+                            enemy.recieveDamage(ray.damage)
+                        }
+                    }
+                    break
             }
         }
 
+        let i = this.rayAnimations.length
+        while (i--) {
+            const animation = this.rayAnimations[i]
+            animation.update(dt)
+            if (!animation.isAlive) {
+                this.rayAnimations.splice(i, 1)
+            }
+        }
     }
 
     /**
@@ -329,6 +375,10 @@ export class Game {
             bullet.draw()
         }
 
+        for (const ray of this.rayAnimations) {
+            ray.draw()
+        }
+
         for (const explosion of this.explosions) {
             explosion.draw()
         }
@@ -341,8 +391,7 @@ export class Game {
 
         renderer.drawText(
             `HP: ${this.player.hp}/${this.player.maxHp}`,
-            10, HEIGHT - 10,
-            10, "white"
+            10, HEIGHT - 10, 10, "white"
         )
     }
 

@@ -1,4 +1,5 @@
 import { game, pool } from "./global.js"
+import { Ray, RayAnimation } from "./laser.js"
 
 /**
  * @typedef {import("./bullet.js").Tag} Tag
@@ -159,5 +160,49 @@ export class DoubleSimpleWeapon extends Weapon {
             this.tag,
             1
         ))
+    }
+}
+
+export class LaserWeapon extends Weapon {
+    /** @type {number} */
+    size
+    /** @type {number} */
+    reloadTimer
+
+    /**
+     * @param {number} posX
+     * @param {number} posY
+     * @param {number} directionX
+     * @param {number} directionY
+     * @param {Tag} tag
+     * @param {number} size
+     */
+    constructor(posX, posY, directionX, directionY, tag, size) {
+        super(posX, posY, directionX, directionY, tag)
+        this.size = size
+        this.reloadTimer = 0
+    }
+
+    /**
+     * @param {number} dt
+     */
+    update(dt) {
+        this.reloadTimer -= dt
+        if (this.reloadTimer < 0) {
+            this.reloadTimer = 0
+        }
+    }
+
+    shoot() {
+        if (this.reloadTimer > 0) {
+            return
+        }
+
+        const direction = this.directionY <= 0 ? "up" : "down"
+        const ray = new Ray(this.posX, this.posY, direction, this.size, 5, this.tag)
+        const rayAnimation = new RayAnimation(ray, 0.2)
+        game.rays.push(ray)
+        game.rayAnimations.push(rayAnimation)
+        this.reloadTimer = 1
     }
 }
