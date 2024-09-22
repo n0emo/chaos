@@ -120,6 +120,22 @@ export class Assets {
             imageEnemyShooter02,
             imageEnemyHoming01,
             imageEnemyHoming02,
+            imagePlayerDrink1,
+            imagePlayerDrink2,
+            imagePlayerDrink3,
+            imagePlayerDrink4,
+            imagePlayerDrink5,
+            imagePlayerGo1,
+            imagePlayerGo2,
+            imagePlayerHappy1,
+            imagePlayerHappy2,
+            imagePlayerHappy3,
+            imagePlayerHappy4,
+            imagePlayerHappy5,
+            imagePlayerHappy6,
+            imagePlayerIdle1,
+            imagePlayerIdle2,
+            imagePlayerIdle3,
         }
     }
 }
