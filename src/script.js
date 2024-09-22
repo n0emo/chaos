@@ -1,13 +1,12 @@
-// TODO: events (fishing, ads, phone call, ramen, china)
+// TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
+// TODO: punish for failed events
 // TODO: predefine bullet types
 // TODO: lasers
-// TODO: bonuses (healing, invulnerability, bullet clean, weapon upgrade)
-// TODO: enemies
-// TODO: menu
+// TODO: more weapons
 // TODO: tutoial
 // TODO: main level
 // TODO: final boss
-// TODO: more weapons
+// TODO: events (phone call, ramen)
 import { game } from "./global.js";
 
 game.run()

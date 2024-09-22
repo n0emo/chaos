@@ -33,13 +33,12 @@ export class EventState {
             this.isMouseDown = false
         })
 
-        window.addEventListener("keypress", (e) => {
+        window.addEventListener("keydown", (e) => {
             this.pressedKeys[e.code] = true
             this.downKeys[e.code] = true
         })
 
         window.addEventListener("keyup", (e) => {
-            this.pressedKeys[e.code] = false
             this.downKeys[e.code] = false
         })
 

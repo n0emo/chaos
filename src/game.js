@@ -42,7 +42,7 @@ export class Game {
         this.explosions = []
         this.particles = []
         this.event = null
-        this.state = GAME_GAME
+        this.state = GAME_MENU
     }
 
     /**
@@ -94,13 +94,42 @@ export class Game {
      * @param {number} dt
      */
     update(dt) {
-        this.event?.update(dt)
-        if (this.event?.isEnd ?? false) {
-            this.event = null
-        }
+        switch (this.state) {
+            case GAME_MENU:
+                this.updateMenu(dt)
+                break
 
-        if (this.event == null || !this.event.isPauses) {
-            this.updateGameLogic(dt)
+            case GAME_GAME:
+                if (state.isKeyPressed("Escape")) {
+                    this.state = GAME_PAUSE
+                    return
+                }
+
+                this.event?.update(dt)
+                if (this.event?.isEnd ?? false) {
+                    this.event = null
+                }
+
+                if (this.event == null || !this.event.isPauses) {
+                    this.updateGameLogic(dt)
+                }
+                break
+
+            case GAME_PAUSE:
+                if (state.isKeyPressed("Escape")) {
+                    this.state = GAME_GAME
+                    return
+                }
+                break
+        }
+    }
+
+    /**
+     * @param {number} dt
+     */
+    updateMenu(dt) {
+        if (state.isKeyPressed("Enter")) {
+            this.state = GAME_GAME
         }
     }
 
@@ -213,6 +242,27 @@ export class Game {
     }
 
     draw() {
+        switch (this.state) {
+            case GAME_MENU:
+                this.drawMenu()
+                break
+            case GAME_GAME:
+                this.drawGameLogic()
+                break
+            case GAME_PAUSE:
+                this.drawGameLogic()
+                this.drawPause()
+                break
+        }
+    }
+
+    drawMenu() {
+        renderer.clearBackground("#181818")
+        renderer.drawText("Excuse me, what?", 10, 30, 20, "#FFFFFF")
+        renderer.drawText("Press enter to start", 10, 60, 20, "#FFFFFF")
+    }
+
+    drawGameLogic() {
         renderer.clearBackground("#181840")
 
         this.player.draw()
@@ -240,6 +290,10 @@ export class Game {
             10, HEIGHT - 10,
             10, "white"
         )
+    }
+
+    drawPause() {
+        renderer.drawText("PAUSE", 50, 50, 50, "#FFFFFF")
     }
 }
 
