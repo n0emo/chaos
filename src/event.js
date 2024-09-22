@@ -80,6 +80,7 @@ export class AdsEvent extends Event {
 
     draw() {
         renderer.fillRectangleRec(EVENT_RECT, "#909090") // TODO
+        renderer.drawText("Press space to skip ads", 40, 130, 20, "#FFFFFF")
     }
 }
 
