@@ -85,7 +85,7 @@ export class SimpleWeapon extends Weapon {
 
         const x = this.posX + this.directionX * SIMPLE_WEAPON_LENGTH
         const y = this.posY + this.directionY * SIMPLE_WEAPON_LENGTH
-        const speed = 500
+        const speed = 200
         const bullet = pool.createBullet(
             x,
             y,
@@ -140,7 +140,7 @@ export class DoubleSimpleWeapon extends Weapon {
         const y = this.posY + this.directionY * SIMPLE_WEAPON_LENGTH
         const perX = -this.directionY * this.spread
         const perY =  this.directionX * this.spread
-        const speed = 500
+        const speed = 200
 
         game.bullets.push(pool.createBullet(
             x + perX,

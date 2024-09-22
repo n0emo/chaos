@@ -2,8 +2,9 @@ import { Enemy, } from "./enemy.js"
 import { game } from "./global.js"
 import { AdsEvent, ChinaEvent, Event, FishingEvent } from "./event.js"
 import { WIDTH } from "./constants.js"
+import { Bonus, HealingBonus, InvulnerabilityBonus } from "./bonus.js"
 
-/** @typedef {Enemy | Event} Thing */
+/** @typedef {Enemy | Event | Bonus} Thing */
 
 export class Spawn {
     /** @type {number} */
@@ -30,12 +31,15 @@ export class Level {
 
     constructor() {
         this.spawns = [
-            new Spawn(0, new FishingEvent()),
-            new Spawn(0.5, Enemy.basic(             60, 100, 0.5 )),
-            new Spawn(0.5, Enemy.basic(             80, 100, 0.75)),
-            new Spawn(0.5, Enemy.basic(WIDTH * 0.5 - 8, 100, 1   )),
-            new Spawn(0.5, Enemy.basic(     WIDTH - 80, 100, 0.75)),
-            new Spawn(2,   Enemy.basic(     WIDTH - 60, 100, 0.5 )),
+            //new Spawn(0, new FishingEvent()),
+            //new Spawn(0.5, Enemy.basic(             60, 100, 0.5 )),
+            //new Spawn(0.5, Enemy.basic(             80, 100, 0.75)),
+            //new Spawn(0.5, Enemy.basic(WIDTH * 0.5 - 8, 100, 1   )),
+            //new Spawn(0.5, Enemy.basic(     WIDTH - 80, 100, 0.75)),
+            //new Spawn(2,   Enemy.basic(     WIDTH - 60, 100, 0.5 )),
+
+            new Spawn(0.5, Enemy.shooterHoming(100, -16, 0, 20, 2)),
+            new Spawn(0, new InvulnerabilityBonus(0, 0, 50, 50)),
         ].reverse()
 
         this.timer = 0
@@ -61,6 +65,12 @@ export class Level {
 
                     } else if (thing instanceof Event) {
                         game.event = thing
+
+                    } else if (thing instanceof Bonus) {
+                        game.bonuses.push(thing)
+
+                    } else {
+                        throw "Unknown thing"
                     }
                 }
             }

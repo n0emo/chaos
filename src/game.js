@@ -2,12 +2,13 @@ import { Player } from "./player.js"
 import { Bullet } from "./bullet.js"
 import { Enemy } from "./enemy.js"
 import { Explosion } from "./explosion.js"
-import { areRectangleCircleCollide } from "./shape.js"
+import { areRectangleCircleCollide, areRectanglesCollide } from "./shape.js"
 import { Level } from "./level.js"
 import { Particle } from "./particle.js"
 import { pool, renderer, state } from "./global.js"
 import { Event } from "./event.js"
 import { HEIGHT } from "./constants.js"
+import { Bonus } from "./bonus.js"
 
 const GAME_MENU = 0
 const GAME_GAME = 1
@@ -27,6 +28,8 @@ export class Game {
     level
     /** @type {Explosion[]} */
     explosions
+    /** @type {Bonus[]} */
+    bonuses
     /** @type {Particle[]} */
     particles
     /** @type {?Event} */
@@ -40,9 +43,10 @@ export class Game {
         this.enemies = []
         this.level = new Level()
         this.explosions = []
+        this.bonuses = []
         this.particles = []
         this.event = null
-        this.state = GAME_MENU
+        this.state = GAME_GAME
     }
 
     /**
@@ -140,6 +144,7 @@ export class Game {
         this.level.update(dt)
         this.player.update(dt)
         this.updateEnemies(dt)
+        this.updateBonuses(dt)
         this.updateBullets(dt)
         this.updateExplosions(dt)
         this.updateParticles(dt)
@@ -183,7 +188,7 @@ export class Game {
 
             const collide = areRectangleCircleCollide(this.player.rect, bullet.circle)
             const enemys = bullet.tag === "enemy"
-            if (collide && enemys && !hit) {
+            if (collide && enemys && !hit && !this.player.isInvulnerable) {
                 this.player.recieveDamage(bullet.damage)
                 hit = true
             }
@@ -218,7 +223,21 @@ export class Game {
                 this.explosions.splice(i, 1)
             }
         }
+    }
 
+    /**
+     * @param {number} dt
+     */
+    updateBonuses(dt) {
+        let i = this.bonuses.length
+        while (i--) {
+            const bonus = this.bonuses[i]
+            bonus.update(dt)
+            if (areRectanglesCollide(this.player.rect, bonus.rect)) {
+                bonus.pickup()
+                this.bonuses.splice(i, 1)
+            }
+        }
     }
 
     /**
@@ -238,7 +257,6 @@ export class Game {
                 this.particles.splice(i, 1)
             }
         }
-
     }
 
     draw() {
@@ -269,6 +287,10 @@ export class Game {
 
         for (const enemy of this.enemies) {
             enemy.draw()
+        }
+
+        for (const bonus of this.bonuses) {
+            bonus.draw()
         }
 
         for (const bullet of this.bullets) {

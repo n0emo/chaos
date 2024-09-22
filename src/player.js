@@ -12,6 +12,8 @@ export class Player {
     game
     /** @type {number} */
     hp
+    /** @type {number} */
+    invulnerabilityTimer
 
     constructor() {
         this.rect = new Rectangle(0, 0, 50, 50)
@@ -21,6 +23,7 @@ export class Player {
             0, -1, "player", 15
         )
         this.hp = 100
+        this.invulnerabilityTimer = 0
     }
 
     /** @type {number} */
@@ -28,6 +31,13 @@ export class Player {
 
     /** @type {boolean} */
     get isAlive() { return this.hp > 0 }
+
+    /** @type {boolean} */
+    get isInvulnerable() { return this.invulnerabilityTimer > 0 }
+
+    makeInvulnerable() {
+        this.invulnerabilityTimer = 5
+    }
 
     /**
      * @param {number} dt
@@ -42,6 +52,11 @@ export class Player {
 
         if (state.isMouseDown) {
             this.weapon.shoot()
+        }
+
+        this.invulnerabilityTimer -= dt
+        if (this.invulnerabilityTimer < 0) {
+            this.invulnerabilityTimer = 0
         }
     }
 
