@@ -58,7 +58,7 @@ export class Game {
         this.bonuses = []
         this.particles = []
         this.event = null
-        this.state = GAME_GAME
+        this.state = GAME_MENU
         this.cleaner = null
         this.cleanerTimer = 0
     }

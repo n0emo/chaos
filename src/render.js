@@ -27,9 +27,18 @@ export class Renderer {
     get height() { return this.context.canvas.height }
 
     updateCanvas() {
-        this.context.canvas.style.width = "100%"
-        const factor = Math.max(this.context.canvas.clientWidth / WIDTH, 1)
-        this.context.canvas.width = WIDTH * factor
+        this.context.canvas.style.width  = `100%`
+        this.context.canvas.style.height = `100%`
+        this.context.canvas.style.display = "flex"
+        const rect = this.context.canvas.getBoundingClientRect()
+        const factorW = Math.max(rect.width  / WIDTH,  1)
+        const factorH = Math.max(rect.height / HEIGHT, 1)
+        console.log(rect)
+        console.log(factorW, factorH)
+        const factor = Math.min(factorW, factorH, 5)
+        this.context.canvas.style.width  = ""
+        this.context.canvas.style.height = ""
+        this.context.canvas.width  = WIDTH  * factor
         this.context.canvas.height = HEIGHT * factor
         this.context.scale(factor, factor)
         this.factor = factor
