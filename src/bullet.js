@@ -30,7 +30,7 @@ export class Bullet {
      * @param {number} damage
      **/
     constructor(posX, posY, velX, velY, tag, damage) {
-        this.circle = new Circle(posX, posY, 10)
+        this.circle = new Circle(posX, posY, 2)
         this.velX = velX
         this.velY = velY
         this.tag = tag

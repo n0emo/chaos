@@ -31,21 +31,24 @@ export class Level {
 
     constructor() {
         this.spawns = [
-            //new Spawn(0, new FishingEvent()),
-            //new Spawn(0.5, Enemy.basic(             60, 100, 0.5 )),
-            //new Spawn(0.5, Enemy.basic(             80, 100, 0.75)),
-            //new Spawn(0.5, Enemy.basic(WIDTH * 0.5 - 8, 100, 1   )),
-            //new Spawn(0.5, Enemy.basic(     WIDTH - 80, 100, 0.75)),
-            //new Spawn(2,   Enemy.basic(     WIDTH - 60, 100, 0.5 )),
+            new Spawn(0, Enemy.small(             30, 1)),
+            new Spawn(1, Enemy.small(WIDTH - 30 - 16, 1)),
 
-            new Spawn(0, Enemy.shooterHoming(10, -16, 0, 20, 2)),
-            new Spawn(0, Enemy.shooterHoming(30, -16, 0, 20, 2)),
-            new Spawn(0, Enemy.shooterHoming(50, -16, 0, 20, 2)),
-            new Spawn(0, Enemy.shooterHoming(70, -16, 0, 20, 2)),
-            new Spawn(0, Enemy.shooterHoming(90, -16, 0, 20, 2)),
-            new Spawn(0, Enemy.shooterHoming(110, -16, 0, 20, 2)),
-            new Spawn(0, Enemy.shooterHoming(130, -16, 0, 20, 2)),
-            new Spawn(0, new BulletCleanBonus(-50, -50, 50, 50)),
+            new Spawn(0, Enemy.middle(             60, 1)),
+            new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),
+
+            new Spawn(0, new AdsEvent()),
+
+            new Spawn(0, Enemy.big(             90, 1)),
+            new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
+
+            new Spawn(0, Enemy.bomj(             120,  0.7, 0.7, 2)),
+            new Spawn(1, Enemy.bomj(WIDTH - 120 - 16, -0.7, 0.7, 2)),
+
+            new Spawn(0.3, Enemy.caesar(       -16, 35,  1, 0)),
+            new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
+
+            new Spawn(0, new FishingEvent()),
         ].reverse()
 
         this.timer = 0

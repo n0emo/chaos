@@ -1,9 +1,10 @@
 import { Rectangle } from "./shape.js"
 import { Animation } from "./animation.js"
 import { Explosion } from "./explosion.js"
-import { DoubleSimpleWeapon, SimpleWeapon, Weapon } from "./weapon.js"
+import { DoubleSimpleWeapon, LaserWeapon, SimpleWeapon, Weapon } from "./weapon.js"
 import { generateParticles, Particle } from "./particle.js"
 import { assets, game } from "./global.js"
+import { HEIGHT, WIDTH } from "./constants.js"
 
 export class Enemy {
     /** @type {Rectangle} */
@@ -41,58 +42,103 @@ export class Enemy {
 
     /**
      * @param {number} posX
-     * @param {number} speed
      * @param {number} time
-     * @returns {Enemy}
+     * @returns Enemy
      */
-    static basic(posX, speed, time) {
-        const images = [assets.imageEnemyBasic01, assets.imageEnemyBasic02]
-        const animation = new Animation(images, 0.5)
+    static small(posX, time) {
+        const rect = new Rectangle(posX, -16, 16, 16)
+        const movement = new OneDirectionalMovement(0, 30, time)
+        const animation = new Animation([
+            assets.imageEnemySmall1,
+            assets.imageEnemySmall2,],
+            0.5)
 
-        return new Enemy(
-            new Rectangle(posX, -16, 16, 16),
-            animation,
-            new OneDirectionalMovement(0, speed, time)
+        return new Enemy(rect, animation, movement)
+    }
+
+    /**
+     * @param {number} posX
+     * @param {number} time
+     * @returns Enemy
+     */
+    static middle(posX, time) {
+        const rect = new Rectangle(posX, -16, 16, 16)
+        const movement = new OneDirectionalMovement(0, 50, time)
+        const animation = new Animation([
+            assets.imageEnemyMiddle1,
+            assets.imageEnemyMiddle2,],
+            0.5)
+        const weapon = new EnemyWeapon(
+            new SimpleWeapon(posX, -16, 0, 1, "enemy")
         )
+
+        return new Enemy(rect, animation, movement, weapon)
+    }
+
+    /**
+     * @param {number} posX
+     * @param {number} time
+     * @returns Enemy
+     */
+    static big(posX, time) {
+        const rect = new Rectangle(posX, -16, 16, 16)
+        const movement = new OneDirectionalMovement(0, 80, time)
+        const animation = new Animation([
+            assets.imageEnemyBig1,
+            assets.imageEnemyBig2,],
+            0.5)
+        const weapon = new HomingEnemyWeapon(
+            new DoubleSimpleWeapon(posX, -16, 0, 1, "enemy", 6)
+        )
+
+        return new Enemy(rect, animation, movement, weapon)
+    }
+
+    /**
+     * @param {number} posX
+     * @param {number} dirX
+     * @param {number} dirY
+     * @param {number} time
+     * @returns Enemy
+     */
+    static bomj(posX, dirX, dirY, time) {
+        const rect = new Rectangle(posX, -16, 16, 16)
+        const speed = 50
+        const movement = new OneDirectionalMovement(
+            dirX * speed, dirY * speed, time
+        )
+        const animation = new Animation([
+            assets.imageEnemyBomj1,
+            assets.imageEnemyBomj2,],
+            0.5)
+        const weapon = new HomingEnemyWeapon(
+            new SimpleWeapon(posX, -16, 0, 1, "enemy")
+        )
+
+        return new Enemy(rect, animation, movement, weapon)
     }
 
     /**
      * @param {number} posX
      * @param {number} posY
-     * @param {number} velX
-     * @param {number} velY
-     * @returns {Enemy}
+     * @param {number} dirX
+     * @param {number} dirY
+     * @returns Enemy
      */
-    static shooterSimple(posX, posY, velX, velY) {
-        const images = [assets.imageEnemyShooter01, assets.imageEnemyShooter02]
-        const animation = new Animation(images, 0.25)
-
-        return new Enemy(
-            new Rectangle(posX, posY, 16, 16),
-            animation,
-            new EndlessMovement(velX, velY),
-            new EnemyWeapon(new SimpleWeapon(posX, posY, 0, 1, "enemy"))
+    static caesar(posX, posY, dirX, dirY) {
+        const rect = new Rectangle(posX, posY, 16, 16)
+        const speed = 80
+        const movement = new EndlessMovement(
+            dirX * speed, dirY * speed
         )
+        const animation = new Animation([assets.imageEnemySalat1], 1)
+        const weapon = new HomingEnemyWeapon(
+            new LaserWeapon(posX, posY, 0, 1, "enemy", 5)
+        )
+
+        return new Enemy(rect, animation, movement, weapon)
     }
 
-    /**
-     * @param {number} posX
-     * @param {number} posY
-     * @param {number} velX
-     * @param {number} velY
-     * @param {number} time
-     * @returns {Enemy}
-     */
-    static shooterHoming(posX, posY, velX, velY, time) {
-        const images = [assets.imageEnemyHoming01, assets.imageEnemyHoming02]
-        const animation = new Animation(images, 0.25)
-
-        return new Enemy(
-            new Rectangle(posX, posY, 16, 16), animation,
-            new OneDirectionalMovement(velX, velY, time),
-            new HomingEnemyWeapon(new DoubleSimpleWeapon(posX, posY, 0, 1, "enemy", 10))
-        )
-    }
 
     /** @type {boolean} */
     get isAlive() { return this.hp > 0 }
@@ -210,8 +256,21 @@ class EndlessMovement extends EnemyMovement {
      */
     update(dt) {
         if (this.enemy) {
-            this.enemy.rect.posX += this.velX * dt
-            this.enemy.rect.posY += this.velY * dt
+            let x = this.enemy.rect.posX + this.velX * dt
+            let y = this.enemy.rect.posY + this.velY * dt
+
+            if (x < 0 && this.velX < 0 || x > WIDTH && this.velX > 0) {
+                x -= this.velX * dt * 2
+                this.velX *= -1
+            }
+
+            if (y < 0 && this.velY < 0 || y > HEIGHT && this.velY > 0) {
+                y -= this.velY * dt * 2
+                this.velY *= -1
+            }
+
+            this.enemy.rect.posX = x
+            this.enemy.rect.posY = y
         }
     }
 }

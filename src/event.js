@@ -209,6 +209,7 @@ export class FishingEvent extends Event {
         renderer.fillCircleCirc(this.fishingRodCirc, color)
         renderer.fillCircle(this.startX, this.startY, 5, "#FFFF00")
         renderer.fillCircle(this.targetX, this.targetY, 5, "#FF00FF")
+        renderer.drawText("Press space to catch fish", 40, 140, 20, "#FFFFFF")
     }
 
     /**

@@ -13,19 +13,6 @@ async function loadImage(url) {
 
 export class Assets {
     /** @type {HTMLImageElement} */
-    imageEnemyBasic01
-    /** @type {HTMLImageElement} */
-    imageEnemyBasic02
-    /** @type {HTMLImageElement} */
-    imageEnemyShooter01
-    /** @type {HTMLImageElement} */
-    imageEnemyShooter02
-    /** @type {HTMLImageElement} */
-    imageEnemyHoming01
-    /** @type {HTMLImageElement} */
-    imageEnemyHoming02
-
-    /** @type {HTMLImageElement} */
     imagePlayerDrink1
     /** @type {HTMLImageElement} */
     imagePlayerDrink2
@@ -61,17 +48,50 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imagePlayerIdle3
 
+    /** @type {HTMLImageElement} */
+    imageEnemyBig1
+    /** @type {HTMLImageElement} */
+    imageEnemyBig2
+    /** @type {HTMLImageElement} */
+    imageEnemyBomj1
+    /** @type {HTMLImageElement} */
+    imageEnemyBomj2
+    /** @type {HTMLImageElement} */
+    imageEnemyCatdark1
+    /** @type {HTMLImageElement} */
+    imageEnemyCatdark2
+    /** @type {HTMLImageElement} */
+    imageEnemyCatlight1
+    /** @type {HTMLImageElement} */
+    imageEnemyCatlight2
+    /** @type {HTMLImageElement} */
+    imageEnemyDJ1
+    /** @type {HTMLImageElement} */
+    imageEnemyDJ2
+    /** @type {HTMLImageElement} */
+    imageEnemyDJ3
+    /** @type {HTMLImageElement} */
+    imageEnemyDJ4
+    /** @type {HTMLImageElement} */
+    imageEnemyMiddle1
+    /** @type {HTMLImageElement} */
+    imageEnemyMiddle2
+    /** @type {HTMLImageElement} */
+    imageEnemySalat1
+    /** @type {HTMLImageElement} */
+    imageEnemySmall1
+    /** @type {HTMLImageElement} */
+    imageEnemySmall2
+    /** @type {HTMLImageElement} */
+    imageEnemySolder1
+    /** @type {HTMLImageElement} */
+    imageEnemySolder2
+
     /**
      * @returns Assets
      */
     static async load() {
         const [
-            imageEnemyBasic01,
-            imageEnemyBasic02,
-            imageEnemyShooter01,
-            imageEnemyShooter02,
-            imageEnemyHoming01,
-            imageEnemyHoming02,
             imagePlayerDrink1,
             imagePlayerDrink2,
             imagePlayerDrink3,
@@ -88,13 +108,26 @@ export class Assets {
             imagePlayerIdle1,
             imagePlayerIdle2,
             imagePlayerIdle3,
+            imageEnemyBig1,
+            imageEnemyBig2,
+            imageEnemyBomj1,
+            imageEnemyBomj2,
+            imageEnemyCatdark1,
+            imageEnemyCatdark2,
+            imageEnemyCatlight1,
+            imageEnemyCatlight2,
+            imageEnemyDJ1,
+            imageEnemyDJ2,
+            imageEnemyDJ3,
+            imageEnemyDJ4,
+            imageEnemyMiddle1,
+            imageEnemyMiddle2,
+            imageEnemySalat1,
+            imageEnemySmall1,
+            imageEnemySmall2,
+            imageEnemySolder1,
+            imageEnemySolder2,
         ] = await Promise.all([
-            loadImage("assets/sprites/enemy-basic-01.png"),
-            loadImage("assets/sprites/enemy-basic-02.png"),
-            loadImage("assets/sprites/enemy-shooter-01.png"),
-            loadImage("assets/sprites/enemy-shooter-02.png"),
-            loadImage("assets/sprites/enemy-homing-01.png"),
-            loadImage("assets/sprites/enemy-homing-02.png"),
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
             loadImage("assets/sprites/player-drink-3.png"),
@@ -111,15 +144,28 @@ export class Assets {
             loadImage("assets/sprites/player-idle-1.png"),
             loadImage("assets/sprites/player-idle-2.png"),
             loadImage("assets/sprites/player-idle-3.png"),
+            loadImage("assets/sprites/enemy-big-1.png"),
+            loadImage("assets/sprites/enemy-big-2.png"),
+            loadImage("assets/sprites/enemy-bomj-1.png"),
+            loadImage("assets/sprites/enemy-bomj-2.png"),
+            loadImage("assets/sprites/enemy-cat-dark-1.png"),
+            loadImage("assets/sprites/enemy-cat-dark-2.png"),
+            loadImage("assets/sprites/enemy-cat-light-1.png"),
+            loadImage("assets/sprites/enemy-cat-light-2.png"),
+            loadImage("assets/sprites/enemy-DJ-1.png"),
+            loadImage("assets/sprites/enemy-DJ-2.png"),
+            loadImage("assets/sprites/enemy-DJ-3.png"),
+            loadImage("assets/sprites/enemy-DJ-4.png"),
+            loadImage("assets/sprites/enemy-middle-1.png"),
+            loadImage("assets/sprites/enemy-middle-2.png"),
+            loadImage("assets/sprites/enemy-salat-1.png"),
+            loadImage("assets/sprites/enemy-small-1.png"),
+            loadImage("assets/sprites/enemy-small-2.png"),
+            loadImage("assets/sprites/enemy-solder-1.png"),
+            loadImage("assets/sprites/enemy-solder-2.png"),
         ])
 
         return {
-            imageEnemyBasic01,
-            imageEnemyBasic02,
-            imageEnemyShooter01,
-            imageEnemyShooter02,
-            imageEnemyHoming01,
-            imageEnemyHoming02,
             imagePlayerDrink1,
             imagePlayerDrink2,
             imagePlayerDrink3,
@@ -136,6 +182,25 @@ export class Assets {
             imagePlayerIdle1,
             imagePlayerIdle2,
             imagePlayerIdle3,
+            imageEnemyBig1,
+            imageEnemyBig2,
+            imageEnemyBomj1,
+            imageEnemyBomj2,
+            imageEnemyCatdark1,
+            imageEnemyCatdark2,
+            imageEnemyCatlight1,
+            imageEnemyCatlight2,
+            imageEnemyDJ1,
+            imageEnemyDJ2,
+            imageEnemyDJ3,
+            imageEnemyDJ4,
+            imageEnemyMiddle1,
+            imageEnemyMiddle2,
+            imageEnemySalat1,
+            imageEnemySmall1,
+            imageEnemySmall2,
+            imageEnemySolder1,
+            imageEnemySolder2,
         }
     }
 }
