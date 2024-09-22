@@ -406,7 +406,7 @@ export class Game {
     }
 
     drawPause() {
-        renderer.drawText("PAUSE", 50, 50, 50, "#FFFFFF")
+        renderer.context.drawImage(assets.imagePause, 35, 50)
     }
 
     /**

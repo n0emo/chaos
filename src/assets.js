@@ -179,6 +179,9 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imageFishingTime2
 
+    /** @type {HTMLImageElement} */
+    imagePause
+
     /**
      * @returns Assets
      */
@@ -262,6 +265,7 @@ export class Assets {
             imagePressSpaceToSkip2,
             imageFishingTime1,
             imageFishingTime2,
+            imagePause,
         ] = await Promise.all([
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
@@ -341,6 +345,7 @@ export class Assets {
             loadImage("assets/sprites/press-space-to-skip-2.png"),
             loadImage("assets/sprites/fishing-time-1.png"),
             loadImage("assets/sprites/fishing-time-2.png"),
+            loadImage("assets/sprites/pause.png"),
         ])
 
         return {
@@ -422,6 +427,7 @@ export class Assets {
             imagePressSpaceToSkip2,
             imageFishingTime1,
             imageFishingTime2,
+            imagePause,
         }
     }
 }
