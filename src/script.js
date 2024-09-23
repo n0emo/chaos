@@ -1,5 +1,3 @@
-// TODO: predefine bullet types
-// TODO: more weapons
 // TODO: bonuses (weapon upgrade)
 // TODO: punish for failed events
 // TODO: main level

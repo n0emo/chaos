@@ -122,7 +122,7 @@ export class BallWeapon extends Weapon {
         const dy = this.directionY * this.speed
         const image = assets[this.bulletImageName]
 
-        for (let i = 0; i < this.bulletAmount / 2 - 1; i++) {
+        for (let i = 0; i < Math.floor(this.bulletAmount / 2); i++) {
             const ox = this.spread * (i + rem + 0.5)
             const oy = this.offset * (this.bulletAmount * 0.5 - i - 1)
 
@@ -164,9 +164,9 @@ export class ShotgunWeapon extends Weapon {
      * @param {number} timeToReload
      * @param {number} damage
      * @param {number} speed
-     * @param {number} bulletAmount
      * @param {Tag} tag
      * @param {Asset} bulletImageName
+     * @param {number} bulletAmount
      * @param {number} spread
      * @param {number} variation
      */

@@ -1,11 +1,47 @@
 import { Rectangle } from "./shape.js"
 import { Animation } from "./animation.js"
 import { Explosion } from "./explosion.js"
-import { LaserWeapon, Weapon } from "./weapon.js"
+import { BallWeapon, LaserWeapon, ShotgunWeapon, Weapon } from "./weapon.js"
 import { generateParticles, Particle } from "./particle.js"
 import { game } from "./global.js"
 import { HEIGHT, WIDTH } from "./constants.js"
 import { assets } from "./assets.js"
+
+/** @typedef {import("./weapon.js").Asset} ImageName */
+
+/** @type {ImageName[]} */
+const SMALL_BALLS = [
+    "imageBulletSmallBallPurple",
+    "imageBulletSmallBallRed",
+    "imageBulletSmallBallBlue",
+]
+
+/** @type {ImageName[]} */
+const MIDDLE_BALLS = [
+    "imageBulletMiddleBallPurple",
+    "imageBulletMiddleBallRed",
+    "imageBulletMiddleBallBlue",
+]
+
+/** @type {ImageName[]} */
+const BIG_BALLS = [
+    "imageBulletBigBallPurple",
+    "imageBulletBigBallRed",
+]
+
+/** @type {ImageName[]} */
+const SERIOUS_BALLS = [
+    "imageBulletSeriousBallPurple",
+    "imageBulletSeriousBallRed",
+]
+
+/** @type {ImageName[]} */
+const COWS = [
+    "imageBulletCowPurple",
+    "imageBulletCowRed",
+    "imageBulletCowBlue",
+    "imageBulletCowGreen",
+]
 
 export class Enemy {
     /** @type {Rectangle} */
@@ -69,9 +105,10 @@ export class Enemy {
             assets.imageEnemyMiddle1,
             assets.imageEnemyMiddle2,],
             0.5)
-        const weapon = new EnemyWeapon(
-            new SimpleWeapon(posX, -16, 0, 1, "enemy")
-        )
+        const bulletImageName = SMALL_BALLS[Math.floor(Math.random() * SMALL_BALLS.length)]
+        const weapon = new EnemyWeapon(new BallWeapon(
+            posX, -16, 0, 1, 1, 1, 80, "enemy", bulletImageName, 1, 0, 0
+        ))
 
         return new Enemy(rect, animation, movement, weapon)
     }
@@ -88,9 +125,11 @@ export class Enemy {
             assets.imageEnemyBig1,
             assets.imageEnemyBig2,],
             0.5)
-        const weapon = new HomingEnemyWeapon(
-            new DoubleSimpleWeapon(posX, -16, 0, 1, "enemy", 6)
-        )
+        const bulletImageName = MIDDLE_BALLS[Math.floor(Math.random() * MIDDLE_BALLS.length)]
+        const weapon = new HomingEnemyWeapon(new BallWeapon(
+            posX, -16, 0, 1, 0.6, 2, 120, "enemy", bulletImageName, 2, 10, 1
+        ))
+        console.log(weapon)
 
         return new Enemy(rect, animation, movement, weapon)
     }
@@ -112,9 +151,10 @@ export class Enemy {
             assets.imageEnemyBomj1,
             assets.imageEnemyBomj2,],
             0.5)
-        const weapon = new HomingEnemyWeapon(
-            new SimpleWeapon(posX, -16, 0, 1, "enemy")
-        )
+        const bulletImageName = COWS[Math.floor(Math.random() * COWS.length)]
+        const weapon = new HomingEnemyWeapon( new BallWeapon(
+            posX, -16, 0, 1, 1.2, 10, 85, "enemy", bulletImageName, 1, 0, 0 
+        ))
 
         return new Enemy(rect, animation, movement, weapon)
     }
@@ -133,13 +173,51 @@ export class Enemy {
             dirX * speed, dirY * speed
         )
         const animation = new Animation([assets.imageEnemySalat1], 1)
-        const weapon = new HomingEnemyWeapon(
-            new LaserWeapon(posX, posY, 0, 1, "enemy", 5)
-        )
+        const weapon = new HomingEnemyWeapon(new LaserWeapon(
+            // @ts-ignore
+            posX, posY, 0, 1, 0.85, 5, "enemy", null, 5
+        ))
 
         return new Enemy(rect, animation, movement, weapon)
     }
 
+    /**
+     * @param {number} posX
+     * @returns Enemy
+     */
+    static lightCat(posX) {
+        const rect = new Rectangle(posX, -16, 16, 16)
+        const speed = 100
+        const movement = new EndlessMovement(0, speed)
+        const animation = new Animation([
+            assets.imageEnemyCatlight1,
+            assets.imageEnemyCatlight2,],
+            1.5)
+        const bulletImageName = SERIOUS_BALLS[Math.floor(Math.random() * SERIOUS_BALLS.length)]
+        const weapon = new HomingEnemyWeapon(new BallWeapon(
+            posX, -16, 0, 1, 2, 2, 150, "enemy", bulletImageName, 5, 2, 2
+        ))
+        return new Enemy(rect, animation, movement, weapon)
+    }
+
+    /**
+     * @param {number} posX
+     * @returns Enemy
+     */
+    static darkCat(posX) {
+        const rect = new Rectangle(posX, -16, 16, 16)
+        const speed = 100
+        const movement = new EndlessMovement(0, speed)
+        const animation = new Animation([
+            assets.imageEnemyCatdark1,
+            assets.imageEnemyCatdark2,],
+            1.5)
+        const bulletImageName = BIG_BALLS[Math.floor(Math.random() * BIG_BALLS.length)]
+        const weapon = new HomingEnemyWeapon(new ShotgunWeapon(
+            posX, -16, 0, 1, 2, 2, 150, "enemy", bulletImageName, 10, 2, Math.PI / 3
+        ))
+        return new Enemy(rect, animation, movement, weapon)
+    }
 
     /** @type {boolean} */
     get isAlive() { return this.hp > 0 }

@@ -1,7 +1,7 @@
 import { Enemy, } from "./enemy.js"
 import { game } from "./global.js"
 import { AdsEvent, ChinaEvent, Event, FishingEvent } from "./event.js"
-import { WIDTH } from "./constants.js"
+import { HEIGHT, WIDTH } from "./constants.js"
 import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus, WeaponUpgradeBonus } from "./bonus.js"
 import { assets } from "./assets.js"
 
@@ -41,22 +41,25 @@ export class Level {
         this.waitingForEnemiesKilled = false
         this.timer = 0
         this.spawns = [
-            new Spawn(0, Enemy.small(             30, 1)),
-            new Spawn(2, Enemy.small(WIDTH - 30 - 16, 1)),
+            //new Spawn(0, Enemy.small(             30, 1)),
+            //new Spawn(2, Enemy.small(WIDTH - 30 - 16, 1)),
 
             //new Spawn(0, Enemy.middle(             60, 1)),
             //new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),
 
             //new Spawn(0, new AdsEvent()),
 
-            //new Spawn(0, Enemy.big(             90, 1)),
-            //new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
+            new Spawn(0, Enemy.big(             90, 1)),
+            new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
 
-            //new Spawn(0, Enemy.bomj(             120,  0.7, 0.7, 2)),
-            //new Spawn(1, Enemy.bomj(WIDTH - 120 - 16, -0.7, 0.7, 2)),
+            new Spawn(0, Enemy.bomj(             120,  0.7, 0.7, 2)),
+            new Spawn(1, Enemy.bomj(WIDTH - 120 - 16, -0.7, 0.7, 2)),
 
-            //new Spawn(0.3, Enemy.caesar(       -16, 35,  1, 0)),
-            //new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
+            new Spawn(0.3, Enemy.caesar(       -16, 35,  1, 0)),
+            new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
+
+            new Spawn(0, Enemy.lightCat(30)),
+            new Spawn(0, Enemy.darkCat(WIDTH - 30 - 16)),
 
             //new Spawn(0, new FishingEvent()),
             new Spawn(1, new WaitForAllEnemiesKilled()),
@@ -113,7 +116,6 @@ export class Level {
 
                     } else if (thing instanceof WaitForAllEnemiesKilled) {
                         this.waitingForEnemiesKilled = true
-                        console.log("xd")
 
                     } else {
                         throw "Unknown thing"
