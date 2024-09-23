@@ -4,6 +4,7 @@ import { Weapon, LaserWeapon, BallWeapon, ShotgunWeapon } from "./weapon.js"
 import { state } from "./global.js"
 import { Animation } from "./animation.js"
 import { assets } from "./assets.js"
+import { playSound } from "./audio.js"
 
 /** @typedef {"drink" | "move" | "happy" | "idle"} PlayerState */
 
@@ -43,7 +44,9 @@ export class Player {
     constructor() {
         this.rect = new Rectangle(0, 0, 16, 16)
         this.weapon = new BallWeapon(
-            0, 0, 0, -1, 1, 1, 100, "player", "imageBulletSmallBallRed", 1, 0, 0
+            0, 0, 0, -1, 1, 1, 100, "player",
+            "imageBulletSmallBallRed", "audioLaser2",
+            1, 0, 0
         )
 
         this.hp = 100
@@ -102,14 +105,15 @@ export class Player {
                     this.weapon = new BallWeapon(
                         this.rect.posX, this.rect.posY, 0, -1,
                         0.75, 2, 100, "player",
-                        "imageBulletMiddleBallRed", 2, 2, 1
+                        "imageBulletMiddleBallRed", "audioBlaster",
+                        2, 2, 1
                     )
                     break
                 case 1:
                     this.weapon = new ShotgunWeapon(
                         this.rect.posX, this.rect.posY,
                         0, -1, 1.5, 1, 80, "player",
-                        "imageBulletMiddleBallPurple",
+                        "imageBulletMiddleBallPurple", "audioTok",
                         10, Math.PI / 6, Math.PI / 12
                     )
                     break
@@ -117,7 +121,7 @@ export class Player {
                     this.weapon = new LaserWeapon(
                         this.rect.posX, this.rect.posY,
                         // @ts-ignore
-                        0, -1, 1.2, 3, "player", null, 4
+                        0, -1, 1.2, 3, "player", null, "audioGrowl", 4
                     )
                     break
                 default:
@@ -214,6 +218,7 @@ export class Player {
         this.hp -= damage
         if (this.hp < 0) {
             this.hp = 0
+            playSound(assets.audioDeath)
         }
     }
 

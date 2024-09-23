@@ -7,7 +7,7 @@ import { game } from "./global.js"
 import { HEIGHT, WIDTH } from "./constants.js"
 import { assets } from "./assets.js"
 
-/** @typedef {import("./weapon.js").Asset} ImageName */
+/** @typedef {import("./weapon.js").ImageAsset} ImageName */
 
 /** @type {ImageName[]} */
 const SMALL_BALLS = [
@@ -116,7 +116,10 @@ export class Enemy {
             0.5)
         const bulletImageName = SMALL_BALLS[Math.floor(Math.random() * SMALL_BALLS.length)]
         const weapon = new EnemyWeapon(new BallWeapon(
-            posX, -16, 0, 1, 1, 1, 80, "enemy", bulletImageName, 1, 0, 0
+            posX, -16,
+            0, 1, 1, 1, 80, "enemy",
+            bulletImageName, "audioLaser2",
+            1, 0, 0
         ))
 
         return new Enemy(rect, 2, animation, movement, weapon)
@@ -136,9 +139,11 @@ export class Enemy {
             0.5)
         const bulletImageName = MIDDLE_BALLS[Math.floor(Math.random() * MIDDLE_BALLS.length)]
         const weapon = new HomingEnemyWeapon(new BallWeapon(
-            posX, -16, 0, 1, 0.6, 2, 120, "enemy", bulletImageName, 2, 10, 1
+            posX, -16, 0, 1,
+            0.6, 2, 120, "enemy",
+            bulletImageName, "audioBlaster",
+            2, 10, 1
         ))
-        console.log(weapon)
 
         return new Enemy(rect, 3, animation, movement, weapon)
     }
@@ -161,8 +166,11 @@ export class Enemy {
             assets.imageEnemyBomj2,],
             0.5)
         const bulletImageName = COWS[Math.floor(Math.random() * COWS.length)]
-        const weapon = new HomingEnemyWeapon( new BallWeapon(
-            posX, -16, 0, 1, 1.2, 10, 85, "enemy", bulletImageName, 1, 0, 0 
+        const weapon = new HomingEnemyWeapon(new BallWeapon(
+            posX, -16, 0, 1,
+            1.2, 10, 85, "enemy",
+            bulletImageName, "audioBarf",
+            1, 0, 0 
         ))
 
         return new Enemy(rect, 2, animation, movement, weapon)
@@ -183,8 +191,9 @@ export class Enemy {
         )
         const animation = new Animation([assets.imageEnemySalat1], 1)
         const weapon = new HomingEnemyWeapon(new LaserWeapon(
+            posX, posY, 0, 1, 0.85, 5, "enemy",
             // @ts-ignore
-            posX, posY, 0, 1, 0.85, 5, "enemy", null, 5
+            null, "audioWeird", 5
         ))
 
         return new Enemy(rect, 5, animation, movement, weapon)
@@ -204,7 +213,9 @@ export class Enemy {
             1.5)
         const bulletImageName = SERIOUS_BALLS[Math.floor(Math.random() * SERIOUS_BALLS.length)]
         const weapon = new HomingEnemyWeapon(new BallWeapon(
-            posX, -16, 0, 1, 2, 2, 150, "enemy", bulletImageName, 5, 2, 2
+            posX, -16, 0, 1, 2, 2, 150, "enemy",
+            bulletImageName, "audioSydney",
+            5, 2, 2
         ))
         return new Enemy(rect, 3, animation, movement, weapon)
     }
@@ -223,7 +234,9 @@ export class Enemy {
             1.5)
         const bulletImageName = BIG_BALLS[Math.floor(Math.random() * BIG_BALLS.length)]
         const weapon = new HomingEnemyWeapon(new ShotgunWeapon(
-            posX, -16, 0, 1, 2, 2, 150, "enemy", bulletImageName, 10, 2, Math.PI / 3
+            posX, -16, 0, 1, 2, 2, 150, "enemy",
+            bulletImageName, "audioSydney",
+            10, 2, Math.PI / 3
         ))
         return new Enemy(rect, 3, animation, movement, weapon)
     }
@@ -245,7 +258,9 @@ export class Enemy {
             1)
         const bulletImageName = NOTES[Math.floor(Math.random() * NOTES.length)]
         const weapon = new EnemyWeapon(new ShotgunWeapon(
-            posX, posY, 0, 1, 1, 1, 30, "enemy", bulletImageName, 5, Math.PI / 4, Math.PI / 6
+            posX, posY, 0, 1, 1, 1, 30, "enemy",
+            bulletImageName, "audioKick",
+            5, Math.PI / 4, Math.PI / 6
         ))
 
         return new Enemy(rect, 15, animation, movement, weapon)
@@ -268,7 +283,10 @@ export class Enemy {
             1)
         const bulletImageName = COWS[Math.floor(Math.random() * COWS.length)]
         const weapon = new HomingEnemyWeapon(new ShotgunWeapon(
-            posX, posY, 0, 1, 1, 5, 200, "enemy", bulletImageName, 10, Math.PI / 12, Math.PI / 16
+            posX, posY,
+            0, 1, 1, 5, 200, "enemy",
+            bulletImageName, "audioDonk",
+            10, Math.PI / 12, Math.PI / 16
         ))
 
         return new Enemy(rect, 20, animation, movement, weapon)

@@ -1,10 +1,12 @@
 import { Assets, assets } from "./assets.js"
+import { playSound } from "./audio.js"
 import { game, pool } from "./global.js"
 import { Ray, RayAnimation } from "./laser.js"
 
 /**
  * @typedef {import("./bullet.js").Tag} Tag
- * @typedef {{[K in keyof Assets]: Assets[K] extends HTMLImageElement ? K : never}[keyof Assets]} Asset
+ * @typedef {{[K in keyof Assets]: Assets[K] extends HTMLImageElement ? K : never}[keyof Assets]} ImageAsset
+ * @typedef {{[K in keyof Assets]: Assets[K] extends HTMLAudioElement ? K : never}[keyof Assets]} AudioAsset
  */
 
 export class Weapon {
@@ -22,11 +24,14 @@ export class Weapon {
     damage
     /** @type {Tag} */
     tag
-    /** @type {Asset} */
+    /** @type {ImageAsset} */
     bulletImageName
+    /** @type {AudioAsset} */
+    sound
 
     /** @type {number} */
     reloadTimer
+
 
     /**
      * @param {number} posX
@@ -36,9 +41,15 @@ export class Weapon {
      * @param {number} timeToReload
      * @param {number} damage
      * @param {Tag} tag
-     * @param {Asset} bulletImageName
+     * @param {ImageAsset} bulletImageName
+     * @param {AudioAsset} sound
      */
-    constructor(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName) {
+    constructor(
+        posX, posY,
+        directionX, directionY,
+        timeToReload, damage,
+        tag, bulletImageName, sound
+    ) {
         if (this.constructor == Weapon) {
             throw "Cannon instantiate abstract class"
         }
@@ -51,6 +62,7 @@ export class Weapon {
         this.damage = damage
         this.tag = tag
         this.bulletImageName = bulletImageName
+        this.sound = sound
     }
 
     /**
@@ -88,7 +100,8 @@ export class BallWeapon extends Weapon {
      * @param {number} speed
      * @param {number} bulletAmount
      * @param {Tag} tag
-     * @param {Asset} bulletImageName
+     * @param {ImageAsset} bulletImageName
+     * @param {AudioAsset} sound
      * @param {number} spread
      * @param {number} offset
      */
@@ -97,11 +110,11 @@ export class BallWeapon extends Weapon {
         directionX, directionY,
         timeToReload, damage,
         speed, tag,
-        bulletImageName,
+        bulletImageName, sound,
         bulletAmount,
         spread, offset
     ) {
-        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName)
+        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName, sound)
         this.reloadTimer = 0
         this.bulletAmount = bulletAmount
         this.spread = spread
@@ -115,6 +128,7 @@ export class BallWeapon extends Weapon {
         }
 
         this.reloadTimer = this.timeToReload
+        playSound(assets[this.sound])
 
         const rem = this.bulletAmount % 2
 
@@ -165,7 +179,8 @@ export class ShotgunWeapon extends Weapon {
      * @param {number} damage
      * @param {number} speed
      * @param {Tag} tag
-     * @param {Asset} bulletImageName
+     * @param {ImageAsset} bulletImageName
+     * @param {AudioAsset} sound
      * @param {number} bulletAmount
      * @param {number} spread
      * @param {number} variation
@@ -175,11 +190,11 @@ export class ShotgunWeapon extends Weapon {
         directionX, directionY,
         timeToReload, damage,
         speed, tag,
-        bulletImageName,
+        bulletImageName, sound,
         bulletAmount,
         spread, variation
     ) {
-        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName)
+        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName, sound)
         this.reloadTimer = 0
         this.bulletAmount = bulletAmount
         this.spread = spread
@@ -193,6 +208,7 @@ export class ShotgunWeapon extends Weapon {
         }
 
         this.reloadTimer = this.timeToReload
+        playSound(assets[this.sound])
 
         for (let i = 0; i < this.bulletAmount; i++) {
             const angle = Math.atan2(this.directionX, this.directionY)
@@ -200,7 +216,6 @@ export class ShotgunWeapon extends Weapon {
             const speed = this.speed + (Math.random() - 0.5 ) * this.variation * 50
             const dx = Math.sin(angle) * speed
             const dy = Math.cos(angle) * speed
-            console.log(this.posX, this.posY)
             game.bullets.push(pool.createBullet(
                 this.posX, this.posY, dx, dy,
                 this.tag, this.damage, assets[this.bulletImageName]
@@ -225,15 +240,16 @@ export class LaserWeapon extends Weapon {
      * @param {number} timeToReload
      * @param {number} damage
      * @param {Tag} tag
-     * @param {Asset} bulletImageName
+     * @param {ImageAsset} bulletImageName
+     * @param {AudioAsset} sound
      * @param {number} size
      */
     constructor(
         posX, posY, directionX, directionY,
         timeToReload, damage, tag,
-        bulletImageName, size
+        bulletImageName, sound, size
     ) {
-        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName)
+        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName, sound)
         this.size = size
         this.reloadTimer = 0
     }
@@ -243,6 +259,7 @@ export class LaserWeapon extends Weapon {
             return
         }
 
+        playSound(assets[this.sound])
         const direction = this.directionY <= 0 ? "up" : "down"
         const ray = new Ray(this.posX, this.posY, direction, this.size, this.damage, this.tag)
         const rayAnimation = new RayAnimation(ray, 0.2)

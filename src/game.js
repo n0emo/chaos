@@ -13,6 +13,7 @@ import { Bonus } from "./bonus.js"
 import { Ray, RayAnimation } from "./laser.js" 
 import { Background } from "./background.js"
 import { assets } from "./assets.js"
+import { playSound } from "./audio.js"
 
 const GAME_MENU = 0
 const GAME_GAME = 1
@@ -176,10 +177,16 @@ export class Game {
     update(dt) {
         switch (this.state) {
             case GAME_MENU:
+                if (this.currentMusic != assets.audioMenuTheme) {
+                    this.playMusic(assets.audioMenuTheme)
+                }
                 this.updateMenu(dt)
                 break
 
             case GAME_GAME:
+                if (this.currentMusic != assets.audioMainTheme) {
+                    this.playMusic(assets.audioMainTheme)
+                }
                 if (state.isKeyPressed("Escape")) {
                     this.state = GAME_PAUSE
                     return
@@ -211,7 +218,7 @@ export class Game {
         this.pressEnterTime += dt
         if (state.isKeyPressed("Enter")) {
             this.state = GAME_GAME
-            this.playMusic(assets.audioMainTheme).catch((e) => {})
+            playSound(assets.audioWelcome)
         }
     }
 
@@ -312,6 +319,7 @@ export class Game {
             if (hit) {
                 this.bullets.splice(i, 1)
                 bullet.explode(this.explosions, this.particles)
+                playSound(assets.audioGunshot)
             }
         }
     }

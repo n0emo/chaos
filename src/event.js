@@ -62,6 +62,7 @@ const ADS_IMAGES = [
 ]
 
 export class AdsEvent extends Event {
+    sound = assets.audioAds
     /** @type {boolean} */
     #isEnd
     /** @type {HTMLImageElement} */
@@ -103,6 +104,7 @@ export class AdsEvent extends Event {
 }
 
 export class ChinaEvent extends Event {
+    sound = assets.audioAlarm
     /** @type {boolean} */
     #isEnd
     /** @type {number} */
@@ -155,6 +157,7 @@ export class ChinaEvent extends Event {
 }
 
 export class FishingEvent extends Event {
+    sound = assets.audioWhistle
     /** @type {boolean} */
     #isEnd
     /** @type {number} */

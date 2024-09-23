@@ -4,6 +4,7 @@ import { AdsEvent, ChinaEvent, Event, FishingEvent } from "./event.js"
 import { HEIGHT, WIDTH } from "./constants.js"
 import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus, WeaponUpgradeBonus } from "./bonus.js"
 import { assets } from "./assets.js"
+import { playSound } from "./audio.js"
 
 /** @typedef {Enemy
  *          | Event
@@ -46,7 +47,7 @@ export class Level {
             new Spawn(0.1, new WeaponUpgradeBonus(150, -16, 0, 50)),
             new Spawn(0.1, new WeaponUpgradeBonus(250, -16, 0, 50)),
             new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
-            new Spawn(2, new FishingEvent()),
+            new Spawn(2, new ChinaEvent()),
             //new Spawn(0, Enemy.small(             30, 1)),
             //new Spawn(2, Enemy.small(WIDTH - 30 - 16, 1)),
 
@@ -115,6 +116,7 @@ export class Level {
 
                     } else if (thing instanceof Event) {
                         game.event = thing
+                        playSound(thing.sound)
 
                     } else if (thing instanceof Bonus) {
                         game.bonuses.push(thing)
