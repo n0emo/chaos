@@ -1,8 +1,10 @@
+import { Assets, assets } from "./assets.js"
 import { game, pool } from "./global.js"
 import { Ray, RayAnimation } from "./laser.js"
 
 /**
  * @typedef {import("./bullet.js").Tag} Tag
+ * @typedef {{[K in keyof Assets]: Assets[K] extends HTMLImageElement ? K : never}[keyof Assets]} Asset
  */
 
 export class Weapon {
@@ -14,57 +16,41 @@ export class Weapon {
     directionX
     /** @type {number} */
     directionY
+    /** @type {number} */
+    timeToReload
+    /** @type {number} */
+    damage
     /** @type {Tag} */
     tag
+    /** @type {Asset} */
+    bulletImageName
+
+    /** @type {number} */
+    reloadTimer
 
     /**
      * @param {number} posX
      * @param {number} posY
      * @param {number} directionX
      * @param {number} directionY
+     * @param {number} timeToReload
+     * @param {number} damage
      * @param {Tag} tag
+     * @param {Asset} bulletImageName
      */
-    constructor(posX, posY, directionX, directionY, tag) {
+    constructor(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName) {
+        if (this.constructor == Weapon) {
+            throw "Cannon instantiate abstract class"
+        }
+
         this.posX = posX
         this.posY = posY
         this.directionX = directionX
         this.directionY = directionY
+        this.timeToReload = timeToReload
+        this.damage = damage
         this.tag = tag
-
-        if (this.constructor == Weapon) {
-            throw "Cannon instantiate abstract class"
-        }
-    }
-
-    /**
-     * @param {number} _dt
-     */
-    update(_dt) {
-        throw "not implemented"
-    }
-
-    shoot() {
-        throw "not implemented"
-    }
-}
-
-const SIMPLE_WEAPON_LENGTH = 10
-const SIMPLE_WEAPON_RELOAD = 0.5
-
-export class SimpleWeapon extends Weapon {
-    /** @type {number} */
-    reloadTimer
-
-    /**
-     * @param {number} posX
-     * @param {number} posY
-     * @param {number} directionX
-     * @param {number} directionY
-     * @param {Tag} tag
-     */
-    constructor(posX, posY, directionX, directionY, tag) {
-        super(posX, posY, directionX, directionY, tag)
-        this.reloadTimer = 0
+        this.bulletImageName = bulletImageName
     }
 
     /**
@@ -78,56 +64,49 @@ export class SimpleWeapon extends Weapon {
     }
 
     shoot() {
-        if (this.reloadTimer > 0) {
-            return
-        }
-
-        this.reloadTimer = SIMPLE_WEAPON_RELOAD
-
-        const x = this.posX + this.directionX * SIMPLE_WEAPON_LENGTH
-        const y = this.posY + this.directionY * SIMPLE_WEAPON_LENGTH
-        const speed = 200
-        const bullet = pool.createBullet(
-            x,
-            y,
-            this.directionX * speed,
-            this.directionY * speed,
-            this.tag,
-            1
-        )
-        game.bullets.push(bullet)
+        throw "not implemented"
     }
 }
 
-
-export class DoubleSimpleWeapon extends Weapon {
+export class BallWeapon extends Weapon {
     /** @type {number} */
-    reloadTimer
+    bulletAmount
     /** @type {number} */
     spread
+    /** @type {number} */
+    offset
+    /** @type {number} */
+    speed
 
     /**
      * @param {number} posX
      * @param {number} posY
      * @param {number} directionX
      * @param {number} directionY
+     * @param {number} timeToReload
+     * @param {number} damage
+     * @param {number} speed
+     * @param {number} bulletAmount
      * @param {Tag} tag
+     * @param {Asset} bulletImageName
      * @param {number} spread
+     * @param {number} offset
      */
-    constructor(posX, posY, directionX, directionY, tag, spread) {
-        super(posX, posY, directionX, directionY, tag)
+    constructor(
+        posX, posY,
+        directionX, directionY,
+        timeToReload, damage,
+        speed, tag,
+        bulletImageName,
+        bulletAmount,
+        spread, offset
+    ) {
+        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName)
         this.reloadTimer = 0
+        this.bulletAmount = bulletAmount
         this.spread = spread
-    }
-
-    /**
-     * @param {number} dt
-     */
-    update(dt) {
-        this.reloadTimer -= dt
-        if (this.reloadTimer < 0) {
-            this.reloadTimer = 0
-        }
+        this.offset = offset
+        this.speed = speed
     }
 
     shoot() {
@@ -135,32 +114,40 @@ export class DoubleSimpleWeapon extends Weapon {
             return
         }
 
-        this.reloadTimer = SIMPLE_WEAPON_RELOAD
+        this.reloadTimer = this.timeToReload
 
-        const x = this.posX + this.directionX * SIMPLE_WEAPON_LENGTH
-        const y = this.posY + this.directionY * SIMPLE_WEAPON_LENGTH
-        const perX = -this.directionY * this.spread
-        const perY =  this.directionX * this.spread
-        const speed = 200
+        const rem = this.bulletAmount % 2
 
-        game.bullets.push(pool.createBullet(
-            x + perX,
-            y + perY,
-            this.directionX * speed,
-            this.directionY * speed,
-            this.tag,
-            1
-        ))
+        const dx = this.directionX * this.speed
+        const dy = this.directionY * this.speed
+        const image = assets[this.bulletImageName]
 
-        game.bullets.push(pool.createBullet(
-            x - perX,
-            y - perY,
-            this.directionX * speed,
-            this.directionY * speed,
-            this.tag,
-            1
-        ))
+        for (let i = 0; i < this.bulletAmount / 2 - 1; i++) {
+            const ox = this.spread * (i + rem + 0.5)
+            const oy = this.offset * (this.bulletAmount * 0.5 - i - 1)
+
+            game.bullets.push(pool.createBullet(
+                this.posX + ox, this.posY - oy,
+                dx, dy, this.tag, this.damage, image
+            ))
+
+            game.bullets.push(pool.createBullet(
+                this.posX - ox, this.posY - oy,
+                dx, dy, this.tag, this.damage, image
+            ))
+        }
+
+        if (rem == 1) {
+            game.bullets.push(pool.createBullet(
+                this.posX, this.posY - this.offset * (this.bulletAmount * 0.5),
+                dx, dy, this.tag, this.damage, image
+            ))
+        }
     }
+}
+
+export class ShotgunWeapon extends Weapon {
+
 }
 
 export class LaserWeapon extends Weapon {
@@ -174,23 +161,16 @@ export class LaserWeapon extends Weapon {
      * @param {number} posY
      * @param {number} directionX
      * @param {number} directionY
+     * @param {number} timeToReload
+     * @param {number} damage
      * @param {Tag} tag
+     * @param {Asset} bulletImageName
      * @param {number} size
      */
-    constructor(posX, posY, directionX, directionY, tag, size) {
-        super(posX, posY, directionX, directionY, tag)
+    constructor(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName, size) {
+        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName)
         this.size = size
         this.reloadTimer = 0
-    }
-
-    /**
-     * @param {number} dt
-     */
-    update(dt) {
-        this.reloadTimer -= dt
-        if (this.reloadTimer < 0) {
-            this.reloadTimer = 0
-        }
     }
 
     shoot() {
@@ -199,10 +179,10 @@ export class LaserWeapon extends Weapon {
         }
 
         const direction = this.directionY <= 0 ? "up" : "down"
-        const ray = new Ray(this.posX, this.posY, direction, this.size, 5, this.tag)
+        const ray = new Ray(this.posX, this.posY, direction, this.size, this.damage, this.tag)
         const rayAnimation = new RayAnimation(ray, 0.2)
         game.rays.push(ray)
         game.rayAnimations.push(rayAnimation)
-        this.reloadTimer = 1
+        this.reloadTimer = this.timeToReload
     }
 }

@@ -25,11 +25,12 @@ export class Pool {
      * @param {number} velY
      * @param {Tag} tag
      * @param {number} damage
+     * @param {HTMLImageElement} image
      **/
-    createBullet(posX, posY, velX, velY, tag, damage) {
+    createBullet(posX, posY, velX, velY, tag, damage, image) {
         const bullet = this.deadBullets.pop()
         if (!bullet) {
-            return new Bullet(posX, posY, velX, velY, tag, damage)
+            return new Bullet(posX, posY, velX, velY, tag, damage, image)
         }
 
         bullet.reset()
@@ -39,6 +40,7 @@ export class Pool {
         bullet.velY = velY
         bullet.tag = tag
         bullet.damage = damage
+        bullet.image = image
 
         return bullet
     }

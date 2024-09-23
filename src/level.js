@@ -80,8 +80,6 @@ export class Level {
      * @param {number} dt
      */
     update(dt) {
-        this.timer -= dt
-
         if (this.waitingForEnemiesKilled) {
             if (game.enemies.length === 0) {
                 this.waitingForEnemiesKilled = false
@@ -89,6 +87,8 @@ export class Level {
                 return
             }
         }
+
+        this.timer -= dt
 
         if (this.timer <= 0) {
             this.timer = 0

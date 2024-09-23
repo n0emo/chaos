@@ -1,7 +1,7 @@
 import { Rectangle } from "./shape.js"
 import { Animation } from "./animation.js"
 import { Explosion } from "./explosion.js"
-import { DoubleSimpleWeapon, LaserWeapon, SimpleWeapon, Weapon } from "./weapon.js"
+import { LaserWeapon, Weapon } from "./weapon.js"
 import { generateParticles, Particle } from "./particle.js"
 import { game } from "./global.js"
 import { HEIGHT, WIDTH } from "./constants.js"

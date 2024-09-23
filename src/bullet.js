@@ -20,6 +20,8 @@ export class Bullet {
     damage
     /** @type {number} */
     timer
+    /** @type {HTMLImageElement} */
+    image
 
     /**
      * @param {number} posX
@@ -28,14 +30,16 @@ export class Bullet {
      * @param {number} velY
      * @param {Tag} tag
      * @param {number} damage
+     * @param {HTMLImageElement} image
      **/
-    constructor(posX, posY, velX, velY, tag, damage) {
-        this.circle = new Circle(posX, posY, 2)
+    constructor(posX, posY, velX, velY, tag, damage, image) {
+        this.circle = new Circle(posX, posY, image.width / 2)
         this.velX = velX
         this.velY = velY
         this.tag = tag
         this.timer = BULLET_LIFETIME
         this.damage = damage
+        this.image = image
     }
 
     reset() {
@@ -56,7 +60,11 @@ export class Bullet {
     }
 
     draw() {
-        renderer.fillCircleCirc(this.circle, "red")
+        renderer.context.drawImage(
+            this.image,
+            this.circle.posX - this.circle.radius * 2,
+            this.circle.posY - this.circle.radius * 2,
+        )
     }
 
     get isAlive() {
