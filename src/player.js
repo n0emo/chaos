@@ -1,7 +1,7 @@
 import { Rectangle } from "./shape.js"
-import { Game } from "./game.js"
+import { Game, GAME_OVER } from "./game.js"
 import { Weapon, LaserWeapon, BallWeapon, ShotgunWeapon } from "./weapon.js"
-import { state } from "./global.js"
+import { game, state } from "./global.js"
 import { Animation } from "./animation.js"
 import { assets } from "./assets.js"
 import { playSound } from "./audio.js"
@@ -219,6 +219,7 @@ export class Player {
         if (this.hp < 0) {
             this.hp = 0
             playSound(assets.audioDeath)
+            game.state = GAME_OVER
         }
     }
 

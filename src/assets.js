@@ -212,6 +212,13 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imageIconUpgrade
 
+    /** @type {HTMLImageElement} */
+    imageEscape
+    /** @type {HTMLImageElement} */
+    imageCongratulations
+    /** @type {HTMLImageElement} */
+    imageGameover
+
     /** @type {HTMLAudioElement} */
     audioMenuTheme
     /** @type {HTMLAudioElement} */
@@ -350,6 +357,9 @@ export class Assets {
             imageIconLife,
             imageIconSave,
             imageIconUpgrade,
+            imageEscape,
+            imageCongratulations,
+            imageGameover,
         ] = await Promise.all([
             loadImage("assets/sprites/player-drink-1.png"),
             loadImage("assets/sprites/player-drink-2.png"),
@@ -438,6 +448,9 @@ export class Assets {
             loadImage("assets/sprites/icon-life.png"),
             loadImage("assets/sprites/icon-save.png"),
             loadImage("assets/sprites/icon-upgrade.png"),
+            loadImage("assets/sprites/escape.png"),
+            loadImage("assets/sprites/congratulations.png"),
+            loadImage("assets/sprites/gameover.png"),
         ])
 
         const [
@@ -578,6 +591,9 @@ export class Assets {
             imageIconLife,
             imageIconSave,
             imageIconUpgrade,
+            imageEscape,
+            imageCongratulations,
+            imageGameover,
             audioMenuTheme,
             audioMainTheme,
             audioBossTheme,

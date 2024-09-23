@@ -5,12 +5,14 @@ import { HEIGHT, WIDTH } from "./constants.js"
 import { Bonus, BulletCleanBonus, HealingBonus, InvulnerabilityBonus, WeaponUpgradeBonus } from "./bonus.js"
 import { assets } from "./assets.js"
 import { playSound } from "./audio.js"
+import { GAME_WIN } from "./game.js"
 
 /** @typedef {Enemy
  *          | Event
  *          | Bonus
  *          | HTMLImageElement
  *          | WaitForAllEnemiesKilled
+ *          | WinCondition
  *          } Thing */
 
 export class Spawn {
@@ -30,6 +32,8 @@ export class Spawn {
 }
 
 export class WaitForAllEnemiesKilled {}
+
+export class WinCondition {}
 
 export class Level {
     /** @type {Spawn[]} */
@@ -179,6 +183,28 @@ export class Level {
             new Spawn(0.1, new HealingBonus(60, -16, 0, 60)),
             new Spawn(5, new HealingBonus(140, -16, 0, 60)),
 
+            new Spawn(0, Enemy.big(150, 0.5)),
+            new Spawn(0, Enemy.big(110, 0.5)),
+            new Spawn(0, Enemy.big(10, 0.5)),
+            new Spawn(0.1, Enemy.small(145, 1)),
+            new Spawn(0, Enemy.big(70, 0.5)),
+            new Spawn(0, Enemy.big(30, 0.5)),
+            new Spawn(0.5, Enemy.lightCat(30)),
+            new Spawn(0.1, Enemy.middle(30,  0.5)),
+            new Spawn(0.1, Enemy.middle(50,  0.6)),
+            new Spawn(0.1, Enemy.middle(70,  0.7)),
+            new Spawn(0.1, Enemy.middle(90,  0.8)),
+            new Spawn(0.1, Enemy.middle(110, 0.9)),
+            new Spawn(0.1, Enemy.middle(130, 1.0)),
+            new Spawn(0.1, Enemy.middle(150, 1.1)),
+            new Spawn(0.1, Enemy.middle(180, 1.2)),
+            new Spawn(0.1, Enemy.middle(210, 1.3)),
+            new Spawn(0, Enemy.soldier(80, -16, 0, 100, 0.5)),
+            new Spawn(0, Enemy.soldier(120, -16, 0, 100, 0.5)),
+            new Spawn(0, Enemy.soldier(150, -16, 0, 100, 0.5)),
+
+            new Spawn(1, new WaitForAllEnemiesKilled()),
+            new Spawn(0, new WinCondition()),
 
         ].reverse()
     }
@@ -221,6 +247,9 @@ export class Level {
 
                     } else if (thing instanceof WaitForAllEnemiesKilled) {
                         this.waitingForEnemiesKilled = true
+
+                    } else if (thing instanceof WinCondition) {
+                        game.state = GAME_WIN
 
                     } else {
                         throw "Unknown thing"

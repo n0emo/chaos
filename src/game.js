@@ -15,11 +15,6 @@ import { Background } from "./background.js"
 import { assets } from "./assets.js"
 import { playSound } from "./audio.js"
 
-const GAME_MENU = 0
-const GAME_GAME = 1
-const GAME_PAUSE = 2
-const GAME_SCORE_SCREEN = 3
-
 const PUNISHMENTS = [
     "imageBulletBigBallBlue",
     "imageBulletBigBallGreen",
@@ -47,7 +42,13 @@ const PUNISHMENTS = [
     "imageBulletSmallBallRed",
 ]
 
-/** @typedef {GAME_MENU | GAME_GAME | GAME_PAUSE | GAME_SCORE_SCREEN} GameState */
+export const GAME_MENU = 0
+export const GAME_GAME = 1
+export const GAME_PAUSE = 2
+export const GAME_WIN = 3
+export const GAME_OVER = 5
+
+/** @typedef {GAME_MENU | GAME_GAME | GAME_PAUSE | GAME_WIN | GAME_OVER} GameState */
 
 export class Game {
     /** @type {Player} */
@@ -103,6 +104,25 @@ export class Game {
         this.background = new Background(assets.imageLevel1)
         this.musicStarted = false
         this.startMusic().catch((e) => {})
+    }
+
+    reset() {
+        this.bullets = []
+        this.player = new Player()
+        this.enemies = []
+        this.level = new Level()
+        this.explosions = []
+        this.rays = []
+        this.rayAnimations = []
+        this.bonuses = []
+        this.particles = []
+        this.event = null
+        this.state = GAME_MENU
+        this.cleaner = null
+        this.cleanerTimer = 0
+        this.pressEnterTime = 0
+        this.background = new Background(assets.imageLevel1)
+        this.musicStarted = false
     }
 
     async startMusic() {
@@ -205,6 +225,20 @@ export class Game {
             case GAME_PAUSE:
                 if (state.isKeyPressed("Escape")) {
                     this.state = GAME_GAME
+                    return
+                }
+                break
+
+            case GAME_WIN:
+                if (state.isKeyDown("Escape")) {
+                    this.reset()
+                    return
+                }
+                break
+
+            case GAME_OVER:
+                if (state.isKeyDown("Escape")) {
+                    this.reset()
                     return
                 }
                 break
@@ -418,7 +452,26 @@ export class Game {
                 this.drawGameLogic()
                 this.drawPause()
                 break
+            case GAME_WIN:
+                this.drawGameLogic()
+                this.drawWin()
+                break
+            case GAME_OVER:
+                this.drawGameLogic()
+                this.drawGameOver()
+                break
+
         }
+    }
+
+    drawGameOver() {
+        renderer.context.drawImage(assets.imageGameover, 40, 10)
+        renderer.context.drawImage(assets.imageEscape, 40, 120)
+    }
+
+    drawWin() {
+        renderer.context.drawImage(assets.imageCongratulations, 40, 10)
+        renderer.context.drawImage(assets.imageEscape, 40, 120)
     }
 
     drawMenu() {
