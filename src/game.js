@@ -182,8 +182,6 @@ export class Game {
 
             const fps = fpses.reduce((a, b) => a + b) / fpses.length
 
-            renderer.drawText(`FPS: ${Math.floor(fps)}`, 10, 10, 10, "white")
-
             this.save()
             window.requestAnimationFrame(mainLoop)
         }
