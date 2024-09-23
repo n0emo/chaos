@@ -11,6 +11,19 @@ async function loadImage(url) {
     })
 }
 
+/**
+ * @param {string} url
+ * @returns {Promise<HTMLAudioElement>}
+ */
+async function loadAudio(url) {
+    const audio = new Audio(url); // Set the src directly in the constructor
+    return new Promise((resolve, reject) => {
+        audio.addEventListener('canplaythrough', () => resolve(audio), { once: true });
+        audio.addEventListener('error', () => reject(new Error('Failed to load audio: ' + url)), { once: true });
+        audio.load(); // Start loading the audio
+    });
+}
+
 export class Assets {
     /** @type {HTMLImageElement} */
     imagePlayerDrink1
@@ -199,6 +212,52 @@ export class Assets {
     /** @type {HTMLImageElement} */
     imageIconUpgrade
 
+    /** @type {HTMLAudioElement} */
+    audioMenuTheme
+    /** @type {HTMLAudioElement} */
+    audioMainTheme
+    /** @type {HTMLAudioElement} */
+    audioBossTheme
+
+    /** @type {HTMLAudioElement} */
+    audioAds
+    /** @type {HTMLAudioElement} */
+    audioAlarm
+    /** @type {HTMLAudioElement} */
+    audioBarf
+    /** @type {HTMLAudioElement} */
+    audioBlaster
+    /** @type {HTMLAudioElement} */
+    audioDeath
+    /** @type {HTMLAudioElement} */
+    audioDonk
+    /** @type {HTMLAudioElement} */
+    audioGet1
+    /** @type {HTMLAudioElement} */
+    audioGet2
+    /** @type {HTMLAudioElement} */
+    audioGrowl
+    /** @type {HTMLAudioElement} */
+    audioGunshot
+    /** @type {HTMLAudioElement} */
+    audioKick
+    /** @type {HTMLAudioElement} */
+    audioLaser2
+    /** @type {HTMLAudioElement} */
+    audioSydney
+    /** @type {HTMLAudioElement} */
+    audioTok
+    /** @type {HTMLAudioElement} */
+    audioWeird
+    /** @type {HTMLAudioElement} */
+    audioWelcome
+    /** @type {HTMLAudioElement} */
+    audioWhistle
+    /** @type {HTMLAudioElement} */
+    audioWin
+    /** @type {HTMLAudioElement} */
+    audioYoink
+
     /**
      * @returns Assets
      */
@@ -381,6 +440,56 @@ export class Assets {
             loadImage("assets/sprites/icon-upgrade.png"),
         ])
 
+        const [
+            audioMenuTheme,
+            audioMainTheme,
+            audioBossTheme,
+
+            audioAds,
+            audioAlarm,
+            audioBarf,
+            audioBlaster,
+            audioDeath,
+            audioDonk,
+            audioGet1,
+            audioGet2,
+            audioGrowl,
+            audioGunshot,
+            audioKick,
+            audioLaser2,
+            audioSydney,
+            audioTok,
+            audioWeird,
+            audioWelcome,
+            audioWhistle,
+            audioWin,
+            audioYoink,
+        ] = await Promise.all([
+            loadAudio("assets/music/menu-theme.mp3"),
+            loadAudio("assets/music/main-theme.mp3"),
+            loadAudio("assets/music/boss-theme.mp3"),
+
+            loadAudio("assets/sounds/ads.wav"),
+            loadAudio("assets/sounds/alarm.wav"),
+            loadAudio("assets/sounds/barf.wav"),
+            loadAudio("assets/sounds/blaster.wav"),
+            loadAudio("assets/sounds/death.wav"),
+            loadAudio("assets/sounds/donk.wav"),
+            loadAudio("assets/sounds/get-1.wav"),
+            loadAudio("assets/sounds/get-2.wav"),
+            loadAudio("assets/sounds/growl.wav"),
+            loadAudio("assets/sounds/gunshot.wav"),
+            loadAudio("assets/sounds/kick.wav"),
+            loadAudio("assets/sounds/laser-2.wav"),
+            loadAudio("assets/sounds/sydney.wav"),
+            loadAudio("assets/sounds/tok.wav"),
+            loadAudio("assets/sounds/weird.wav"),
+            loadAudio("assets/sounds/welcome.wav"),
+            loadAudio("assets/sounds/whistle.wav"),
+            loadAudio("assets/sounds/win.wav"),
+            loadAudio("assets/sounds/yoink.wav"),
+        ])
+
         return {
             imagePlayerDrink1,
             imagePlayerDrink2,
@@ -469,6 +578,28 @@ export class Assets {
             imageIconLife,
             imageIconSave,
             imageIconUpgrade,
+            audioMenuTheme,
+            audioMainTheme,
+            audioBossTheme,
+            audioAds,
+            audioAlarm,
+            audioBarf,
+            audioBlaster,
+            audioDeath,
+            audioDonk,
+            audioGet1,
+            audioGet2,
+            audioGrowl,
+            audioGunshot,
+            audioKick,
+            audioLaser2,
+            audioSydney,
+            audioTok,
+            audioWeird,
+            audioWelcome,
+            audioWhistle,
+            audioWin,
+            audioYoink,
         }
     }
 }

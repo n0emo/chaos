@@ -79,6 +79,10 @@ export class Game {
     pressEnterTime
     /** @type {Background} */
     background
+    /** @type {?HTMLAudioElement} */
+    currentMusic
+    /** @type {boolean} */
+    musicStarted
 
     constructor() {
         this.bullets = []
@@ -96,6 +100,29 @@ export class Game {
         this.cleanerTimer = 0
         this.pressEnterTime = 0
         this.background = new Background(assets.imageLevel1)
+        this.musicStarted = false
+        this.startMusic().catch((e) => {})
+    }
+
+    async startMusic() {
+        if (!this.musicStarted) {
+            await this.playMusic(assets.audioMenuTheme)
+            this.musicStarted = true
+        }
+    }
+
+    /**
+     * @param {HTMLAudioElement} music
+     * @returns {Promise<void>}
+     */
+    playMusic(music) {
+        this.currentMusic?.pause()
+        this.currentMusic = music
+        this.currentMusic.currentTime = 0
+        this.currentMusic.volume = 0.35
+        this.currentMusic.preload = 'auto'
+        this.currentMusic.loop = true
+        return this.currentMusic.play()
     }
 
     /**
@@ -184,6 +211,7 @@ export class Game {
         this.pressEnterTime += dt
         if (state.isKeyPressed("Enter")) {
             this.state = GAME_GAME
+            this.playMusic(assets.audioMainTheme).catch((e) => {})
         }
     }
 

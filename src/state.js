@@ -1,4 +1,4 @@
-import { renderer } from "./global.js"
+import { game, renderer } from "./global.js"
 
 export class EventState {
     mouseX
@@ -18,6 +18,10 @@ export class EventState {
         this.pressedKeys = {}
         this.downKeys = {}
 
+        window.addEventListener("mousedown", (e) => {
+            game.startMusic()
+        })
+
         canvas.addEventListener("mousemove", (e) => {
             const r = canvas.getBoundingClientRect()
             this.mouseX = (e.clientX - r.x) / renderer.factor
@@ -36,6 +40,7 @@ export class EventState {
         window.addEventListener("keydown", (e) => {
             this.pressedKeys[e.code] = true
             this.downKeys[e.code] = true
+            game.startMusic()
         })
 
         window.addEventListener("keyup", (e) => {
