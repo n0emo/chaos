@@ -33,7 +33,7 @@ export class Renderer {
         const rect = this.context.canvas.getBoundingClientRect()
         const factorW = Math.max(rect.width  / WIDTH,  1)
         const factorH = Math.max(rect.height / HEIGHT, 1)
-        const factor = Math.min(factorW, factorH, 5)
+        const factor = Math.min(factorW, factorH, 10)
         this.context.canvas.style.width  = ""
         this.context.canvas.style.height = ""
         this.context.canvas.width  = WIDTH  * factor
