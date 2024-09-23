@@ -367,15 +367,11 @@ export class Game {
     drawGameLogic() {
         this.background.draw()
 
-        this.player.draw()
 
         if (this.cleaner) {
             renderer.fillCircleCirc(this.cleaner, "#202020")
         }
 
-        for (const enemy of this.enemies) {
-            enemy.draw()
-        }
 
         for (const bonus of this.bonuses) {
             bonus.draw()
@@ -395,6 +391,12 @@ export class Game {
 
         for (const particle of this.particles) {
             particle.draw()
+        }
+
+        this.player.draw()
+
+        for (const enemy of this.enemies) {
+            enemy.draw()
         }
 
         this.event?.draw()

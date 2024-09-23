@@ -62,8 +62,8 @@ export class Bullet {
     draw() {
         renderer.context.drawImage(
             this.image,
-            this.circle.posX - this.circle.radius * 2,
-            this.circle.posY - this.circle.radius * 2,
+            this.circle.posX - this.circle.radius,
+            this.circle.posY - this.circle.radius,
         )
     }
 

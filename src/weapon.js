@@ -147,6 +147,67 @@ export class BallWeapon extends Weapon {
 }
 
 export class ShotgunWeapon extends Weapon {
+    /** @type {number} */
+    bulletAmount
+    /** @type {number} */
+    spread
+    /** @type {number} */
+    variation
+    /** @type {number} */
+    speed
+
+    /**
+     * @param {number} posX
+     * @param {number} posY
+     * @param {number} directionX
+     * @param {number} directionY
+     * @param {number} timeToReload
+     * @param {number} damage
+     * @param {number} speed
+     * @param {number} bulletAmount
+     * @param {Tag} tag
+     * @param {Asset} bulletImageName
+     * @param {number} spread
+     * @param {number} variation
+     */
+    constructor(
+        posX, posY,
+        directionX, directionY,
+        timeToReload, damage,
+        speed, tag,
+        bulletImageName,
+        bulletAmount,
+        spread, variation
+    ) {
+        super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName)
+        this.reloadTimer = 0
+        this.bulletAmount = bulletAmount
+        this.spread = spread
+        this.variation = variation
+        this.speed = speed
+    }
+
+    shoot() {
+        if (this.reloadTimer > 0) {
+            return
+        }
+
+        this.reloadTimer = this.timeToReload
+
+        for (let i = 0; i < this.bulletAmount; i++) {
+            const angle = Math.atan2(this.directionX, this.directionY)
+                        + (Math.random() - 0.5) * this.variation
+            const speed = this.speed + (Math.random() - 0.5 ) * this.variation * 50
+            const dx = Math.sin(angle) * speed
+            const dy = Math.cos(angle) * speed
+            console.log(this.posX, this.posY)
+            game.bullets.push(pool.createBullet(
+                this.posX, this.posY, dx, dy,
+                this.tag, this.damage, assets[this.bulletImageName]
+
+            ))
+        }
+    }
 
 }
 
