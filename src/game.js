@@ -19,6 +19,33 @@ const GAME_GAME = 1
 const GAME_PAUSE = 2
 const GAME_SCORE_SCREEN = 3
 
+const PUNISHMENTS = [
+    "imageBulletBigBallBlue",
+    "imageBulletBigBallGreen",
+    "imageBulletBigBallPurple",
+    "imageBulletBigBallRed",
+    "imageBulletCowBlue",
+    "imageBulletCowGreen",
+    "imageBulletCowPurple",
+    "imageBulletCowRed",
+    "imageBulletMiddleBallBlue",
+    "imageBulletMiddleBallGreen",
+    "imageBulletMiddleBallPurple",
+    "imageBulletMiddleBallRed",
+    "imageBulletMusicalNoteBlue",
+    "imageBulletMusicalNoteGreen",
+    "imageBulletMusicalNotePurple",
+    "imageBulletMusicalNoteRed",
+    "imageBulletSeriousBallBlue",
+    "imageBulletSeriousBallGreen",
+    "imageBulletSeriousBallPurple",
+    "imageBulletSeriousBallRed",
+    "imageBulletSmallBallBlue",
+    "imageBulletSmallBallGreen",
+    "imageBulletSmallBallPurple",
+    "imageBulletSmallBallRed",
+]
+
 /** @typedef {GAME_MENU | GAME_GAME | GAME_PAUSE | GAME_SCORE_SCREEN} GameState */
 
 export class Game {
@@ -367,11 +394,9 @@ export class Game {
     drawGameLogic() {
         this.background.draw()
 
-
         if (this.cleaner) {
             renderer.fillCircleCirc(this.cleaner, "#202020")
         }
-
 
         for (const bonus of this.bonuses) {
             bonus.draw()
@@ -418,6 +443,20 @@ export class Game {
     startCleaner(posX, posY) {
         this.cleanerTimer = 0.5
         this.cleaner = new Circle(posX, posY, 1)
+    }
+
+    punishPlayer() {
+        const posX = WIDTH  - this.player.rect.posX
+        const posY = HEIGHT - this.player.rect.posY
+
+        for (let i = 0; i < 300; i++) {
+            const angle = Math.random() * 2 * Math.PI
+            const speed = 500 - 400 * Math.random()
+            const velX = Math.cos(angle) * speed
+            const velY = Math.sin(angle) * speed
+            const image = assets[PUNISHMENTS[Math.floor(Math.random() * PUNISHMENTS.length)]]
+            this.bullets.push(pool.createBullet( posX, posY, velX, velY, "enemy", 1, image))
+        }
     }
 }
 

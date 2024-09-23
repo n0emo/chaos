@@ -1,4 +1,4 @@
-import { renderer, state } from "./global.js"
+import { game, renderer, state } from "./global.js"
 import { WIDTH, HEIGHT } from "./constants.js"
 import { Circle, Rectangle } from "./shape.js"
 import { areCirclesCollide } from "./math.js"
@@ -140,8 +140,9 @@ export class ChinaEvent extends Event {
 
         if (state.isKeyPressed("Space")) {
             this.#isEnd = true
-            const dSocialRatingCredit = this.timer <= 0 ? 100 : -100
-            console.log(`Social rating credit change: ${dSocialRatingCredit}`)
+            if(this.timer > 0) {
+                game.punishPlayer()
+            }
         }
     }
 
@@ -182,12 +183,12 @@ export class FishingEvent extends Event {
 
         this.#isEnd = false
         this.timer = 3
-        this.fishingRodCirc = new Circle(EVENT_RECT.centerX, EVENT_RECT.centerY, 20)
+        this.fishingRodCirc = new Circle(EVENT_RECT.centerX, EVENT_RECT.centerY, 5)
         this.fishTimeToTravel = 1.5
 
         const angle = Math.random() * Math.PI / 3 - Math.PI / 6
         const direction = Math.random() < 0.5 ? 1 : -1
-        const spread = 50
+        const spread = 120
         this.startX  = EVENT_RECT.centerX - spread * Math.cos(angle) * direction
         this.startY  = EVENT_RECT.centerY - spread * Math.sin(angle) * direction
         this.targetX = EVENT_RECT.centerX + spread * Math.cos(angle) * direction
@@ -216,13 +217,14 @@ export class FishingEvent extends Event {
         this.timer -= dt
         if (this.timer < 0) {
             this.#isEnd = true
-            // TODO
+            game.punishPlayer()
         }
 
         if (state.isKeyPressed("Space")) {
             this.#isEnd = true
-            console.log("Catch: ", areCirclesCollide(this.fishingRodCirc, this.fishCirc))
-            // TODO
+            if (!areCirclesCollide(this.fishingRodCirc, this.fishCirc)) {
+                game.punishPlayer()
+            }
         }
 
         this.interpolator += dt

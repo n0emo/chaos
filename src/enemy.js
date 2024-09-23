@@ -75,7 +75,7 @@ export class Enemy {
         this.velX = 0
         this.velY = 100
         this.moveTimer = 1
-        this.hp = 2
+        this.hp = hp
         this.movement = movement
         this.movement.enemy = this
         this.weapon = weapon
@@ -245,7 +245,7 @@ export class Enemy {
             1)
         const bulletImageName = NOTES[Math.floor(Math.random() * NOTES.length)]
         const weapon = new EnemyWeapon(new ShotgunWeapon(
-            posX, posY, 0, 1, 0.5, 1, 30, "enemy", bulletImageName, 5, Math.PI / 4, Math.PI / 6
+            posX, posY, 0, 1, 1, 1, 30, "enemy", bulletImageName, 5, Math.PI / 4, Math.PI / 6
         ))
 
         return new Enemy(rect, 15, animation, movement, weapon)

@@ -40,7 +40,7 @@ export class Player {
     constructor() {
         this.rect = new Rectangle(0, 0, 16, 16)
         this.weapon = new LaserWeapon(
-            0, 0, 0, -1, 0.2, 10, "player", "imageBulletMiddleBallRed", 40
+            0, 0, 0, -1, 0.2, 1, "player", "imageBulletMiddleBallRed", 40
         )
 
         this.hp = 100
