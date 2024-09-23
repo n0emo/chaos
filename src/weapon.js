@@ -228,7 +228,11 @@ export class LaserWeapon extends Weapon {
      * @param {Asset} bulletImageName
      * @param {number} size
      */
-    constructor(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName, size) {
+    constructor(
+        posX, posY, directionX, directionY,
+        timeToReload, damage, tag,
+        bulletImageName, size
+    ) {
         super(posX, posY, directionX, directionY, timeToReload, damage, tag, bulletImageName)
         this.size = size
         this.reloadTimer = 0

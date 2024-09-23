@@ -1,6 +1,7 @@
 import { assets } from "./assets.js"
 import { game, renderer } from "./global.js"
 import { Rectangle } from "./shape.js"
+import { BallWeapon, LaserWeapon, ShotgunWeapon } from "./weapon.js"
 /**
  * @abstract
  */
@@ -102,5 +103,9 @@ export class WeaponUpgradeBonus extends Bonus {
      */
     get image() {
         return assets.imageIconUpgrade
+    }
+
+    pickup() {
+        game.player.upgradeWeapon()
     }
 }

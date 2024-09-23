@@ -41,6 +41,10 @@ export class Level {
         this.waitingForEnemiesKilled = false
         this.timer = 0
         this.spawns = [
+            new Spawn(0.1, new WeaponUpgradeBonus(100, -16, 0, 50)),
+            new Spawn(0.1, new WeaponUpgradeBonus(200, -16, 0, 50)),
+            new Spawn(0.1, new WeaponUpgradeBonus(150, -16, 0, 50)),
+            new Spawn(0.1, new WeaponUpgradeBonus(250, -16, 0, 50)),
             new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
             new Spawn(2, new FishingEvent()),
             //new Spawn(0, Enemy.small(             30, 1)),

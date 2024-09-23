@@ -37,10 +37,13 @@ export class Player {
     /** @type {number} */
     moveTimer
 
+    /** @type {number} */
+    level
+
     constructor() {
         this.rect = new Rectangle(0, 0, 16, 16)
-        this.weapon = new LaserWeapon(
-            0, 0, 0, -1, 0.2, 1, "player", "imageBulletMiddleBallRed", 40
+        this.weapon = new BallWeapon(
+            0, 0, 0, -1, 1, 1, 100, "player", "imageBulletSmallBallRed", 1, 0, 0
         )
 
         this.hp = 100
@@ -76,6 +79,7 @@ export class Player {
 
         this.state = "idle"
         this.currentAnimation = this.idleAnimation
+        this.level = 1
     }
 
     /** @type {number} */
@@ -89,6 +93,59 @@ export class Player {
 
     makeInvulnerable() {
         this.invulnerabilityTimer = 5
+    }
+
+    upgradeWeapon() {
+        if (this.level === 1) {
+            switch (Math.floor(Math.random() * 3)) {
+                case 0:
+                    this.weapon = new BallWeapon(
+                        this.rect.posX, this.rect.posY, 0, -1,
+                        0.75, 2, 100, "player",
+                        "imageBulletMiddleBallRed", 2, 2, 1
+                    )
+                    break
+                case 1:
+                    this.weapon = new ShotgunWeapon(
+                        this.rect.posX, this.rect.posY,
+                        0, -1, 1.5, 1, 80, "player",
+                        "imageBulletMiddleBallPurple",
+                        10, Math.PI / 6, Math.PI / 12
+                    )
+                    break
+                case 2:
+                    this.weapon = new LaserWeapon(
+                        this.rect.posX, this.rect.posY,
+                        // @ts-ignore
+                        0, -1, 1.2, 3, "player", null, 4
+                    )
+                    break
+                default:
+                    throw "unreachable"
+            }
+        } else {
+            if (this.weapon instanceof BallWeapon) {
+                this.weapon.speed *= 1.15
+                this.weapon.timeToReload *= 0.92
+                this.weapon.damage *= 1.05
+                this.weapon.bulletAmount = this.level + 1
+                this.weapon.spread *= 1.5
+                this.weapon.offset *= 1.5
+            } else if (this.weapon instanceof ShotgunWeapon) {
+                this.weapon.speed *= 1.1
+                this.weapon.timeToReload *= 0.945
+                this.weapon.damage *= 1.1
+                this.weapon.bulletAmount = this.level + 8
+                this.weapon.spread *= 1.5
+                this.weapon.variation *= 1.3
+            } else if (this.weapon instanceof LaserWeapon) {
+                this.weapon.timeToReload *= 0.97
+                this.weapon.damage *= 1.25
+                this.weapon.size *= 1.4
+            }
+        }
+
+        this.level++
     }
 
     /**
