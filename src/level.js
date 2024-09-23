@@ -59,7 +59,11 @@ export class Level {
             new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
 
             new Spawn(0, Enemy.lightCat(30)),
-            new Spawn(0, Enemy.darkCat(WIDTH - 30 - 16)),
+            new Spawn(1, Enemy.darkCat(WIDTH - 30 - 16)),
+
+            new Spawn(1, Enemy.dj(-16, 20, 120)),
+
+            new Spawn(1, Enemy.soldier(-16, -16, 70, 70, 1)),
 
             //new Spawn(0, new FishingEvent()),
             new Spawn(1, new WaitForAllEnemiesKilled()),

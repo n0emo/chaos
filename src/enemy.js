@@ -43,6 +43,14 @@ const COWS = [
     "imageBulletCowGreen",
 ]
 
+/** @type {ImageName[]} */
+const NOTES = [
+    "imageBulletMusicalNotePurple",
+    "imageBulletMusicalNoteRed",
+    "imageBulletMusicalNoteBlue",
+    "imageBulletMusicalNoteGreen",
+]
+
 export class Enemy {
     /** @type {Rectangle} */
     rect
@@ -57,11 +65,12 @@ export class Enemy {
 
     /**
      * @param {Rectangle} rect
+     * @param {number} hp
      * @param {Animation} animation
      * @param {EnemyMovement} movement
      * @param {?EnemyWeapon} weapon
      */
-    constructor(rect, animation, movement, weapon = null) {
+    constructor(rect, hp, animation, movement, weapon = null) {
         this.rect = rect
         this.velX = 0
         this.velY = 100
@@ -90,7 +99,7 @@ export class Enemy {
             assets.imageEnemySmall2,],
             0.5)
 
-        return new Enemy(rect, animation, movement)
+        return new Enemy(rect, 1, animation, movement)
     }
 
     /**
@@ -110,7 +119,7 @@ export class Enemy {
             posX, -16, 0, 1, 1, 1, 80, "enemy", bulletImageName, 1, 0, 0
         ))
 
-        return new Enemy(rect, animation, movement, weapon)
+        return new Enemy(rect, 2, animation, movement, weapon)
     }
 
     /**
@@ -131,7 +140,7 @@ export class Enemy {
         ))
         console.log(weapon)
 
-        return new Enemy(rect, animation, movement, weapon)
+        return new Enemy(rect, 3, animation, movement, weapon)
     }
 
     /**
@@ -156,7 +165,7 @@ export class Enemy {
             posX, -16, 0, 1, 1.2, 10, 85, "enemy", bulletImageName, 1, 0, 0 
         ))
 
-        return new Enemy(rect, animation, movement, weapon)
+        return new Enemy(rect, 2, animation, movement, weapon)
     }
 
     /**
@@ -178,7 +187,7 @@ export class Enemy {
             posX, posY, 0, 1, 0.85, 5, "enemy", null, 5
         ))
 
-        return new Enemy(rect, animation, movement, weapon)
+        return new Enemy(rect, 5, animation, movement, weapon)
     }
 
     /**
@@ -197,7 +206,7 @@ export class Enemy {
         const weapon = new HomingEnemyWeapon(new BallWeapon(
             posX, -16, 0, 1, 2, 2, 150, "enemy", bulletImageName, 5, 2, 2
         ))
-        return new Enemy(rect, animation, movement, weapon)
+        return new Enemy(rect, 3, animation, movement, weapon)
     }
 
     /**
@@ -216,8 +225,55 @@ export class Enemy {
         const weapon = new HomingEnemyWeapon(new ShotgunWeapon(
             posX, -16, 0, 1, 2, 2, 150, "enemy", bulletImageName, 10, 2, Math.PI / 3
         ))
-        return new Enemy(rect, animation, movement, weapon)
+        return new Enemy(rect, 3, animation, movement, weapon)
     }
+
+    /**
+     * @param {number} posX
+     * @param {number} posY
+     * @param {number} speed
+     * @returns Enemy
+     */
+    static dj(posX, posY, speed) {
+        const rect = new Rectangle(posX, posY, 16, 16)
+        const movement = new EndlessMovement(speed, 0)
+        const animation = new Animation([
+            assets.imageEnemyDJ1,
+            assets.imageEnemyDJ2,
+            assets.imageEnemyDJ3,
+            assets.imageEnemyDJ4,],
+            1)
+        const bulletImageName = NOTES[Math.floor(Math.random() * NOTES.length)]
+        const weapon = new EnemyWeapon(new ShotgunWeapon(
+            posX, posY, 0, 1, 0.5, 1, 30, "enemy", bulletImageName, 5, Math.PI / 4, Math.PI / 6
+        ))
+
+        return new Enemy(rect, 15, animation, movement, weapon)
+    }
+
+    /**
+     * @param {number} posX
+     * @param {number} posY
+     * @param {number} velX
+     * @param {number} velY
+     * @param {number} time
+     * @returns Enemy
+     */
+    static soldier(posX, posY, velX, velY, time) {
+        const rect = new Rectangle(posX, posY, 16, 16)
+        const movement = new OneDirectionalMovement(velX, velY, time)
+        const animation = new Animation([
+            assets.imageEnemySolder1,
+            assets.imageEnemySolder2,],
+            1)
+        const bulletImageName = COWS[Math.floor(Math.random() * COWS.length)]
+        const weapon = new HomingEnemyWeapon(new ShotgunWeapon(
+            posX, posY, 0, 1, 1, 5, 200, "enemy", bulletImageName, 10, Math.PI / 12, Math.PI / 16
+        ))
+
+        return new Enemy(rect, 20, animation, movement, weapon)
+    }
+
 
     /** @type {boolean} */
     get isAlive() { return this.hp > 0 }
