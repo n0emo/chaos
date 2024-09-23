@@ -99,19 +99,85 @@ export class Level {
             new Spawn(0.1, Enemy.middle(180, 1.2)),
             new Spawn(0.1, Enemy.middle(210, 1.3)),
 
+            new Spawn(0.4, new WeaponUpgradeBonus(20, 20, 40, 40)),
+
             new Spawn(0.1, new FishingEvent()),
             new Spawn(1, Enemy.bomj(20, 0.4, 0.9, 2)),
             new Spawn(1, Enemy.bomj(WIDTH - 50, -0.4, 0.9, 2.5)),
 
-            new Spawn(0.5, Enemy.big(40, 2)),
+            new Spawn(0.5, Enemy.big(40, 1)),
 
             new Spawn(0.1, new BulletCleanBonus(-16, 120, 100, 0)),
 
-            new Spawn(0.3, Enemy.big(90, 2)),
-            new Spawn(0.3, Enemy.big(120, 1)),
-            new Spawn(0.3, Enemy.big(140, 2.5)),
+            new Spawn(0.3, Enemy.big(90, 1)),
+            new Spawn(0.3, Enemy.big(120, 0.5)),
+            new Spawn(0.3, Enemy.big(140, 1.5)),
 
-            new Spawn(0.1, new WaitForAllEnemiesKilled())
+            new Spawn(0.1, new WaitForAllEnemiesKilled()),
+
+            new Spawn(2, new HealingBonus(WIDTH * 0.5 - 6, -16, 0, 50)),
+            new Spawn(0.1, new AdsEvent()),
+
+            new Spawn(1, Enemy.bomj(20, 0.4, 0.9, 1)),
+            new Spawn(1, Enemy.bomj(WIDTH - 50, -0.4, 0.9, 1.5)),
+
+            new Spawn(0, assets.imageLevel1_2),
+            new Spawn(0, assets.imageLevel2),
+            new Spawn(1, new WaitForAllEnemiesKilled()),
+
+            new Spawn(0, new AdsEvent()),
+            new Spawn(0, new HealingBonus(40, -16, 0, 60)),
+            new Spawn(0.1, new WeaponUpgradeBonus(-16,  70, 90, 0)),
+            new Spawn(0.1, new WeaponUpgradeBonus(-16,  90, 90, 0)),
+            new Spawn(2, new WeaponUpgradeBonus(-16, 110, 90, 0)),
+            new Spawn(0, new FishingEvent()),
+
+            new Spawn(1, Enemy.lightCat(50)),
+            new Spawn(1, new ChinaEvent()),
+            new Spawn(1, Enemy.lightCat(WIDTH - 50 - 16)),
+            new Spawn(3, new FishingEvent()),
+
+            new Spawn(0.1, Enemy.lightCat(20)),
+            new Spawn(0.1, Enemy.lightCat(40)),
+            new Spawn(0.1, Enemy.lightCat(60)),
+            new Spawn(0.1, Enemy.lightCat(80)),
+            new Spawn(0.1, new InvulnerabilityBonus(WIDTH * 0.5 - 8, -16, 0, 90)),
+            new Spawn(0.1, Enemy.lightCat(100)),
+            new Spawn(0.1, Enemy.lightCat(120)),
+            new Spawn(0.1, Enemy.lightCat(140)),
+            new Spawn(0.1, Enemy.lightCat(160)),
+
+            new Spawn(1, new ChinaEvent()),
+
+            new Spawn(1, Enemy.dj(-16, 26, 100)),
+            new Spawn(0.1, Enemy.small(90, 1)),
+            new Spawn(0.1, Enemy.lightCat(160)),
+            new Spawn(0.1, Enemy.small(10, 1)),
+            new Spawn(0.2, Enemy.bomj(0, 0.5, 0.8, 1)),
+            new Spawn(0, Enemy.big(150, 0.5)),
+            new Spawn(0, Enemy.big(110, 0.5)),
+            new Spawn(0, Enemy.big(10, 0.5)),
+            new Spawn(0.1, Enemy.small(145, 1)),
+            new Spawn(0, Enemy.big(70, 0.5)),
+            new Spawn(0, Enemy.big(30, 0.5)),
+            new Spawn(0.5, Enemy.lightCat(30)),
+            new Spawn(0.5, Enemy.lightCat(90)),
+            new Spawn(0.2, Enemy.bomj(100, 0, 0.8, 1)),
+            new Spawn(0.5, Enemy.lightCat(120)),
+            new Spawn(0.1, Enemy.small(10, 1)),
+            new Spawn(0.5, Enemy.lightCat(120)),
+            new Spawn(0.7, new FishingEvent()),
+            new Spawn(0.5, new WeaponUpgradeBonus(50, -16, 40, 20)),
+            new Spawn(1, new WaitForAllEnemiesKilled()),
+
+            new Spawn(0, Enemy.soldier(40, -16, 0, 100, 0.5)),
+            new Spawn(0, Enemy.soldier(80, -16, 0, 100, 0.5)),
+            new Spawn(0, Enemy.soldier(120, -16, 0, 100, 0.5)),
+
+            new Spawn(1, new WaitForAllEnemiesKilled()),
+
+            new Spawn(0.1, new HealingBonus(60, -16, 0, 60)),
+            new Spawn(5, new HealingBonus(140, -16, 0, 60)),
 
 
         ].reverse()

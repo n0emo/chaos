@@ -133,8 +133,8 @@ export class Player {
                 this.weapon.timeToReload *= 0.92
                 this.weapon.damage *= 1.05
                 this.weapon.bulletAmount = this.level + 1
-                this.weapon.spread *= 1.5
-                this.weapon.offset *= 1.5
+                this.weapon.spread *= 1.2
+                this.weapon.offset *= 1.2
             } else if (this.weapon instanceof ShotgunWeapon) {
                 this.weapon.speed *= 1.1
                 this.weapon.timeToReload *= 0.945

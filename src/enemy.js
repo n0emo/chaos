@@ -173,7 +173,7 @@ export class Enemy {
             1, 0, 0 
         ))
 
-        return new Enemy(rect, 2, animation, movement, weapon)
+        return new Enemy(rect, 10, animation, movement, weapon)
     }
 
     /**
@@ -196,7 +196,7 @@ export class Enemy {
             null, "audioWeird", 5
         ))
 
-        return new Enemy(rect, 5, animation, movement, weapon)
+        return new Enemy(rect, 15, animation, movement, weapon)
     }
 
     /**
@@ -217,7 +217,7 @@ export class Enemy {
             bulletImageName, "audioSydney",
             5, 2, 2
         ))
-        return new Enemy(rect, 3, animation, movement, weapon)
+        return new Enemy(rect, 20, animation, movement, weapon)
     }
 
     /**
@@ -238,7 +238,7 @@ export class Enemy {
             bulletImageName, "audioSydney",
             10, 2, Math.PI / 3
         ))
-        return new Enemy(rect, 3, animation, movement, weapon)
+        return new Enemy(rect, 30, animation, movement, weapon)
     }
 
     /**
@@ -263,7 +263,7 @@ export class Enemy {
             5, Math.PI / 4, Math.PI / 6
         ))
 
-        return new Enemy(rect, 15, animation, movement, weapon)
+        return new Enemy(rect, 100, animation, movement, weapon)
     }
 
     /**
@@ -289,7 +289,7 @@ export class Enemy {
             10, Math.PI / 12, Math.PI / 16
         ))
 
-        return new Enemy(rect, 20, animation, movement, weapon)
+        return new Enemy(rect, 70, animation, movement, weapon)
     }
 
 
