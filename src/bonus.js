@@ -62,7 +62,7 @@ export class HealingBonus extends Bonus {
     }
 
     pickup() {
-        game.player.hp += 10
+        game.player.hp += 50
         if (game.player.hp > game.player.maxHp) {
             game.player.hp = game.player.maxHp
         }

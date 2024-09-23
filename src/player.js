@@ -49,7 +49,7 @@ export class Player {
             1, 0, 0
         )
 
-        this.hp = 100
+        this.hp = 500
         this.invulnerabilityTimer = 0
 
         this.drinkAnimation = new Animation([
@@ -86,7 +86,7 @@ export class Player {
     }
 
     /** @type {number} */
-    get maxHp() { return 100 }
+    get maxHp() { return 500 }
 
     /** @type {boolean} */
     get isAlive() { return this.hp > 0 }

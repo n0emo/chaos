@@ -25,6 +25,14 @@ export class Event {
 
     /**
      * @abstract
+     * @type {HTMLAudioElement}
+     */
+    get sound() {
+        throw "Not implemented"
+    }
+
+    /**
+     * @abstract
      * @type {boolean}
      */
     get isPauses() {
@@ -62,7 +70,6 @@ const ADS_IMAGES = [
 ]
 
 export class AdsEvent extends Event {
-    sound = assets.audioAds
     /** @type {boolean} */
     #isEnd
     /** @type {HTMLImageElement} */
@@ -80,6 +87,8 @@ export class AdsEvent extends Event {
             assets.imagePressSpaceToSkip2],
             1)
     }
+
+    get sound() { return assets.audioAds }
 
     /** @type {boolean} */
     get isPauses() { return false }
@@ -104,7 +113,6 @@ export class AdsEvent extends Event {
 }
 
 export class ChinaEvent extends Event {
-    sound = assets.audioAlarm
     /** @type {boolean} */
     #isEnd
     /** @type {number} */
@@ -122,6 +130,8 @@ export class ChinaEvent extends Event {
             assets.imagePressSpaceToSkip2],
             1)
     }
+
+    get sound() { return assets.audioAlarm }
 
     /** @type {boolean} */
     get isPauses() { return true }
@@ -157,7 +167,6 @@ export class ChinaEvent extends Event {
 }
 
 export class FishingEvent extends Event {
-    sound = assets.audioWhistle
     /** @type {boolean} */
     #isEnd
     /** @type {number} */
@@ -205,6 +214,8 @@ export class FishingEvent extends Event {
             assets.imageEventFishing2,],
             0.5)
     }
+
+    get sound() { return assets.audioWhistle }
 
     /** @type {boolean} */
     get isPauses() { return true }

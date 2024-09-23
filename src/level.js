@@ -42,49 +42,78 @@ export class Level {
         this.waitingForEnemiesKilled = false
         this.timer = 0
         this.spawns = [
-            new Spawn(0.1, new WeaponUpgradeBonus(100, -16, 0, 50)),
-            new Spawn(0.1, new WeaponUpgradeBonus(200, -16, 0, 50)),
-            new Spawn(0.1, new WeaponUpgradeBonus(150, -16, 0, 50)),
-            new Spawn(0.1, new WeaponUpgradeBonus(250, -16, 0, 50)),
-            new Spawn(1, Enemy.big(WIDTH - 90 - 16, 1)),
-            new Spawn(2, new ChinaEvent()),
-            //new Spawn(0, Enemy.small(             30, 1)),
-            //new Spawn(2, Enemy.small(WIDTH - 30 - 16, 1)),
+            new Spawn(0.5, Enemy.small(50, 1)),
+            new Spawn(0.5, Enemy.small(100, 1.5)),
+            new Spawn(0.5, Enemy.small(120, 2)),
 
-            //new Spawn(0, Enemy.middle(             60, 1)),
-            //new Spawn(1, Enemy.middle(WIDTH - 60 - 16, 1)),
+            new Spawn(1, new AdsEvent()),
 
-            //new Spawn(0, new AdsEvent()),
+            new Spawn(0.5, Enemy.small(WIDTH - 16 - 50, 1)),
+            new Spawn(0.5, Enemy.small(WIDTH - 16 - 100, 1.5)),
+            new Spawn(4,   Enemy.small(WIDTH - 16 - 120, 2)),
 
-            new Spawn(0, Enemy.big(             90, 1)),
-
-            new Spawn(0, Enemy.bomj(             120,  0.7, 0.7, 2)),
-            new Spawn(1, Enemy.bomj(WIDTH - 120 - 16, -0.7, 0.7, 2)),
-
-            new Spawn(0.3, Enemy.caesar(       -16, 35,  1, 0)),
-            new Spawn(  3, Enemy.caesar(WIDTH + 16, 50, -1, 0)),
-
-            new Spawn(0, Enemy.lightCat(30)),
-            new Spawn(1, Enemy.darkCat(WIDTH - 30 - 16)),
-
-            new Spawn(1, Enemy.dj(-16, 20, 120)),
-
-            new Spawn(1, Enemy.soldier(-16, -16, 70, 70, 1)),
-
-            //new Spawn(0, new FishingEvent()),
             new Spawn(1, new WaitForAllEnemiesKilled()),
 
+            new Spawn(4, new WeaponUpgradeBonus(120, -16, 0, 50)),
 
-            new Spawn(0, new HealingBonus(50, -16, 0, 20)),
-            new Spawn(0, new InvulnerabilityBonus(80, -16, 0, 20)),
-            new Spawn(0, new BulletCleanBonus(110, -16, 0, 20)),
-            new Spawn(0, new WeaponUpgradeBonus(140, -16, 0, 20)),
+            new Spawn(0.5, Enemy.middle(50, 1)),
+            new Spawn(0.5, Enemy.middle(120, 1.5)),
 
-            new Spawn(0, assets.imageLevel1_2),
-            new Spawn(5, assets.imageLevel2),
-            new Spawn(0, assets.imageLevel2_3),
-            new Spawn(0, assets.imageLevel3),
-            new Spawn(0, assets.imageLevel3),
+            new Spawn(0.5, Enemy.middle(WIDTH - 16 - 50, 1)),
+            new Spawn(2, Enemy.middle(WIDTH - 16 - 120, 1.5)),
+
+            new Spawn(1, new FishingEvent()),
+
+            new Spawn(0.5, Enemy.small(50, 1)),
+            new Spawn(0.5, Enemy.small(70, 1.5)),
+            new Spawn(0.5, Enemy.small(90, 2)),
+            new Spawn(0.1, new ChinaEvent()),
+            new Spawn(0.5, Enemy.small(110, 2)),
+
+
+            new Spawn(0.5, Enemy.small(WIDTH - 16 - 50, 1)),
+            new Spawn(0.5, Enemy.small(WIDTH - 16 - 70, 1.5)),
+            new Spawn(0.5, Enemy.small(WIDTH - 16 - 90, 2)),
+            new Spawn(0.5, Enemy.small(WIDTH - 16 - 110, 2)),
+
+            new Spawn(1, new HealingBonus(200, -16, 0, 50)),
+            new Spawn(1, new WeaponUpgradeBonus(250, -16, 0, 90)),
+
+            new Spawn(0.5, Enemy.big(WIDTH * 0.5 - 8, 1)),
+            new Spawn(0.5, Enemy.middle(WIDTH * 0.5 - 8 - 50, 1.5)),
+            new Spawn(0.5, Enemy.middle(WIDTH * 0.5 - 8 - 50, 1.5)),
+
+            new Spawn(0.5, new WaitForAllEnemiesKilled()),
+
+            new Spawn(1, Enemy.bomj(20, 0.7, 0.7, 2)),
+
+            new Spawn(0.1, new AdsEvent()),
+
+            new Spawn(0.1, Enemy.middle(30,  0.5)),
+            new Spawn(0.1, Enemy.middle(50,  0.6)),
+            new Spawn(0.1, Enemy.middle(70,  0.7)),
+            new Spawn(0.1, Enemy.middle(90,  0.8)),
+            new Spawn(0.1, Enemy.middle(110, 0.9)),
+            new Spawn(0.1, Enemy.middle(130, 1.0)),
+            new Spawn(0.1, Enemy.middle(150, 1.1)),
+            new Spawn(0.1, Enemy.middle(180, 1.2)),
+            new Spawn(0.1, Enemy.middle(210, 1.3)),
+
+            new Spawn(0.1, new FishingEvent()),
+            new Spawn(1, Enemy.bomj(20, 0.4, 0.9, 2)),
+            new Spawn(1, Enemy.bomj(WIDTH - 50, -0.4, 0.9, 2.5)),
+
+            new Spawn(0.5, Enemy.big(40, 2)),
+
+            new Spawn(0.1, new BulletCleanBonus(-16, 120, 100, 0)),
+
+            new Spawn(0.3, Enemy.big(90, 2)),
+            new Spawn(0.3, Enemy.big(120, 1)),
+            new Spawn(0.3, Enemy.big(140, 2.5)),
+
+            new Spawn(0.1, new WaitForAllEnemiesKilled())
+
+
         ].reverse()
     }
 
